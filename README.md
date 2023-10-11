@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Killer
 
-## Getting Started
+Välkommen till den officiella platsen för Enskilda Killer.
 
-First, run the development server:
+## Allmän information för dig som ska söka runt här
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Jag använder dessa övergripande saker:
+React https://react.dev/
+NextJS https://nextjs.org/
+Tailwind https://tailwindcss.com/
+Shadcn UI https://ui.shadcn.com/
+Supabase https://supabase.com/
+Vercel https://vercel.com/
+
+## Kod
+
+Allt finns här, databas strukturen finns under:
+
+```
+src/intefaces/database.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Admin sidan finns under:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+````
+src/app/admin
+src/app/functions/admin
+``
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Supabase
 
-## Learn More
+https://supabase.com/dashboard/project/jgrgpovgjexatzgqimmg/editor
 
-To learn more about Next.js, take a look at the following resources:
+Access Token: - - -
+Project Id: jgrgpovgjexatzgqimmg
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+npx supabase login
+```
 
-## Deploy on Vercel
+```
+npx supabase gen types typescript --project-id jgrgpovgjexatzgqimmg --schema public > src/interfaces/database.ts
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Github
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+https://github.com/Hawaii66/enskilda-killer
+
+## Vercel
+
+https://vercel.com/hawaiidev/enskilda-killer
+
+## Live
+
+https://oldenskildakiller.vercel.app/
+https://enskildakiller.vercel.app/
+````
