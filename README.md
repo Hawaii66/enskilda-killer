@@ -5,12 +5,13 @@ Välkommen till den officiella platsen för Enskilda Killer.
 ## Allmän information för dig som ska söka runt här
 
 Jag använder dessa övergripande saker:
--React https://react.dev/
--NextJS https://nextjs.org/
--Tailwind https://tailwindcss.com/
--Shadcn UI https://ui.shadcn.com/
--Supabase https://supabase.com/
--Vercel https://vercel.com/
+
+- React https://react.dev/
+- NextJS https://nextjs.org/
+- Tailwind https://tailwindcss.com/
+- Shadcn UI https://ui.shadcn.com/
+- Supabase https://supabase.com/
+- Vercel https://vercel.com/
 
 ## Kod
 
