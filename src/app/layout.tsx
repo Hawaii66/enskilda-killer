@@ -1,8 +1,8 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -16,7 +16,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className="min-h-screen flex flex-col items-center justify-center">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Link
+          href={"https://oldenskildakiller.vercel.app"}
+          className="text-blue-500 font-bold text-2xl"
+        >
+          Se förra året
+        </Link>
+        <img
+          src={
+            "https://stbonifacevets.co.uk/sites/stbonifacevets.co.uk/files/userfiles/website-construction-graphic-4.jpg"
+          }
+        />
+        <Footer />
+      </body>
     </html>
   );
 }
