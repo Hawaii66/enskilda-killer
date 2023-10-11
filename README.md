@@ -32,8 +32,8 @@ src/app/functions/admin
 
 https://supabase.com/dashboard/project/jgrgpovgjexatzgqimmg/editor
 
-Access Token: - - -
-Project Id: jgrgpovgjexatzgqimmg
+- Access Token: - - -
+- Project Id: jgrgpovgjexatzgqimmg
 
 ### Commands
 
@@ -55,9 +55,6 @@ https://vercel.com/hawaiidev/enskilda-killer
 
 ## Live
 
-https://oldenskildakiller.vercel.app/
-https://enskildakiller.vercel.app/
-
-```
-
-```
+- Just nu: https://enskildakiller.vercel.app/
+- 2022: https://oldenskildakiller.vercel.app/
+- Tidigare: <i>Länk saknas</i>
