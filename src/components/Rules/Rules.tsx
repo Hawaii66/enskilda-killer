@@ -35,7 +35,12 @@ async function Rules() {
         {data
           .sort((a, b) => b.index - a.index)
           .map((rule, idx) => (
-            <RenderRule index={idx + 1} isEven={idx % 2 === 0} rule={rule} />
+            <RenderRule
+              key={rule.index}
+              index={idx + 1}
+              isEven={idx % 2 === 0}
+              rule={rule}
+            />
           ))}
       </div>
     </div>

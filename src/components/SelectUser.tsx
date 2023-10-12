@@ -73,7 +73,7 @@ function SelectUser() {
             </CommandItem>
           </CommandGroup>
           {groups().map((group) => (
-            <CommandGroup heading={group}>
+            <CommandGroup key={group} heading={group}>
               {users
                 .filter((u) => u.group === group)
                 .map((user) => (
