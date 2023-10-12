@@ -4,8 +4,6 @@ import React from "react";
 function Footer() {
   return (
     <footer>
-      <h3>Enskilda Killer </h3>
-      <p>Just nu byggs denna hemsida om</p>
       <h3 className="text-lg text-black font-semibold">Contacts</h3>
       <div className="flex flex-row gap-12">
         <Link target="_blank" href={"mailto:hawaiilive@outlook.com"}>
