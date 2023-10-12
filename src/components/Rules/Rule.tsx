@@ -14,7 +14,7 @@ function RenderRule({ rule, isEven, index }: Props) {
         isEven ? "bg-white" : "bg-green-900"
       } w-full flex justify-center items-center py-8`}
     >
-      <div className="w-1/3">
+      <div className="w-1/2">
         <h3
           className={`font-bold text-2xl font-serif ${
             isEven ? "text-black" : "text-white"
