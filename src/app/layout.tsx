@@ -19,7 +19,7 @@ export default function RootLayout({
       <MicrosoftAuthProvider>
         <body className="min-h-screen flex flex-col items-center justify-center">
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow w-full">{children}</main>
 
           <Footer />
         </body>
