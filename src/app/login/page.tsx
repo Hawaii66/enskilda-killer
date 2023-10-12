@@ -4,7 +4,7 @@ import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
-function page() {
+function Page() {
   const isAuthenticated = useIsAuthenticated();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,4 +35,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

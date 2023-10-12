@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-function layout({ children }: Props) {
+function Layout({ children }: Props) {
   const isAuthed = useIsAuthed();
 
   if (!isAuthed) {
@@ -21,4 +21,4 @@ function layout({ children }: Props) {
   );
 }
 
-export default layout;
+export default Layout;

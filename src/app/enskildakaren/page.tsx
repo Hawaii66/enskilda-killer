@@ -16,7 +16,7 @@ async function GetData() {
   return text;
 }
 
-async function page() {
+async function Page() {
   const data = await GetData();
 
   return (
@@ -32,4 +32,4 @@ async function page() {
   );
 }
 
-export default page;
+export default Page;

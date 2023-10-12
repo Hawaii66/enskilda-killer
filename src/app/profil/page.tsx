@@ -3,7 +3,7 @@ import Me from "@/components/Profile/Me";
 import Top from "@/components/Top";
 import React from "react";
 
-function page() {
+function Page() {
   return (
     <div>
       <Top text="Profil" />
@@ -17,4 +17,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

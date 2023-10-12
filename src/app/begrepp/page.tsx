@@ -1,8 +1,8 @@
 import Concepts from "@/components/Concept/Concepts";
 import React from "react";
 
-function page() {
+function Page() {
   return <Concepts />;
 }
 
-export default page;
+export default Page;

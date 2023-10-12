@@ -1,6 +1,6 @@
 "use client";
 
-function page() {
+function Page() {
   return (
     <div>
       <h1 className="text-red-500">Admin</h1>
@@ -8,4 +8,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
