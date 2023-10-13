@@ -10,9 +10,9 @@ type Props = {
 function Layout({ children }: Props) {
   const isAuthed = useIsAuthed("profil");
 
-  if (!isAuthed) {
+  /*if (!isAuthed) {
     return;
-  }
+  }*/
 
   return <>{children} </>;
 }
