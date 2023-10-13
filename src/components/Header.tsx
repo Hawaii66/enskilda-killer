@@ -18,7 +18,7 @@ function Header() {
             Killer {new Date(Date.now()).getFullYear()}
           </h1>
         </div>
-        <nav className="flex flex-row justify-end items-center gap-4">
+        <nav className="flex md:flex-row flex-col justify-end items-center gap-4">
           <Link className=" text-lg underline font-serif" href="/">
             Startsida{" "}
           </Link>

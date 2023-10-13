@@ -63,15 +63,15 @@ function Circle() {
                 <div className="flex flex-row gap-4">
                   <Skeleton className="h-12 w-12 rounded-full" />
                   <div>
-                    <Skeleton className="h-4 mb-2 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
+                    <Skeleton className="h-4 mb-2 w-36" />
+                    <Skeleton className="h-4 w-16" />
                   </div>
                 </div>
               )}
             </div>
           )}
         </CardContent>
-        <CardFooter className="justify-evenly">
+        <CardFooter className="justify-evenly gap-4">
           <Button
             variant={"outline"}
             className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
