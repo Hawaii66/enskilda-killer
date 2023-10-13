@@ -15,6 +15,8 @@ import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { Skeleton } from "../ui/skeleton";
 import { Separator } from "../ui/separator";
+import { AlertDialog, AlertDialogTrigger } from "../ui/alert-dialog";
+import AlertMurder from "./AlertMurder";
 
 const isAlive = true;
 
@@ -72,15 +74,25 @@ function Circle() {
           )}
         </CardContent>
         <CardFooter className="justify-evenly gap-4">
-          <Button
-            variant={"outline"}
-            className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
-          >
-            Jag har blivit mördad
-          </Button>
-          <Button className="bg-green-500 text-black hover:bg-green-800">
-            Jag har mördat någon
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button
+                variant={"outline"}
+                className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
+              >
+                Jag har blivit mördad
+              </Button>
+            </AlertDialogTrigger>
+            <AlertMurder />
+          </AlertDialog>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button className="bg-green-500 text-black hover:bg-green-800">
+                Jag har mördat någon
+              </Button>
+            </AlertDialogTrigger>
+            <AlertMurder />
+          </AlertDialog>
         </CardFooter>
       </CardHeader>
     </Card>
