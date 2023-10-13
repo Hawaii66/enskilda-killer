@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -17,11 +17,29 @@ import { Skeleton } from "../ui/skeleton";
 import { Separator } from "../ui/separator";
 import { AlertDialog, AlertDialogTrigger } from "../ui/alert-dialog";
 import AlertMurder from "./AlertMurder";
-
-const isAlive = true;
+import { Circle } from "@/interfaces/Profile";
+import { useApi } from "@/hooks/useApi";
 
 function Circle() {
   const [showTarget, setShowTarget] = useState(false);
+  const [circle, setCircle] = useState<Circle | null>(null);
+
+  const apiFetch = useApi();
+
+  const fetchCircle = async () => {
+    const response = await apiFetch("/api/user/circle", { method: "GET" });
+    if (response.status === 200) {
+      setCircle(await response.json());
+    }
+  };
+
+  useEffect(() => {
+    fetchCircle();
+  }, []);
+
+  if (!circle) {
+    return <p>Laddar</p>;
+  }
 
   return (
     <Card className="w-full">
@@ -35,17 +53,21 @@ function Circle() {
             <h3 className="font-bold text-lg">
               Status:{" "}
               <span
-                className={`${isAlive ? "text-green-500" : "text-red-500"}`}
+                className={`${
+                  circle.status === "alive" ? "text-green-500" : "text-red-500"
+                }`}
               >
-                {isAlive ? "Levande" : "Död"}
+                {circle.status === "alive" ? "Levande" : "Död"}
               </span>
             </h3>
-            <p className="font-bold text-md">
-              Cirkel: <span className="text-green-500">Stora</span>
-            </p>
+            {circle.status === "alive" && (
+              <p className="font-bold text-md">
+                Cirkel: <span className="text-green-500">{circle.circle}</span>
+              </p>
+            )}
           </div>
           <Separator />
-          {isAlive && (
+          {circle.status === "alive" && (
             <div className="flex gap-4 flex-col">
               <div className="flex items-center gap-2">
                 <Switch checked={showTarget} onCheckedChange={setShowTarget} />
@@ -54,11 +76,16 @@ function Circle() {
               {showTarget ? (
                 <div className="flex flex-row gap-4">
                   <Avatar>
-                    <AvatarFallback>KA</AvatarFallback>
+                    <AvatarFallback>
+                      {circle.target.firstname.charAt(0)}{" "}
+                      {circle.target.lastname.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                   <div>
-                    <h3>Karar Asheer</h3>
-                    <p>Na21B</p>
+                    <h3>
+                      {circle.target.firstname} {circle.target.lastname}
+                    </h3>
+                    <p>{circle.target.group}</p>
                   </div>
                 </div>
               ) : (

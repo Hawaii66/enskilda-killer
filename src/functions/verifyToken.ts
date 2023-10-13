@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { NextRequest } from "next/server";
 
 export const validateToken = async (token: string) => {
   const keyURL = `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/discovery/keys?appid=${process.env.MICROSOFT_APP_ID}`;
@@ -38,4 +39,15 @@ export const validateToken = async (token: string) => {
     console.log(e, "ERROR");
     return false;
   }
+};
+
+export const VerifyWithEmail = async (request: NextRequest) => {
+  const url = new URL(request.url);
+  const token = url.searchParams.get("token");
+  const result = await validateToken(token || "");
+  if (!result) {
+    return undefined;
+  }
+
+  return result.email;
 };
