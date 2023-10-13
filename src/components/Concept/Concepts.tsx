@@ -1,24 +1,24 @@
 import { Concept } from "@/interfaces/Constants";
 import React from "react";
 import Top from "../Top";
+import { supabase } from "@/functions/supabase";
 
 async function GetData() {
-  const t: Concept[] = [
-    {
-      concept: "<b>21</b> o3h1jk23",
-      index: 0,
-    },
-    {
-      concept: "i123i12",
-      index: 1,
-    },
-  ];
+  const data = await supabase().from("concepts").select("*");
 
-  return t;
+  const concepts: Concept[] =
+    data.data?.map((i) => ({
+      concept: i.concept,
+      index: i.index,
+    })) || [];
+
+  return concepts;
 }
 
 async function Concepts() {
   const data = await GetData();
+
+  console.log(data);
 
   return (
     <div>

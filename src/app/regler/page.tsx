@@ -1,7 +1,8 @@
-import Rule from "@/components/Rules/Rule";
 import Rules from "@/components/Rules/Rules";
 import Top from "@/components/Top";
 import React, { Suspense } from "react";
+
+export const revalidate = 0;
 
 function Page() {
   return (
