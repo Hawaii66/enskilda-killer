@@ -1,26 +1,18 @@
 import { Rule } from "@/interfaces/Constants";
-import React from "react";
+import React, { Suspense } from "react";
 import RenderRule from "./Rule";
 import Top from "../Top";
+import { supabase } from "@/functions/supabase";
 
 async function GetData() {
-  const rules: Rule[] = [
-    {
-      header: "tae123",
-      index: 0,
-      rule: "123123",
-    },
-    {
-      header: "tae123",
-      index: 1,
-      rule: "123123",
-    },
-    {
-      header: "tae123",
-      index: 2,
-      rule: "123123",
-    },
-  ];
+  const data = await supabase().from("rules").select("*");
+
+  const rules: Rule[] =
+    data.data?.map((rule) => ({
+      header: rule.header,
+      index: rule.index,
+      rule: rule.rule,
+    })) || [];
 
   return rules;
 }
