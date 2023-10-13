@@ -1,24 +1,20 @@
 "use client";
 
 import { useIsAuthed } from "@/hooks/useIsAuthed";
+import React from "react";
 
 type Props = {
   children: React.ReactNode;
 };
 
 function Layout({ children }: Props) {
-  const isAuthed = useIsAuthed("admin");
+  const isAuthed = useIsAuthed("profil");
 
   if (!isAuthed) {
     return;
   }
 
-  return (
-    <div>
-      <h1 className="text-blue-500">Admin</h1>
-      {children}
-    </div>
-  );
+  return <>{children} </>;
 }
 
 export default Layout;

@@ -2,7 +2,7 @@ import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export const useIsAuthed = () => {
+export const useIsAuthed = (backUrl: string) => {
   const isAuthenticated = useIsAuthenticated();
   const router = useRouter();
 
@@ -10,7 +10,7 @@ export const useIsAuthed = () => {
 
   useEffect(() => {
     if (inProgress == "none" && !isAuthenticated) {
-      router.push("/login?return=admin");
+      router.push(`/login?return=${backUrl}`);
     }
   }, [isAuthenticated, inProgress, accounts]);
 

@@ -11,8 +11,18 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { useMsal } from "@azure/msal-react";
+import { useRouter } from "next/navigation";
 
 function Me() {
+  const { instance } = useMsal();
+  const router = useRouter();
+
+  const logout = () => {
+    instance.logout();
+    router.push("/");
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -37,7 +47,7 @@ function Me() {
           <p>Telefon: 070 545 3110</p>
           <p>Klass: Na21B</p>
         </div>
-        <Button onClick={() => {}}>Logga ut</Button>
+        <Button onClick={logout}>Logga ut</Button>
       </CardFooter>
     </Card>
   );
