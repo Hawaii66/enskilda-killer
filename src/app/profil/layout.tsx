@@ -8,7 +8,7 @@ type Props = {
 };
 
 function Layout({ children }: Props) {
-  const isAuthed = useIsAuthed("profil");
+  //const isAuthed = useIsAuthed("profil");
 
   /*if (!isAuthed) {
     return;
