@@ -15,3 +15,5 @@ export type Circle =
       circle?: string;
       target: TargetUser;
     };
+
+export type Kills = { target: TargetUser; time: number; circle: string }[];

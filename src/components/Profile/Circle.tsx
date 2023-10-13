@@ -66,7 +66,7 @@ function Circle() {
               </p>
             )}
           </div>
-          <Separator />
+          {circle.status === "alive" && <Separator />}
           {circle.status === "alive" && (
             <div className="flex gap-4 flex-col">
               <div className="flex items-center gap-2">
@@ -100,27 +100,29 @@ function Circle() {
             </div>
           )}
         </CardContent>
-        <CardFooter className="justify-evenly gap-4">
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Button
-                variant={"outline"}
-                className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
-              >
-                Jag har blivit mördad
-              </Button>
-            </AlertDialogTrigger>
-            <AlertMurder />
-          </AlertDialog>
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Button className="bg-green-500 text-black hover:bg-green-800">
-                Jag har mördat någon
-              </Button>
-            </AlertDialogTrigger>
-            <AlertMurder />
-          </AlertDialog>
-        </CardFooter>
+        {circle.status === "alive" && (
+          <CardFooter className="justify-evenly gap-4">
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                  variant={"outline"}
+                  className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
+                >
+                  Jag har blivit mördad
+                </Button>
+              </AlertDialogTrigger>
+              <AlertMurder />
+            </AlertDialog>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button className="bg-green-500 text-black hover:bg-green-800">
+                  Jag har mördat någon
+                </Button>
+              </AlertDialogTrigger>
+              <AlertMurder />
+            </AlertDialog>
+          </CardFooter>
+        )}
       </CardHeader>
     </Card>
   );
