@@ -3,6 +3,7 @@ import { supabase } from "@/functions/supabase";
 import { Rule } from "@/interfaces/Constants";
 import React from "react";
 
+export const revalidate = 0;
 async function GetData() {
   const data = await supabase().from("rules").select("*");
 

@@ -7,6 +7,7 @@ import EnskildaKaren from "@/components/admin/settings/EnskildaKaren";
 import Reset from "@/components/admin/settings/Reset";
 import { Separator } from "@/components/ui/separator";
 
+export const revalidate = 0;
 function Page() {
   return (
     <div className="w-full flex flex-col gap-4">
