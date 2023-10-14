@@ -17,3 +17,9 @@ export type Circle =
     };
 
 export type Kills = { target: TargetUser; time: number; circle: string }[];
+
+export type Litigation = {
+  with: TargetUser;
+  witness?: TargetUser;
+  text: string;
+};

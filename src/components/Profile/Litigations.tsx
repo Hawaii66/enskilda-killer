@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -32,8 +32,26 @@ import {
 import { Label } from "../ui/label";
 import SelectUser from "../SelectUser";
 import { Textarea } from "../ui/textarea";
+import { Litigation } from "@/interfaces/Profile";
+import { useApi } from "@/hooks/useApi";
+import LitigationRenderer from "./Litigation";
 
 function Litigations() {
+  const [litigations, setLitigations] = useState<Litigation[] | null>(null);
+
+  const apiFetch = useApi();
+
+  const fetchLitigations = async () => {
+    const response = await apiFetch("/api/user/litigations", { method: "GET" });
+    if (response.status === 200) {
+      setLitigations(await response.json());
+    }
+  };
+
+  useEffect(() => {
+    fetchLitigations();
+  }, []);
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -41,39 +59,11 @@ function Litigations() {
         <CardDescription>Anmäl tvistemål här</CardDescription>
       </CardHeader>
       <CardContent>
-        <Card>
-          <CardHeader>
-            <CardTitle>Jamal Tabara</CardTitle>
-            <CardDescription>Vittne: Arvid Ingvarsson</CardDescription>
-          </CardHeader>
-          <CardContent>
-            På en solig dag promenerade jag längs stranden, kände sanden mellan
-            tårna och hörde vågornas sus i fjärran. Det var en fridfull stund
-            när jag insåg att naturen har en unik förmåga att ge oss lugn och
-            perspektiv. Solen sken klart på himlen och färgade vattnet i nyanser
-            av blått och grönt. Fåglarna flög högt och skapade vackra
-            formationer i skyn. Det var ett ögonblick av fullkomlig harmoni med
-            den omgivande världen.
-          </CardContent>
-          <CardFooter>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant={"destructive"}>Ta bort</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogTitle>Är du säker?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Vill du ta bort detta tvistemål, killer utskottet kommer du
-                  inte kolla på det
-                </AlertDialogDescription>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </CardFooter>
-        </Card>
+        {litigations && litigations.length > 0 ? (
+          litigations.map((i) => <LitigationRenderer litigation={i} />)
+        ) : (
+          <p>Inga aktiva tvistemål</p>
+        )}
       </CardContent>
       <CardFooter className="flex justify-end">
         <Dialog>

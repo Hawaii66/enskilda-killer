@@ -137,6 +137,7 @@ export interface Database {
           text: string;
           user: number;
           with: number;
+          witness: number | null;
         };
         Insert: {
           created_at?: string;
@@ -144,6 +145,7 @@ export interface Database {
           text: string;
           user: number;
           with: number;
+          witness?: number | null;
         };
         Update: {
           created_at?: string;
@@ -151,6 +153,7 @@ export interface Database {
           text?: string;
           user?: number;
           with?: number;
+          witness?: number | null;
         };
         Relationships: [
           {
@@ -162,6 +165,12 @@ export interface Database {
           {
             foreignKeyName: "litigations_with_fkey";
             columns: ["with"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "litigations_witness_fkey";
+            columns: ["witness"];
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
