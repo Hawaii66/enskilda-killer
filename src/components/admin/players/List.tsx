@@ -9,20 +9,62 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { User } from "@/interfaces/User";
-import React from "react";
+import React, { useState } from "react";
 import UserRenderer from "./UserRenderer";
 import { PlayerInfo } from "@/interfaces/Admin";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SelectUser from "@/components/SelectUser";
 import { Input } from "@/components/ui/input";
+import { useApi } from "@/hooks/useApi";
+import { TargetUser } from "@/interfaces/User";
 
 type Props = {
   users: PlayerInfo[];
 };
 
-function List({ users }: Props) {
+function List({ users: defaultUsers }: Props) {
+  const [users, setUsers] = useState(defaultUsers);
+  const [murderMode, setMurderMode] = useState<"ghost" | "murderer">(
+    "murderer"
+  );
+  const [murderer, setMurderer] = useState<TargetUser>();
+  const [target, setTarget] = useState<TargetUser>();
+  const [circle, setCircle] = useState(1);
+
+  const apiFetch = useApi();
+
+  const updateUsers = async () => {
+    const response = await apiFetch("/api/admin/players", { method: "GET" });
+    if (response.status === 200) {
+      setUsers(await response.json());
+    }
+  };
+
+  const murder = async () => {
+    if (!target) return;
+    const data =
+      murderer === undefined
+        ? {
+            target: target.id,
+            circle,
+          }
+        : {
+            target: target.id,
+            circle,
+            murderer: murderer.id,
+          };
+
+    const response = await apiFetch("/api/admin/murder", {
+      method: "POST",
+      body: data,
+    });
+    if (response.status === 200) {
+      await updateUsers();
+      alert("Kill confirmed");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <Card>
@@ -58,7 +100,10 @@ function List({ users }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <Tabs defaultValue="murderer">
+          <Tabs
+            onValueChange={(tab) => setMurderMode(tab as any)}
+            defaultValue={"murderer"}
+          >
             <TabsList>
               <TabsTrigger value="murderer">Mördare mördar</TabsTrigger>
               <TabsTrigger value="ghost">Offret dör</TabsTrigger>
@@ -67,7 +112,7 @@ function List({ users }: Props) {
               <Label className="flex justify-center items-center w-28">
                 Mördare
               </Label>
-              <SelectUser onChangeUser={() => {}} />
+              <SelectUser onChangeUser={setMurderer} />
             </TabsContent>
             <TabsContent value="ghost"></TabsContent>
           </Tabs>
@@ -75,15 +120,19 @@ function List({ users }: Props) {
             <Label className="flex justify-center items-center w-28">
               Offer
             </Label>
-            <SelectUser onChangeUser={() => {}} />
+            <SelectUser onChangeUser={setTarget} />
           </div>
           <div className="flex flex-grow gap-4">
             <Label className="flex justify-center items-center w-28">
               Cirkel
             </Label>
-            <Input className="w-[200px]" />
+            <Input
+              defaultValue={2}
+              onChange={(e) => setCircle(parseInt(e.target.value))}
+              className="w-[200px]"
+            />
           </div>
-          <Button className="w-1/5" variant={"outline"}>
+          <Button onClick={murder} className="w-1/5" variant={"outline"}>
             Mörda
           </Button>
         </CardContent>

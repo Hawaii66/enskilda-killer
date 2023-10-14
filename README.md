@@ -11,6 +11,7 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Blogg först sidan
 - Pausa spel
 - Statistik
+- Component för att välja cirkel, just nu input
 - Spara spelar information
 - Spara regler
 - Spara begrepp
