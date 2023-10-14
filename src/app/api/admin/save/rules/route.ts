@@ -11,7 +11,7 @@ export const POST = async (request: NextRequest) => {
 
   const rules: Rule[] = await request.json();
 
-  await supabase().from("rules").delete();
+  await supabase().from("rules").delete().neq("id", -1);
   await supabase()
     .from("rules")
     .insert(
@@ -21,4 +21,6 @@ export const POST = async (request: NextRequest) => {
         rule: rule.rule,
       }))
     );
+
+  return NextResponse.json({});
 };

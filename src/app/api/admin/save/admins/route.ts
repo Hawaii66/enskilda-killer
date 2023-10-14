@@ -1,7 +1,7 @@
 import { emailToId } from "@/functions/emailToId";
 import { supabase } from "@/functions/supabase";
 import { VerifyWithEmail } from "@/functions/verifyToken";
-import { Concept } from "@/interfaces/Constants";
+import { Circle } from "@/interfaces/Circle";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
@@ -9,17 +9,14 @@ export const POST = async (request: NextRequest) => {
   const id = await emailToId(email);
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
-  const concepts: Concept[] = await request.json();
+  var admins: string[] = await request.json();
 
-  await supabase().from("concepts").delete().neq("id", -1);
+  const e = await supabase().from("admins").delete().neq("id", -1);
   await supabase()
-    .from("concepts")
-    .insert(
-      concepts.map((concept) => ({
-        index: concept.index,
-        concept: concept.concept,
-      }))
-    );
+    .from("admins")
+    .insert(admins.map((i) => ({ email: i })));
+
+  console.log(e, admins);
 
   return NextResponse.json({});
 };

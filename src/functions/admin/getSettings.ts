@@ -20,8 +20,12 @@ export async function GetSettings() {
   const circles: Circle[] =
     circlesResult.data?.map((i) => ({ id: i.id, name: i.name })) || [];
 
+  const { data } = await supabase().from("admins").select("email");
+  const admins: string[] = data?.map((i) => i.email) || [];
+
   return {
     gameState,
     circles,
+    admins,
   };
 }

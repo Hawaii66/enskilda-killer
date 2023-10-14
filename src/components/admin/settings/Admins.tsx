@@ -8,11 +8,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { useApi } from "@/hooks/useApi";
+import React, { useState } from "react";
 
-const admins = ["seah21@nykopingsenskilda.se", "august@nykopingsenskilda.se"];
+type Props = {
+  admins: string[];
+  refresh: () => void;
+};
 
-function Admins() {
+function Admins({ admins: defaultAdmins, refresh }: Props) {
+  const [admins, setAdmins] = useState(defaultAdmins);
+  const [name, setName] = useState("");
+
+  const apiFetch = useApi();
+
+  const newAdmin = () => {
+    setAdmins((a) => [...a, name]);
+  };
+
+  const save = async () => {
+    const response = await apiFetch("/api/admin/save/admins", {
+      method: "POST",
+      body: admins,
+    });
+    if (response.status === 200) {
+      refresh();
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -23,14 +49,24 @@ function Admins() {
         {admins.map((admin) => (
           <div className="flex flex-row gap-4 items-center">
             <p>{admin}</p>
-            <Button variant={"destructive"}>
+            <Button
+              onClick={() => setAdmins((e) => e.filter((i) => i !== admin))}
+              variant={"destructive"}
+            >
               <Icons.delete className="w-4 h-4" />
             </Button>
           </div>
         ))}
+        <Separator />
+
+        <div className="flex flex-row gap-4">
+          <Label>Ny admin</Label>
+          <Input value={name} onChange={(e) => setName(e.target.value)} />
+          <Button onClick={newAdmin}>Ny admin</Button>
+        </div>
       </CardContent>
       <CardFooter>
-        <Button>Spara</Button>
+        <Button onClick={save}>Spara</Button>
       </CardFooter>
     </Card>
   );
