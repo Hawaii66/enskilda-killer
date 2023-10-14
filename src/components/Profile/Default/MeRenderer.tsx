@@ -49,7 +49,7 @@ function MeRenderer() {
       <CardHeader>
         <CardTitle>Information</CardTitle>
         <CardDescription>
-          Något som är fel? Ta kontakt med killer utskotet
+          Något som är fel? Ta kontakt med killer utskottet
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
