@@ -45,21 +45,35 @@ function UserRenderer({
   const [kills, setKills] = useState(defaultKills);
   const [open, setOpen] = useState(false);
 
+  const changeOpenState = (state: boolean) => {
+    setOpen(state);
+
+    if (state === false) {
+      setUser(defaultUser);
+      setKills(defaultKills);
+    }
+  };
+
   const apiFetch = useApi();
 
   const save = async () => {
-    const response = await apiFetch("/api/admin/save/user", {
+    const responseUser = await apiFetch("/api/admin/save/user", {
       method: "POST",
       body: user,
     });
-    if (response.status === 200) {
+    const responseKills = await apiFetch("/api/admin/save/kills", {
+      method: "POST",
+      body: kills,
+    });
+
+    if (responseUser.status === 200 && responseKills.status === 200) {
       refresh();
       setOpen(false);
     }
   };
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={changeOpenState}>
       <SheetTrigger asChild>
         <div
           className={`group cursor-pointer flex flex-row gap-4 py-2 px-2 ${
@@ -244,6 +258,11 @@ function UserRenderer({
                     </div>
                     <div>
                       <Button
+                        onClick={() =>
+                          setKills((k) =>
+                            k.filter((i) => i.target.id !== kill.target.id)
+                          )
+                        }
                         className="flex flex-row gap-2"
                         variant={"outline"}
                       >
