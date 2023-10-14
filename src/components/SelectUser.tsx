@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -12,33 +12,25 @@ import {
   CommandItem,
 } from "./ui/command";
 import { cn } from "@/lib/utils";
-
-const users: { name: string; id: number; group: string }[] = [
-  {
-    id: 0,
-    name: "Jamal",
-    group: "1",
-  },
-  {
-    id: 1,
-    name: "123",
-    group: "1",
-  },
-  {
-    id: 2,
-    name: "0123j1",
-    group: "2",
-  },
-];
+import { AllUsersContext } from "@/contexts/AllUsersContext";
 
 function SelectUser() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
+  const users = useContext(AllUsersContext);
+
   const groups = () => {
     const t = new Set<string>();
     users.forEach((i) => t.add(i.group));
     return Array.from(t);
+  };
+
+  const getName = () => {
+    const user = users.find((user) => user.id.toString() === value);
+    if (!user) return "";
+
+    return `${user.firstname} ${user.lastname}`;
   };
 
   return (
@@ -49,9 +41,7 @@ function SelectUser() {
           variant={"outline"}
           role="combobox"
         >
-          {value
-            ? users.find((user) => user.id.toString() === value)?.name
-            : "Välj person"}
+          {value ? getName() : "Välj person"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -76,13 +66,14 @@ function SelectUser() {
                 .filter((u) => u.group === group)
                 .map((user) => (
                   <CommandItem
-                    value={user.name}
+                    value={`${user.firstname} ${user.lastname}`}
                     onSelect={(c) => {
                       setValue(
                         users
                           .find(
                             (i) =>
-                              i.group === group && i.name.toLowerCase() == c
+                              i.group === group &&
+                              `${i.firstname} ${i.lastname}`.toLowerCase() == c
                           )
                           ?.id.toString() || ""
                       );
@@ -97,7 +88,7 @@ function SelectUser() {
                           : "opacity-0"
                       )}
                     />
-                    {user.name}
+                    {`${user.firstname} ${user.lastname}`}
                   </CommandItem>
                 ))}
             </CommandGroup>
