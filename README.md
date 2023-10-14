@@ -17,6 +17,8 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Spara begrepp
 - Spara inställningar
 - Toast info //TODO, status = 200
+- Stäng Admin routes för icke admin
+- Bulk flytta spelare
 
 ## Allmän information för dig som ska söka runt här
 

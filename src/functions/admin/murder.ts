@@ -30,6 +30,8 @@ export const MurdererMurder = async (
     });
   }
 
+  await supabase().from("targets").delete().eq("murderer", target);
+
   await supabase().from("kills").insert({
     circle: circel,
     murderer: murderer,

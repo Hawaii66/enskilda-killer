@@ -18,11 +18,12 @@ import { ScrollArea } from "./ui/scroll-area";
 
 type Props = {
   onChangeUser: (user: TargetUser | undefined) => void;
+  defaultUser?: TargetUser;
 };
 
-function SelectUser({ onChangeUser }: Props) {
+function SelectUser({ onChangeUser, defaultUser }: Props) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultUser?.id.toString() || "");
 
   const users = useContext(AllUsersContext);
 

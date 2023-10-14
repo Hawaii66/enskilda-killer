@@ -86,9 +86,16 @@ function List({ users: defaultUsers }: Props) {
                 Ändra
               </div>
             </div>
-            {users.map((user, idx) => (
-              <UserRenderer key={user.user.id} index={idx} user={user} />
-            ))}
+            {users
+              .sort((a, b) => a.user.id - b.user.id)
+              .map((user, idx) => (
+                <UserRenderer
+                  refresh={() => updateUsers()}
+                  key={user.user.id}
+                  index={idx}
+                  user={user}
+                />
+              ))}
           </div>
         </CardContent>
       </Card>
@@ -114,7 +121,9 @@ function List({ users: defaultUsers }: Props) {
               </Label>
               <SelectUser onChangeUser={setMurderer} />
             </TabsContent>
-            <TabsContent value="ghost"></TabsContent>
+            <TabsContent value="ghost">
+              <p>Mördaren till offret kommer inte få ett nytt offer</p>
+            </TabsContent>
           </Tabs>
           <div className="flex flex-grow gap-4">
             <Label className="flex justify-center items-center w-28">

@@ -24,18 +24,42 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useApi } from "@/hooks/useApi";
 import { PlayerInfo } from "@/interfaces/Admin";
+import { User } from "@/interfaces/User";
 import { format } from "date-fns";
-import React from "react";
+import React, { useState } from "react";
 
 type Props = {
   user: PlayerInfo;
   index: number;
+  refresh: () => void;
 };
 
-function UserRenderer({ user: { kills, user }, index }: Props) {
+function UserRenderer({
+  user: { kills: defaultKills, user: defaultUser },
+  index,
+  refresh,
+}: Props) {
+  const [user, setUser] = useState(defaultUser);
+  const [kills, setKills] = useState(defaultKills);
+  const [open, setOpen] = useState(false);
+
+  const apiFetch = useApi();
+
+  const save = async () => {
+    const response = await apiFetch("/api/admin/save/user", {
+      method: "POST",
+      body: user,
+    });
+    if (response.status === 200) {
+      refresh();
+      setOpen(false);
+    }
+  };
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <div
           className={`group cursor-pointer flex flex-row gap-4 py-2 px-2 ${
@@ -80,19 +104,38 @@ function UserRenderer({ user: { kills, user }, index }: Props) {
                 <Label className="flex justify-start items-center">
                   Förnamn
                 </Label>
-                <Input />
+                <Input
+                  value={user.firstname}
+                  onChange={(e) =>
+                    setUser({ ...user, firstname: e.target.value })
+                  }
+                />
                 <Label className="flex justify-start items-center">
                   Efternamn
                 </Label>
-                <Input />
+                <Input
+                  value={user.lastname}
+                  onChange={(e) =>
+                    setUser({ ...user, lastname: e.target.value })
+                  }
+                />
                 <Label className="flex justify-start items-center">Klass</Label>
-                <Input />
+                <Input
+                  value={user.group}
+                  onChange={(e) => setUser({ ...user, group: e.target.value })}
+                />
                 <Label className="flex justify-start items-center">Epost</Label>
-                <Input />
+                <Input
+                  value={user.email}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                />
                 <Label className="flex justify-start items-center">
                   Telefon
                 </Label>
-                <Input />
+                <Input
+                  value={user.phone}
+                  onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                />
               </CardContent>
             </Card>
             <Card>
@@ -106,7 +149,20 @@ function UserRenderer({ user: { kills, user }, index }: Props) {
                 <Label className="flex justify-center items-center">
                   Cirkel
                 </Label>
-                <Input />
+                <Input
+                  value={user.circle?.id.toString()}
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      circle: isNaN(parseInt(e.target.value))
+                        ? undefined
+                        : {
+                            id: parseInt(e.target.value),
+                            name: "",
+                          },
+                    })
+                  }
+                />
               </CardContent>
             </Card>
             <Card>
@@ -121,27 +177,50 @@ function UserRenderer({ user: { kills, user }, index }: Props) {
                   <Label className="flex justify-center items-center">
                     Välj offer
                   </Label>
-                  <SelectUser onChangeUser={() => {}} />
+                  <SelectUser
+                    defaultUser={user.target}
+                    onChangeUser={(target) => setUser({ ...user, target })}
+                  />
                 </div>
-                <div
-                  className="grid gap-2"
-                  style={{ gridTemplateColumns: "1fr 3fr 1fr 3fr" }}
-                >
-                  <Label className="flex justify-start items-center">
-                    Förnamn
-                  </Label>
-                  <Input disabled className="bg-slate-100" />
-                  <Label className="flex justify-start items-center">
-                    Efternamn
-                  </Label>
-                  <Input disabled className="bg-slate-100" />
-                  <Label className="flex justify-start items-center">
-                    Klass
-                  </Label>
-                  <Input disabled className="bg-slate-100" />
-                  <Label className="flex justify-start items-center">Id</Label>
-                  <Input disabled className="bg-slate-100" />
-                </div>
+                {user.target && (
+                  <div
+                    className="grid gap-2"
+                    style={{ gridTemplateColumns: "1fr 3fr 1fr 3fr" }}
+                  >
+                    <Label className="flex justify-start items-center">
+                      Förnamn
+                    </Label>
+                    <Input
+                      value={user.target.firstname}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                    <Label className="flex justify-start items-center">
+                      Efternamn
+                    </Label>
+                    <Input
+                      value={user.target.lastname}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                    <Label className="flex justify-start items-center">
+                      Klass
+                    </Label>
+                    <Input
+                      value={user.target.group}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                    <Label className="flex justify-start items-center">
+                      Id
+                    </Label>
+                    <Input
+                      value={user.target.id}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                  </div>
+                )}
               </CardContent>
             </Card>
             <Card>
@@ -178,7 +257,7 @@ function UserRenderer({ user: { kills, user }, index }: Props) {
           </div>
           <Separator />
           <SheetFooter>
-            <Button>Spara</Button>
+            <Button onClick={save}>Spara</Button>
           </SheetFooter>
         </ScrollArea>
       </SheetContent>
