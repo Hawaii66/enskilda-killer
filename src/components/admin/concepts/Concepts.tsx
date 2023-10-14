@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { GetConcepts } from "@/functions/admin/getConceptsx";
+import { useApi } from "@/hooks/useApi";
 import { Concept, Rule } from "@/interfaces/Constants";
 import React, { useState } from "react";
 
@@ -26,11 +28,27 @@ function Concepts({ concepts: defaultConcepts }: Props) {
     defaultConcepts.sort((a, b) => b.index - a.index)
   );
 
+  const apiFetch = useApi();
+
   const updateRule = (rule: Concept, index: number) => {
     const old = [...concepts];
     old[index] = rule;
     setConcepts(old);
   };
+
+  const save = async () => {
+    const response = await apiFetch("/api/admin/save/concepts", {
+      method: "POST",
+      body: concepts,
+    });
+    if (response.status === 200) {
+      const updatedResponse = await apiFetch("/api/admin/concepts", {
+        method: "GET",
+      });
+      setConcepts(await updatedResponse.json());
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -62,7 +80,13 @@ function Concepts({ concepts: defaultConcepts }: Props) {
                 className="h-36"
               />
               <div className="w-1/2">
-                <Button variant={"outline"} className="flex flex-row gap-2">
+                <Button
+                  onClick={() =>
+                    setConcepts(concepts.filter((_, i) => i !== idx))
+                  }
+                  variant={"outline"}
+                  className="flex flex-row gap-2"
+                >
                   <Icons.delete className="w-4 h-4" /> <p>Ta bort</p>
                 </Button>
               </div>
@@ -73,8 +97,14 @@ function Concepts({ concepts: defaultConcepts }: Props) {
         <div></div>
       </CardContent>
       <CardFooter className="flex flex-row gap-4">
-        <Button>Nytt begrepp</Button>
-        <Button>Spara</Button>
+        <Button
+          onClick={() =>
+            setConcepts((old) => [...old, { concept: "", index: 0 }])
+          }
+        >
+          Nytt begrepp
+        </Button>
+        <Button onClick={save}>Spara</Button>
       </CardFooter>
     </Card>
   );

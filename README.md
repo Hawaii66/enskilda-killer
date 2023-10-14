@@ -5,7 +5,6 @@ Välkommen till den officiella platsen för Enskilda Killer.
 ## Att göra
 
 - Filter Alla spelare admin
-- Genomför mord
 - Tvistemål admin
 - Blogg admin
 - Blogg först sidan
@@ -15,7 +14,6 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Spara spelar information
 - Spara regler
 - Spara begrepp
-- Spara inställningar
 - Toast info //TODO, status = 200
 - Stäng Admin routes för icke admin
 - Bulk flytta spelare

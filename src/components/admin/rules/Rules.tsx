@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useApi } from "@/hooks/useApi";
 import { Rule } from "@/interfaces/Constants";
 import React, { useState } from "react";
 
@@ -26,10 +27,25 @@ function Rules({ rules: defaultRules }: Props) {
     defaultRules.sort((a, b) => b.index - a.index)
   );
 
+  const apiFetch = useApi();
+
   const updateRule = (rule: Rule, index: number) => {
     const old = [...rules];
     old[index] = rule;
     setRules(old);
+  };
+
+  const save = async () => {
+    const response = await apiFetch("/api/admin/save/rules", {
+      method: "POST",
+      body: rules,
+    });
+    if (response.status === 200) {
+      const updatedRules = await apiFetch("/api/admin/rules", {
+        method: "GET",
+      });
+      setRules(await updatedRules.json());
+    }
   };
 
   return (
@@ -70,7 +86,11 @@ function Rules({ rules: defaultRules }: Props) {
                 className="h-36"
               />
               <div className="w-1/2">
-                <Button variant={"outline"} className="flex flex-row gap-2">
+                <Button
+                  onClick={() => setRules(rules.filter((_, i) => i !== idx))}
+                  variant={"outline"}
+                  className="flex flex-row gap-2"
+                >
                   <Icons.delete className="w-4 h-4" /> <p>Ta bort</p>
                 </Button>
               </div>
@@ -81,8 +101,14 @@ function Rules({ rules: defaultRules }: Props) {
         <div></div>
       </CardContent>
       <CardFooter className="flex flex-row gap-4">
-        <Button>Ny regel</Button>
-        <Button>Spara</Button>
+        <Button
+          onClick={() =>
+            setRules([...rules, { header: "", index: 0, rule: "" }])
+          }
+        >
+          Ny regel
+        </Button>
+        <Button onClick={save}>Spara</Button>
       </CardFooter>
     </Card>
   );
