@@ -7,7 +7,7 @@ export type User = {
   id: number;
   phone: string;
   group: string;
-  target: TargetUser;
+  target?: TargetUser;
   circle?: Circle;
   kills: Record<
     Circle["id"],
