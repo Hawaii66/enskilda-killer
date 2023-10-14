@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "Official website for follwing the game",
 };
 
+export const revalidate = 0;
 export default function RootLayout({
   children,
 }: {

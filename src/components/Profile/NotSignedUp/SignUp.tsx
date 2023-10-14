@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useApi } from "@/hooks/useApi";
+import { useMsal } from "@azure/msal-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -39,7 +40,7 @@ function SignUp({ onJoin }: Props) {
   const [loading, setLoading] = useState(false);
 
   const apiFetch = useApi();
-  const router = useRouter();
+  const { instance } = useMsal();
 
   const fetchEmail = async () => {
     const response = await apiFetch("/api/user/email", { method: "GET" });
@@ -140,6 +141,9 @@ function SignUp({ onJoin }: Props) {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <Button onClick={() => instance.logout()} variant={"outline"}>
+          Logga ut
+        </Button>
       </div>
     </div>
   );
