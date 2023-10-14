@@ -36,7 +36,6 @@ export const validateToken = async (token: string) => {
       email: decoded.preferred_username,
     };
   } catch (e) {
-    console.log(e, "ERROR");
     return false;
   }
 };

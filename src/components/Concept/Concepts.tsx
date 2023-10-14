@@ -18,8 +18,6 @@ async function GetData() {
 async function Concepts() {
   const data = await GetData();
 
-  console.log(data);
-
   return (
     <div>
       <Top text="Begrepp" />

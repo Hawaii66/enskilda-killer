@@ -7,8 +7,6 @@ export const POST = async (request: NextRequest) => {
 
   const t = await validateToken(token || "");
 
-  console.log(t);
-
   return NextResponse.json({
     token: t,
   });

@@ -38,8 +38,6 @@ export const GET = async (request: NextRequest) => {
     .eq("id", targetId.data?.target || 0)
     .single();
 
-  console.log(targetId, target);
-
   const response: Circle = {
     status: "alive",
     circle: circle.data?.name || "",
