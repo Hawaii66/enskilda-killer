@@ -9,7 +9,11 @@ import {
   AlertDialogTitle,
 } from "../../ui/alert-dialog";
 
-function AlertMurder() {
+type Props = {
+  onClick: () => void;
+};
+
+function AlertMurder({ onClick }: Props) {
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -22,7 +26,7 @@ function AlertMurder() {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Avbryt</AlertDialogCancel>
-        <AlertDialogAction>Fortsätt</AlertDialogAction>
+        <AlertDialogAction onClick={onClick}>Fortsätt</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );
