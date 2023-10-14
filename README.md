@@ -10,10 +10,8 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Blogg först sidan
 - Pausa spel
 - Statistik
-- Component för att välja cirkel, just nu input
-- Spara spelar information
-- Spara regler
-- Spara begrepp
+- Component för att välja cirkel & klass, just nu input
+- Spara spelar information DELVIS
 - Toast info //TODO, status = 200
 - Stäng Admin routes för icke admin
 - Bulk flytta spelare
