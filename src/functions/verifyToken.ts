@@ -27,13 +27,17 @@ export const validateToken = async (token: string) => {
   const microsoftKey = `-----BEGIN CERTIFICATE-----\n${microsoftPrivateKey}\n-----END CERTIFICATE-----`;
 
   try {
-    const decoded = jwt.verify(token, microsoftKey, { algorithms: ["RS256"] });
+    const decoded = jwt.verify(token, microsoftKey, {
+      algorithms: ["RS256"],
+      clockTimestamp: 60 * 60 * 2,
+      ignoreNotBefore: true,
+    });
     if (decoded === null || typeof decoded === "string") {
       return false;
     }
 
     return {
-      email: decoded.preferred_username,
+      email: decoded.preferred_username as string,
     };
   } catch (e) {
     return false;

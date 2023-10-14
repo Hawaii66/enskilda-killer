@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../../ui/card";
 import Kill from "./Kill";
 import { Kills } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";

@@ -1,7 +1,7 @@
 export type GameState = {
   startdate: number;
-  name: string;
   isPaused: boolean;
+  allowSignUp: boolean;
 };
 
 export type Admin = {

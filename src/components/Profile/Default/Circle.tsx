@@ -8,14 +8,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Switch } from "../ui/switch";
-import { Label } from "../ui/label";
-import { Skeleton } from "../ui/skeleton";
-import { Separator } from "../ui/separator";
-import { AlertDialog, AlertDialogTrigger } from "../ui/alert-dialog";
+} from "../../ui/card";
+import { Button } from "../../ui/button";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
+import { Switch } from "../../ui/switch";
+import { Label } from "../../ui/label";
+import { Skeleton } from "../../ui/skeleton";
+import { Separator } from "../../ui/separator";
+import { AlertDialog, AlertDialogTrigger } from "../../ui/alert-dialog";
 import AlertMurder from "./AlertMurder";
 import { Circle } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";

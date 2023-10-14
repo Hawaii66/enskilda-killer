@@ -8,18 +8,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Button } from "../ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../ui/alert-dialog";
+} from "../../ui/card";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -28,13 +18,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Label } from "../ui/label";
-import SelectUser from "../SelectUser";
-import { Textarea } from "../ui/textarea";
+} from "../../ui/dialog";
+import { Label } from "../../ui/label";
+import SelectUser from "../../SelectUser";
+import { Textarea } from "../../ui/textarea";
 import { Litigation } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
-import LitigationRenderer from "./Litigation";
+import LitigationRenderer from "./LitigationRenderer";
 
 function Litigations() {
   const [litigations, setLitigations] = useState<Litigation[] | null>(null);

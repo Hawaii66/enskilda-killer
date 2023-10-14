@@ -1,4 +1,4 @@
-import { Litigation as LitigationRenderer } from "@/interfaces/Profile";
+import { Litigation } from "@/interfaces/Profile";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -7,10 +7,10 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
-} from "@radix-ui/react-alert-dialog";
+} from "../../ui/alert-dialog";
 import React from "react";
-import { AlertDialogFooter } from "../ui/alert-dialog";
-import { Button } from "../ui/button";
+import { AlertDialogFooter } from "../../ui/alert-dialog";
+import { Button } from "../../ui/button";
 import {
   Card,
   CardHeader,
@@ -18,10 +18,10 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "../ui/card";
+} from "../../ui/card";
 
 type Props = {
-  litigation: LitigationRenderer;
+  litigation: Litigation;
 };
 
 function LitigationRenderer({ litigation }: Props) {

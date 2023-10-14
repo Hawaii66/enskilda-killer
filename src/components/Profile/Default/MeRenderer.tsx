@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Card,
   CardContent,
@@ -9,8 +9,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+} from "../../ui/card";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { useMsal } from "@azure/msal-react";
 import { useRouter } from "next/navigation";
 import { Me } from "@/interfaces/Profile";

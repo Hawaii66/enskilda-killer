@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, CardContent, CardHeader } from "../ui/card";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Card, CardContent, CardHeader } from "../../ui/card";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { Kills } from "@/interfaces/Profile";
 import { format } from "date-fns";
 

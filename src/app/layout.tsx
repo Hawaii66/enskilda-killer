@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import type { Metadata } from "next";
 import MicrosoftAuthProvider from "@/components/MicrosoftAuthProvider";
+import GameStateWrapper from "@/components/GameStateWrapper";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -17,12 +18,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <MicrosoftAuthProvider>
-        <body className="min-h-screen flex flex-col items-center justify-center">
-          <Header />
-          <main className="flex-grow w-full">{children}</main>
+        <GameStateWrapper>
+          <body className="min-h-screen flex flex-col items-center justify-center">
+            <Header />
+            <main className="flex-grow w-full">{children}</main>
 
-          <Footer />
-        </body>
+            <Footer />
+          </body>
+        </GameStateWrapper>
       </MicrosoftAuthProvider>
     </html>
   );
