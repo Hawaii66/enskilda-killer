@@ -11,6 +11,10 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Blogg först sidan
 - Pausa spel
 - Statistik
+- Spara spelar information
+- Spara regler
+- Spara begrepp
+- Spara inställningar
 
 ## Allmän information för dig som ska söka runt här
 
