@@ -15,7 +15,8 @@ function Kill({ kill }: Props) {
         <div className="flex flex-row gap-4">
           <Avatar>
             <AvatarFallback>
-              {kill.target.firstname.charAt(0)} {kill.target.lastname.charAt(0)}
+              {kill.target.firstname.charAt(0)}
+              {kill.target.lastname.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div>

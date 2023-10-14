@@ -123,7 +123,7 @@ function Circle() {
                 <div className="flex flex-row gap-4">
                   <Avatar>
                     <AvatarFallback>
-                      {circle.target.firstname.charAt(0)}{" "}
+                      {circle.target.firstname.charAt(0)}
                       {circle.target.lastname.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
