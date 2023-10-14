@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -13,8 +13,13 @@ import {
 } from "./ui/command";
 import { cn } from "@/lib/utils";
 import { AllUsersContext } from "@/contexts/AllUsersContext";
+import { TargetUser } from "@/interfaces/User";
 
-function SelectUser() {
+type Props = {
+  onChangeUser: (user: TargetUser | undefined) => void;
+};
+
+function SelectUser({ onChangeUser }: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -32,6 +37,11 @@ function SelectUser() {
 
     return `${user.firstname} ${user.lastname}`;
   };
+
+  useEffect(() => {
+    const user = users.find((user) => user.id.toString() === value);
+    onChangeUser(user);
+  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

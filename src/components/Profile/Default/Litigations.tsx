@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -25,9 +25,17 @@ import { Textarea } from "../../ui/textarea";
 import { Litigation } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
 import LitigationRenderer from "./LitigationRenderer";
+import { Icons } from "@/components/Icons";
 
 function Litigations() {
   const [litigations, setLitigations] = useState<Litigation[] | null>(null);
+  const [info, setInfo] = useState<{
+    with: number;
+    witness: number | undefined;
+    text: string;
+  }>({ text: "", with: 0, witness: 0 });
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const apiFetch = useApi();
 
@@ -45,6 +53,20 @@ function Litigations() {
     if (response.status === 200) {
       setLitigations((old) => old?.filter((i) => i.id !== id) || []);
     }
+  };
+
+  const createLitigation = async () => {
+    setLoading(true);
+    const response = await apiFetch("/api/user/litigations", {
+      method: "POST",
+      body: info,
+    });
+    if (response.status === 200) {
+      await fetchLitigations();
+    }
+
+    setLoading(false);
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -71,7 +93,7 @@ function Litigations() {
         )}
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button>Nytt tvistemål</Button>
           </DialogTrigger>
@@ -83,23 +105,48 @@ function Litigations() {
                 mot samt ett vittne. Skriv även kort vad som hänt.
               </DialogDescription>
             </DialogHeader>
-            <div
-              className="grid gap-2 py-4"
-              style={{ gridTemplateColumns: "1fr 3fr" }}
-            >
-              <Label>Inblandad</Label>
-              <div className="flex w-full justify-start items-center">
-                <SelectUser />
+            {loading ? (
+              <div className="w-full mt-4">
+                <Icons.spinner className="w-24 h-24 animate-spin" />
               </div>
-              <Label>Vittne</Label>
-              <div className="flex w-full justify-start items-center">
-                <SelectUser />
+            ) : (
+              <div
+                className="grid gap-2 py-4"
+                style={{ gridTemplateColumns: "1fr 3fr" }}
+              >
+                <Label>Inblandad</Label>
+                <div className="flex w-full justify-start items-center">
+                  <SelectUser
+                    onChangeUser={(u) =>
+                      setInfo({ ...info, with: u?.id || -1 })
+                    }
+                  />
+                </div>
+                <Label>Vittne</Label>
+                <div className="flex w-full justify-start items-center">
+                  <SelectUser
+                    onChangeUser={(u) =>
+                      setInfo({
+                        ...info,
+                        witness: u === undefined ? undefined : u.id,
+                      })
+                    }
+                  />
+                </div>
+                <Label>Berätta mera</Label>
+                <Textarea
+                  value={info.text}
+                  onChange={(e) => setInfo({ ...info, text: e.target.value })}
+                />
               </div>
-              <Label>Berätta mera</Label>
-              <Textarea />
-            </div>
+            )}
             <DialogFooter className="w-full justify-between">
-              <Button>Skicka</Button>
+              <Button
+                onClick={createLitigation}
+                disabled={info.text === "" || info.with === -1}
+              >
+                Skicka
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

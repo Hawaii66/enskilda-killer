@@ -46,3 +46,21 @@ export const DELETE = async (request: NextRequest) => {
 
   return NextResponse.json({});
 };
+
+export const POST = async (request: NextRequest) => {
+  const email = await VerifyWithEmail(request);
+  const id = await emailToId(email);
+  if (!email || !id) return NextResponse.json({}, { status: 400 });
+
+  const data: { text: string; with: number; witness: number | undefined } =
+    await request.json();
+
+  await supabase().from("litigations").insert({
+    text: data.text,
+    user: id,
+    with: data.with,
+    witness: data.witness,
+  });
+
+  return NextResponse.json({});
+};
