@@ -15,6 +15,7 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Spara regler
 - Spara begrepp
 - Spara inställningar
+- Toast info //TODO, status = 200
 
 ## Allmän information för dig som ska söka runt här
 
