@@ -5,6 +5,8 @@ import MeRenderer from "@/components/Profile/MeRenderer";
 import Top from "@/components/Top";
 import React from "react";
 
+export const revalidate = 0;
+
 function Page() {
   return (
     <div>

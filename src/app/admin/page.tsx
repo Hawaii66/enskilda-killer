@@ -1,5 +1,7 @@
 "use client";
 
+export const revalidate = 0;
+
 function Page() {
   return (
     <div>

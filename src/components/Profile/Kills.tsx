@@ -40,9 +40,7 @@ function Kills() {
         <CardDescription>Följ vilka personer du mördat</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="font-bold text-lg">
-          Totalt har du dödat: {kills.length} st
-        </p>
+        <p className="font-bold text-lg">Du har mördat: {kills.length} st</p>
         <div className="flex flex-col gap-4">
           {kills
             .sort((a, b) => b.time - a.time)
