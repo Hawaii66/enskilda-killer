@@ -38,6 +38,15 @@ function Litigations() {
     }
   };
 
+  const deleteLitigation = async (id: number) => {
+    const response = await apiFetch(`/api/user/litigations?litigation=${id}`, {
+      method: "DELETE",
+    });
+    if (response.status === 200) {
+      setLitigations((old) => old?.filter((i) => i.id !== id) || []);
+    }
+  };
+
   useEffect(() => {
     fetchLitigations();
   }, []);
@@ -48,9 +57,15 @@ function Litigations() {
         <CardTitle>Tvistemål</CardTitle>
         <CardDescription>Anmäl tvistemål här</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
         {litigations && litigations.length > 0 ? (
-          litigations.map((i) => <LitigationRenderer litigation={i} />)
+          litigations.map((i) => (
+            <LitigationRenderer
+              deleteMe={() => deleteLitigation(i.id)}
+              key={i.id}
+              litigation={i}
+            />
+          ))
         ) : (
           <p>Inga aktiva tvistemål</p>
         )}

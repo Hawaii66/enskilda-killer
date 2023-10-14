@@ -103,7 +103,7 @@ function Circle() {
         {circle.status === "alive" && (
           <CardFooter className="justify-evenly gap-4">
             <AlertDialog>
-              <AlertDialogTrigger>
+              <AlertDialogTrigger asChild>
                 <Button
                   variant={"outline"}
                   className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
@@ -114,7 +114,7 @@ function Circle() {
               <AlertMurder />
             </AlertDialog>
             <AlertDialog>
-              <AlertDialogTrigger>
+              <AlertDialogTrigger asChild>
                 <Button className="bg-green-500 text-black hover:bg-green-800">
                   Jag har mördat någon
                 </Button>

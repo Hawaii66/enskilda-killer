@@ -1,10 +1,7 @@
-"use client";
-
 import { GameStateContext } from "@/contexts/GameStateContext";
 import { supabase } from "@/functions/supabase";
 import { ConstantKey, GameState } from "@/interfaces/Constants";
-import { NextResponse } from "next/server";
-import React, { useEffect, useState } from "react";
+import GameStateWrapperProvider from "./GameStateWrapperProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -36,9 +33,9 @@ async function GameStateWrapper({ children }: Props) {
   const gameState = await GetState();
 
   return (
-    <GameStateContext.Provider value={gameState}>
+    <GameStateWrapperProvider state={gameState}>
       {children}
-    </GameStateContext.Provider>
+    </GameStateWrapperProvider>
   );
 }
 

@@ -45,7 +45,7 @@ function Kills() {
           {kills
             .sort((a, b) => b.time - a.time)
             .map((k) => (
-              <Kill kill={k} />
+              <Kill key={k.time} kill={k} />
             ))}
         </div>
       </CardContent>

@@ -22,9 +22,10 @@ import {
 
 type Props = {
   litigation: Litigation;
+  deleteMe: () => void;
 };
 
-function LitigationRenderer({ litigation }: Props) {
+function LitigationRenderer({ litigation, deleteMe }: Props) {
   return (
     <Card>
       <CardHeader>
@@ -51,7 +52,7 @@ function LitigationRenderer({ litigation }: Props) {
             </AlertDialogDescription>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={deleteMe}>Continue</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
