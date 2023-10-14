@@ -18,13 +18,33 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { useApi } from "@/hooks/useApi";
+import { GameState } from "@/interfaces/Constants";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import React, { useState } from "react";
 
-function ControlLevers() {
-  const [date, setDate] = useState<Date>();
+type Props = {
+  gameState: GameState;
+  refresh: () => void;
+};
+
+function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
+  const [state, setState] = useState(defaultGameState);
+
+  const apiFetch = useApi();
+
+  const save = async () => {
+    const response = await apiFetch("/api/admin/save/state", {
+      method: "POST",
+      body: state,
+    });
+    if (response.status === 200) {
+      refresh();
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -36,10 +56,16 @@ function ControlLevers() {
       <CardContent>
         <div className="grid gap-4 mb-4 grid-cols-3">
           <Label>Pausa</Label>
-          <Switch />
+          <Switch
+            checked={state.isPaused}
+            onCheckedChange={(s) => setState({ ...state, isPaused: s })}
+          />
           <Label>Om spelet är pausat kan ingen mörda</Label>
           <Label>Tillåt registrering</Label>
-          <Switch />
+          <Switch
+            checked={state.allowSignUp}
+            onCheckedChange={(s) => setState({ ...state, allowSignUp: s })}
+          />
           <Label>Nya spelar kan skapa ett konto</Label>
           <Label>Killer Startade</Label>
           <Popover>
@@ -48,18 +74,24 @@ function ControlLevers() {
                 variant={"outline"}
                 className={cn(
                   "w-[280px] justify-start text-left font-normal",
-                  !date && "text-muted-foreground"
+                  !state.startdate && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                {state ? (
+                  format(state.startdate, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-white z-40 border">
               <Calendar
                 mode="single"
-                selected={date}
-                onSelect={setDate}
+                selected={new Date(state.startdate)}
+                onSelect={(e) =>
+                  setState({ ...state, startdate: e?.getTime() || Date.now() })
+                }
                 initialFocus
               />
             </PopoverContent>
@@ -69,7 +101,7 @@ function ControlLevers() {
         <Separator />
       </CardContent>
       <CardFooter>
-        <Button>Spara</Button>
+        <Button onClick={save}>Spara</Button>
       </CardFooter>
     </Card>
   );
