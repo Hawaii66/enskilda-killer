@@ -33,7 +33,7 @@ function SettingsWrapper({ info: defaultInfo }: Props) {
       <ControlLevers refresh={refresh} gameState={info.gameState} />
       <Circles refresh={refresh} circles={info.circles} />
       <Admins admins={info.admins} refresh={refresh} />
-      <EnskildaKaren />
+      <EnskildaKaren elevkaren={info.elevkaren} refresh={refresh} />
       <Separator />
       <Reset />
     </div>

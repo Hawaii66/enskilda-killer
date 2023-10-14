@@ -12,20 +12,28 @@ import {
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useApi } from "@/hooks/useApi";
 import React, { useState } from "react";
 
-function EnskildaKaren() {
-  const [text, setText] =
-    useState(`Enskildas Elevkår är en förening som vi elever på skolan har möjlighet att vara medlemmar i. Enskildakårens mål är att skapa en så rolig och bra skolgång som möjligt för alla elever på skolan och fixar därför en rad olika aktiviteter under läsårets gång.
-	<br/><br/>
-		Som medlem behöver du inte göra någonting mer än att få vara en del av alla härligheter på skolan, tack vare att du och dina vänner är medlemmar i Enskildas elevkår har vi i styrelsen möjligheten och pengarna till att t.ex. köpa in priser till våra olika tävlingar.
-		<br/><br/>
-		Tack för att DU är medlem!
-		<br/><br/>
-		
-		Med vänliga hälsningar
-		<br/><br/>
-		Enskildkårens styrelse`);
+type Props = {
+  elevkaren: string;
+  refresh: () => void;
+};
+
+function EnskildaKaren({ elevkaren: defaultText, refresh }: Props) {
+  const [text, setText] = useState(defaultText);
+
+  const apiFetch = useApi();
+
+  const save = async () => {
+    const response = await apiFetch("/api/admin/save/elevkaren", {
+      method: "POST",
+      body: text,
+    });
+    if (response.status === 200) {
+      refresh();
+    }
+  };
 
   return (
     <Card>
@@ -35,7 +43,11 @@ function EnskildaKaren() {
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         <Label>Text</Label>
-        <Textarea className="h-48" value={text} />
+        <Textarea
+          className="h-48"
+          onChange={(e) => setText(e.target.value)}
+          value={text}
+        />
         <Separator />
         <Separator />
         <Label>Renderad</Label>
@@ -45,7 +57,7 @@ function EnskildaKaren() {
         />
       </CardContent>
       <CardFooter>
-        <Button>Spara</Button>
+        <Button onClick={save}>Spara</Button>
       </CardFooter>
     </Card>
   );

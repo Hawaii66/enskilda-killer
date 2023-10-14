@@ -10,6 +10,13 @@ export async function GetSettings() {
     .eq("query", key)
     .single();
 
+  const key2: ConstantKey = "Enskildakaren";
+  const { data: elevkaren } = await supabase()
+    .from("constants")
+    .select("data")
+    .eq("query", key2)
+    .single();
+
   const gameState: GameState =
     state === null
       ? { allowSignUp: true, isPaused: false, startdate: Date.now() }
@@ -27,5 +34,6 @@ export async function GetSettings() {
     gameState,
     circles,
     admins,
+    elevkaren: elevkaren?.data || "",
   };
 }
