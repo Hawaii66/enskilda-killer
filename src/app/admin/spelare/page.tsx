@@ -1,11 +1,14 @@
 import List from "@/components/admin/players/List";
+import { getUserKills } from "@/functions/getUserKills";
 import { supabase } from "@/functions/supabase";
+import { PlayerInfo } from "@/interfaces/Admin";
+import { Kills } from "@/interfaces/Profile";
 import { TargetUser, User } from "@/interfaces/User";
 import React from "react";
 
 export const revalidate = 0;
 
-async function GetUsers(): Promise<User[]> {
+async function GetUsers(): Promise<PlayerInfo[]> {
   const { data: dbUsers } = await supabase().from("users").select("*");
   if (dbUsers === null) return [];
 
@@ -39,7 +42,19 @@ async function GetUsers(): Promise<User[]> {
     },
   }));
 
-  return users;
+  const promises: Promise<Kills>[] = [];
+  users.forEach((user) => {
+    promises.push(getUserKills(user.id));
+  });
+
+  const kills = await Promise.all(promises);
+
+  const players: PlayerInfo[] = users.map((user, idx) => ({
+    user: user,
+    kills: kills[idx],
+  }));
+
+  return players;
 }
 
 async function Page() {

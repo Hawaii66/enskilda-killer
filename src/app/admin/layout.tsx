@@ -15,6 +15,14 @@ const tabs: { name: string; href: string }[] = [
     name: "Spelare",
   },
   {
+    href: "/admin/tvistemal",
+    name: "Tvistemål",
+  },
+  {
+    href: "/admin/blogg",
+    name: "Blogg",
+  },
+  {
     href: "/admin/begrepp",
     name: "Begrepp",
   },

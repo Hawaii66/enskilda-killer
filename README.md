@@ -2,6 +2,16 @@
 
 Välkommen till den officiella platsen för Enskilda Killer.
 
+## Att göra
+
+- Filter Alla spelare admin
+- Genomför mord
+- Tvistemål admin
+- Blogg admin
+- Blogg först sidan
+- Pausa spel
+- Statistik
+
 ## Allmän information för dig som ska söka runt här
 
 Jag använder dessa övergripande saker:

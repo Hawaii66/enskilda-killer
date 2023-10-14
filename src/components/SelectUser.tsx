@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { AllUsersContext } from "@/contexts/AllUsersContext";
 import { TargetUser } from "@/interfaces/User";
+import { ScrollArea } from "./ui/scroll-area";
 
 type Props = {
   onChangeUser: (user: TargetUser | undefined) => void;
@@ -56,54 +57,57 @@ function SelectUser({ onChangeUser }: Props) {
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <Command>
-          <CommandInput placeholder="Välj person" />
-          <CommandEmpty>Ingen person vald</CommandEmpty>
-          <CommandGroup>
-            <CommandItem onSelect={() => setValue("")}>
-              <Check
-                className={cn(
-                  "mr-2 h-4 w-4",
-                  value === "" ? "opacity-100" : "opacity-0"
-                )}
-              />
-              Ingen
-            </CommandItem>
-          </CommandGroup>
-          {groups().map((group) => (
-            <CommandGroup key={group} heading={group}>
-              {users
-                .filter((u) => u.group === group)
-                .map((user) => (
-                  <CommandItem
-                    value={`${user.firstname} ${user.lastname}`}
-                    onSelect={(c) => {
-                      setValue(
-                        users
-                          .find(
-                            (i) =>
-                              i.group === group &&
-                              `${i.firstname} ${i.lastname}`.toLowerCase() == c
-                          )
-                          ?.id.toString() || ""
-                      );
-                    }}
-                    key={user.id.toString()}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === user.id.toString()
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                    {`${user.firstname} ${user.lastname}`}
-                  </CommandItem>
-                ))}
+        <ScrollArea className="h-[300px]">
+          <Command>
+            <CommandInput placeholder="Välj person" />
+            <CommandEmpty>Ingen person vald</CommandEmpty>
+            <CommandGroup>
+              <CommandItem onSelect={() => setValue("")}>
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    value === "" ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                Ingen
+              </CommandItem>
             </CommandGroup>
-          ))}
-        </Command>
+            {groups().map((group) => (
+              <CommandGroup key={group} heading={group}>
+                {users
+                  .filter((u) => u.group === group)
+                  .map((user) => (
+                    <CommandItem
+                      value={`${user.firstname} ${user.lastname}`}
+                      onSelect={(c) => {
+                        setValue(
+                          users
+                            .find(
+                              (i) =>
+                                i.group === group &&
+                                `${i.firstname} ${i.lastname}`.toLowerCase() ==
+                                  c
+                            )
+                            ?.id.toString() || ""
+                        );
+                      }}
+                      key={user.id.toString()}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === user.id.toString()
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                      {`${user.firstname} ${user.lastname}`}
+                    </CommandItem>
+                  ))}
+              </CommandGroup>
+            ))}
+          </Command>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );
