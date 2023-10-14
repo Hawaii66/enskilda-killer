@@ -31,7 +31,7 @@ function SettingsWrapper({ info: defaultInfo }: Props) {
   return (
     <div className="w-full flex flex-col gap-4">
       <ControlLevers refresh={refresh} gameState={info.gameState} />
-      <Circles />
+      <Circles refresh={refresh} circles={info.circles} />
       <Admins />
       <EnskildaKaren />
       <Separator />

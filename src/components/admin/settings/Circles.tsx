@@ -9,11 +9,30 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
+import { useApi } from "@/hooks/useApi";
+import { Circle } from "@/interfaces/Circle";
+import React, { useState } from "react";
 
-const circles = ["Normal", "De dödas cirkel"];
+type Props = {
+  refresh: () => void;
+  circles: Circle[];
+};
 
-function Circles() {
+function Circles({ circles, refresh }: Props) {
+  const [name, setName] = useState("");
+
+  const apiFetch = useApi();
+
+  const addCircle = async () => {
+    const response = await apiFetch("/api/admin/save/circles", {
+      method: "POST",
+      body: [...circles, { name: name }],
+    });
+    if (response.status === 200) {
+      refresh();
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -25,14 +44,18 @@ function Circles() {
       <CardContent className="flex flex-col gap-4">
         <div>
           {circles.map((circle) => (
-            <p>• {circle}</p>
+            <p>• {circle.name}</p>
           ))}
         </div>
         <Separator />
         <div className="grid grid-cols-2 gap-4 w-1/2">
           <Label>Skapa cirkel</Label>
-          <Input placeholder="Ny cirkels namn" />
-          <Button>Skapa</Button>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ny cirkels namn"
+          />
+          <Button onClick={addCircle}>Skapa</Button>
         </div>
       </CardContent>
     </Card>
