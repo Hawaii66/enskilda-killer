@@ -28,6 +28,7 @@
     "lucide-react": "^0.285.0",
     "next": "13.5.4",
     "react": "^18",
+    "react-day-picker": "^8.8.2",
     "react-dom": "^18",
     "react-microsoft-login": "^2.0.1",
     "tailwind-merge": "^1.14.0",
