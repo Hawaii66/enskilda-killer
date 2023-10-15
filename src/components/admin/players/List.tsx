@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import UserRenderer from "./UserRenderer";
 import { PlayerInfo } from "@/interfaces/Admin";
 import { Label } from "@/components/ui/label";
@@ -19,9 +19,27 @@ import { Input } from "@/components/ui/input";
 import { useApi } from "@/hooks/useApi";
 import { TargetUser } from "@/interfaces/User";
 import SelectCircle from "@/components/SelectCircle";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AllCirclesContext } from "@/contexts/AllCirclesContext";
+import { AllGroupsContext } from "@/contexts/AllGroupsContext";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Circle } from "@/interfaces/Circle";
 
 type Props = {
   users: PlayerInfo[];
+};
+
+type Filters = {
+  orderBy: "id" | "forename" | "lastname" | "kills" | "group";
+  onlyShow: { circle: string } | "alive" | "dead" | "all" | { group: string };
 };
 
 function List({ users: defaultUsers }: Props) {
@@ -33,7 +51,14 @@ function List({ users: defaultUsers }: Props) {
   const [target, setTarget] = useState<TargetUser>();
   const [circle, setCircle] = useState(1);
 
+  const [filters, setFilters] = useState<Filters>({
+    orderBy: "id",
+    onlyShow: "all",
+  });
+
   const apiFetch = useApi();
+  const circles = useContext(AllCirclesContext);
+  const groups = useContext(AllGroupsContext);
 
   const updateUsers = async () => {
     const response = await apiFetch("/api/admin/players", { method: "GET" });
@@ -77,6 +102,95 @@ function List({ users: defaultUsers }: Props) {
         </CardHeader>
         <CardContent>
           <div className="rounded-lg overflow-hidden ">
+            <div className="w-1/4 flex flex-row gap-4 mt-2 mb-4">
+              <Label className="w-1/2 grid place-items-center">
+                Sortera efter
+              </Label>
+              <Select
+                onValueChange={(s) =>
+                  setFilters({ ...filters, orderBy: s as any })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue>
+                    {orderByKeyToString(filters.orderBy)}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Sortera efter</SelectLabel>
+                    <SelectItem value="id">Id</SelectItem>
+                    <SelectItem value="forename">Förnamn</SelectItem>
+                    <SelectItem value="lastname">Efternamn</SelectItem>
+                    <SelectItem value="kills">Mord</SelectItem>
+                    <SelectItem value="group">Klass</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="w-1/4 flex flex-row gap-4 mb-4">
+              <Label className="w-1/2 grid place-items-center">
+                Visa endast
+              </Label>
+              <Select
+                onValueChange={(s) => {
+                  if (s.startsWith("main-")) {
+                    setFilters({
+                      ...filters,
+                      onlyShow: s.replace("main-", "") as any,
+                    });
+                  }
+                  if (s.startsWith("group-")) {
+                    setFilters({
+                      ...filters,
+                      onlyShow: {
+                        group: s.replace("group-", ""),
+                      },
+                    });
+                  }
+                  if (s.startsWith("circle-")) {
+                    setFilters({
+                      ...filters,
+                      onlyShow: {
+                        circle: s.replace("circle-", ""),
+                      },
+                    });
+                  }
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue>
+                    {showOnlyKeyToString(filters.onlyShow, circles)}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <ScrollArea className="h-[40vh]">
+                    <SelectGroup>
+                      <SelectLabel>- Stora -</SelectLabel>
+                      <SelectItem value="main-all">Alla</SelectItem>
+                      <SelectItem value="main-alive">Levande</SelectItem>
+                      <SelectItem value="main-dead">Döda</SelectItem>
+                    </SelectGroup>
+                    <SelectGroup>
+                      <SelectLabel>- Cirkel - </SelectLabel>
+                      {circles.map((circle) => (
+                        <SelectItem value={`circle-${circle.id}`}>
+                          {circle.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectGroup>
+                      <SelectLabel>- Klass -</SelectLabel>
+                      {groups.map((group) => (
+                        <SelectItem value={`group-${group}`}>
+                          {group}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </ScrollArea>
+                </SelectContent>
+              </Select>
+            </div>
             <div
               className={`flex flex-row gap-4 py-2 px-2 bg-slate-100 underline`}
             >
@@ -90,16 +204,14 @@ function List({ users: defaultUsers }: Props) {
                 Ändra
               </div>
             </div>
-            {users
-              .sort((a, b) => a.user.id - b.user.id)
-              .map((user, idx) => (
-                <UserRenderer
-                  refresh={() => updateUsers()}
-                  key={user.user.id}
-                  index={idx}
-                  user={user}
-                />
-              ))}
+            {filterUsers(users, filters).map((user, idx) => (
+              <UserRenderer
+                refresh={() => updateUsers()}
+                key={user.user.id}
+                index={idx}
+                user={user}
+              />
+            ))}
           </div>
         </CardContent>
       </Card>
@@ -153,3 +265,85 @@ function List({ users: defaultUsers }: Props) {
 }
 
 export default List;
+
+const filterUsers = (users: PlayerInfo[], filters: Filters) => {
+  return users
+    .filter((u) => filterUser(u, filters))
+    .sort((a, b) => sortUser(a, b, filters));
+};
+
+const filterUser = (user: PlayerInfo, filters: Filters) => {
+  switch (filters.onlyShow) {
+    case "all":
+      return true;
+    case "alive":
+      return user.user.circle !== undefined;
+    case "dead":
+      return user.user.circle === undefined;
+    default:
+      if ("circle" in filters.onlyShow) {
+        return (
+          user.user.circle &&
+          user.user.circle.id.toString() === filters.onlyShow.circle
+        );
+      }
+
+      return user.user.group === filters.onlyShow.group;
+  }
+};
+
+const sortUser = (a: PlayerInfo, b: PlayerInfo, filters: Filters) => {
+  switch (filters.orderBy) {
+    case "id":
+      return a.user.id - b.user.id;
+    case "group":
+      return a.user.group.localeCompare(b.user.group);
+    case "kills":
+      return b.kills.length - a.kills.length;
+    case "forename":
+      return `${a.user.firstname} ${a.user.lastname}`.localeCompare(
+        `${b.user.firstname} ${b.user.lastname}`
+      );
+    case "lastname":
+      return `${a.user.lastname} ${a.user.firstname}`.localeCompare(
+        `${b.user.lastname} ${b.user.firstname}`
+      );
+    default:
+      const _: never = filters.orderBy;
+      return 0;
+  }
+};
+
+const orderByKeyToString = (key: Filters["orderBy"]) => {
+  switch (key) {
+    case "group":
+      return "Klass";
+    case "id":
+      return "Id";
+    case "kills":
+      return "Mord";
+    case "forename":
+      return "Förnamn";
+    case "lastname":
+      return "Efternamn";
+    default:
+      const _: never = key;
+      return "";
+  }
+};
+
+const showOnlyKeyToString = (key: Filters["onlyShow"], circles: Circle[]) => {
+  switch (key) {
+    case "alive":
+      return "Levande";
+    case "dead":
+      return "Döda";
+    case "all":
+      return "Alla";
+    default:
+      if ("circle" in key) {
+        return circles.find((i) => i.id.toString() === key.circle)?.name || "";
+      }
+      return key.group;
+  }
+};

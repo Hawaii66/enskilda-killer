@@ -4,7 +4,6 @@ Välkommen till den officiella platsen för Enskilda Killer.
 
 ## Att göra
 
-- Filter Alla spelare admin
 - Blogg admin
 - Blogg först sidan
 - Pausa spel
