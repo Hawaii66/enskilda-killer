@@ -30,6 +30,7 @@ function Circles({ circles, refresh }: Props) {
     });
     if (response.status === 200) {
       refresh();
+      alert("Ladda om sidan");
     }
   };
 
@@ -55,7 +56,8 @@ function Circles({ circles, refresh }: Props) {
             onChange={(e) => setName(e.target.value)}
             placeholder="Ny cirkels namn"
           />
-          <Button onClick={addCircle}>Skapa</Button>
+          <Button onClick={addCircle}>Skapa</Button>{" "}
+          <p>Ladda om sidan efteråt</p>
         </div>
       </CardContent>
     </Card>
