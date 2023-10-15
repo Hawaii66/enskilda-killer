@@ -18,6 +18,7 @@ import SelectUser from "@/components/SelectUser";
 import { Input } from "@/components/ui/input";
 import { useApi } from "@/hooks/useApi";
 import { TargetUser } from "@/interfaces/User";
+import SelectCircle from "@/components/SelectCircle";
 
 type Props = {
   users: PlayerInfo[];
@@ -135,11 +136,14 @@ function List({ users: defaultUsers }: Props) {
             <Label className="flex justify-center items-center w-28">
               Cirkel
             </Label>
-            <Input
+            <div className="w-[200px]">
+              <SelectCircle onChangeCircle={(c) => setCircle(c.id)} />
+            </div>
+            {/*<Input
               defaultValue={2}
               onChange={(e) => setCircle(parseInt(e.target.value))}
               className="w-[200px]"
-            />
+			  />*/}
           </div>
           <Button onClick={murder} className="w-1/5" variant={"outline"}>
             Mörda

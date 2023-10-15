@@ -6,6 +6,7 @@ import MicrosoftAuthProvider from "@/components/MicrosoftAuthProvider";
 import GameStateWrapper from "@/components/Contexts/GameStateWrapper";
 import AllUsersWrapper from "@/components/Contexts/AllUsersWrapper";
 import AllGroupsWrapper from "@/components/Contexts/AllGroupsWrapper";
+import AllCirclesWrapper from "@/components/Contexts/AllCirclesWrapper";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -24,12 +25,14 @@ export default function RootLayout({
         <GameStateWrapper>
           <AllUsersWrapper>
             <AllGroupsWrapper>
-              <body className="min-h-screen flex flex-col items-center justify-center">
-                <Header />
-                <main className="flex-grow w-full">{children}</main>
+              <AllCirclesWrapper>
+                <body className="min-h-screen flex flex-col items-center justify-center">
+                  <Header />
+                  <main className="flex-grow w-full">{children}</main>
 
-                <Footer />
-              </body>
+                  <Footer />
+                </body>
+              </AllCirclesWrapper>
             </AllGroupsWrapper>
           </AllUsersWrapper>
         </GameStateWrapper>

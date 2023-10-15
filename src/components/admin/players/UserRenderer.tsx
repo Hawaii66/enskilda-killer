@@ -1,6 +1,7 @@
 "use client";
 
 import { Icons } from "@/components/Icons";
+import SelectCircle from "@/components/SelectCircle";
 import SelectGroup from "@/components/SelectGroup";
 import SelectUser from "@/components/SelectUser";
 import { Button } from "@/components/ui/button";
@@ -164,7 +165,12 @@ function UserRenderer({
                 <Label className="flex justify-center items-center">
                   Cirkel
                 </Label>
-                <Input
+                <SelectCircle
+                  includeEmpty
+                  defaultCircle={user.circle}
+                  onChangeCircle={(e) => setUser({ ...user, circle: e })}
+                />
+                {/*<Input
                   value={user.circle?.id.toString()}
                   onChange={(e) =>
                     setUser({
@@ -177,7 +183,7 @@ function UserRenderer({
                           },
                     })
                   }
-                />
+                />*/}
               </CardContent>
             </Card>
             <Card>
