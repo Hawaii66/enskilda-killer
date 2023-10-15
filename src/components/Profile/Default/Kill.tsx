@@ -28,7 +28,7 @@ function Kill({ kill }: Props) {
         </div>
         <div>
           <p>{format(kill.time, "yyyy-MM-dd HH:mm")}</p>
-          <p>{kill.circle}</p>
+          <p>{kill.circle.name}</p>
         </div>
       </CardContent>
     </Card>

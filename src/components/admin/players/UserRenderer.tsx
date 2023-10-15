@@ -287,7 +287,8 @@ function UserRenderer({
                         {kill.target.lastname}
                       </p>
                       <p>
-                        {format(kill.time, "yyyy-MM-dd HH:mm")} {kill.circle}
+                        {format(kill.time, "yyyy-MM-dd HH:mm")}{" "}
+                        {kill.circle.name}
                       </p>
                     </div>
                     <div>
