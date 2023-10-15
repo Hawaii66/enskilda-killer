@@ -3,6 +3,7 @@ import { Kills } from "@/interfaces/Profile";
 import { TargetUser, User } from "@/interfaces/User";
 import { getUserKills } from "../getUserKills";
 import { supabase } from "../supabase";
+import { getUserCircles } from "../getUserCircles";
 
 export async function GetUsers(): Promise<PlayerInfo[]> {
   const { data: dbUsers } = await supabase().from("users").select("*");
@@ -21,6 +22,8 @@ export async function GetUsers(): Promise<PlayerInfo[]> {
     };
   });
 
+  const circleMap = await getUserCircles(dbUsers.map((i) => i.id));
+
   const users: User[] = dbUsers.map((user) => ({
     email: user.email,
     firstname: user.firstname,
@@ -32,10 +35,7 @@ export async function GetUsers(): Promise<PlayerInfo[]> {
     target: targets.find(
       (i) => i.id === targetIds.find((j) => j.murderer === user.id)?.target
     ),
-    circle: {
-      id: 0,
-      name: "",
-    },
+    circle: circleMap.get(user.id),
   }));
 
   const promises: Promise<Kills>[] = [];

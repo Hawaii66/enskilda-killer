@@ -4,6 +4,7 @@ import { Icons } from "@/components/Icons";
 import SelectCircle from "@/components/SelectCircle";
 import SelectGroup from "@/components/SelectGroup";
 import SelectUser from "@/components/SelectUser";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,6 +27,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useApi } from "@/hooks/useApi";
 import { PlayerInfo } from "@/interfaces/Admin";
 import { User } from "@/interfaces/User";
@@ -82,7 +89,27 @@ function UserRenderer({
             index % 2 === 0 ? "bg-slate-200" : "bg-slate-100"
           }`}
         >
-          <p className="w-1/6">{user.id}</p>
+          <div className="w-1/6 flex flex-row justify-between items-center">
+            <p>{user.id}</p>
+            <TooltipProvider>
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger>
+                  <Badge
+                    className={`w-12 grid place-items-center ${
+                      user.circle ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  >
+                    {kills.length}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Röd: död (ingen cirkel)</p>
+                  <p>Grön: levande (har en cirkel)</p>
+                  <p>Nummer: antal kills</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <p className="w-2/6 group-hover:font-bold">
             {user.firstname} {user.lastname} {user.group}
           </p>

@@ -80,7 +80,10 @@ function List({ users: defaultUsers }: Props) {
             <div
               className={`flex flex-row gap-4 py-2 px-2 bg-slate-100 underline`}
             >
-              <p className="w-1/6">Id</p>
+              <div className="w-1/6 flex flex-row justify-between">
+                <p>Id</p>
+                <p>Status</p>
+              </div>
               <p className="w-2/6">Användare</p>
               <p className="w-2/6">Target</p>
               <div className="w-1/6 flex flex-row justify-end items-center">
@@ -139,11 +142,6 @@ function List({ users: defaultUsers }: Props) {
             <div className="w-[200px]">
               <SelectCircle onChangeCircle={(c) => setCircle(c.id)} />
             </div>
-            {/*<Input
-              defaultValue={2}
-              onChange={(e) => setCircle(parseInt(e.target.value))}
-              className="w-[200px]"
-			  />*/}
           </div>
           <Button onClick={murder} className="w-1/5" variant={"outline"}>
             Mörda
