@@ -8,10 +8,13 @@ Välkommen till den officiella platsen för Enskilda Killer.
 - Blogg först sidan
 - Pausa spel
 - Statistik
-- Spara spelar information DELVIS
+- Spara spelar information DELVIS (circle)
 - Toast info //TODO, status = 200
 - Stäng Admin routes för icke admin
 - Bulk flytta spelare
+- Slumpa cirkel
+- Backups
+- Spara tidigare år
 
 ## Allmän information för dig som ska söka runt här
 
