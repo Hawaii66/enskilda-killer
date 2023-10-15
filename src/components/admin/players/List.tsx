@@ -32,6 +32,7 @@ import { AllCirclesContext } from "@/contexts/AllCirclesContext";
 import { AllGroupsContext } from "@/contexts/AllGroupsContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Circle } from "@/interfaces/Circle";
+import MovePlayers from "./MovePlayers";
 
 type Props = {
   users: PlayerInfo[];
@@ -260,6 +261,7 @@ function List({ users: defaultUsers }: Props) {
           </Button>
         </CardContent>
       </Card>
+      <MovePlayers refresh={updateUsers} />
     </div>
   );
 }

@@ -38,3 +38,33 @@ export const getUserCircles = async (
 
   return map;
 };
+
+export const getUserKillCircle = async (killId: number) => {
+  const { data } = await supabase()
+    .from("kills")
+    .select("circle")
+    .eq("id", killId)
+    .single();
+  if (data === null) return undefined;
+
+  const { data: circleData } = await supabase()
+    .from("circles")
+    .select("*")
+    .eq("id", data.circle)
+    .single();
+  if (circleData === null) return undefined;
+
+  const circle: Circle = {
+    id: circleData.id,
+    name: circleData.name,
+  };
+
+  return circle;
+};
+
+export const getUserKillCircles = async (killIds: number[]) => {
+  const promises: Promise<Circle | undefined>[] = [];
+  killIds.forEach((i) => promises.push(getUserKillCircle(i)));
+
+  return await Promise.all(promises);
+};

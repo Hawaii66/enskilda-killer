@@ -22,3 +22,13 @@ export type FullLitigation = {
   text: string;
   id: number;
 };
+
+export type MovePlayersCriterie =
+  | { key: "minKills"; number: number; circle?: number }
+  | { key: "maxKills"; number: number; circle?: number };
+
+export type BulkMoveInfo = {
+  from?: number;
+  to?: number;
+  criterias: MovePlayersCriterie[];
+};

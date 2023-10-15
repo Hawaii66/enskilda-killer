@@ -19,12 +19,14 @@ type Props =
       defaultCircle?: Circle;
       disabled?: boolean;
       includeEmpty?: false;
+      emptyText?: "";
     }
   | {
       onChangeCircle?: (circle: Circle | undefined) => void;
       defaultCircle?: Circle;
       disabled?: boolean;
       includeEmpty: true;
+      emptyText?: string;
     };
 
 function SelectCircle({
@@ -32,6 +34,7 @@ function SelectCircle({
   onChangeCircle,
   disabled,
   includeEmpty = false,
+  emptyText = "",
 }: Props) {
   const circles = useContext(AllCirclesContext);
 
@@ -58,7 +61,9 @@ function SelectCircle({
           <SelectLabel>Välj Cirkel</SelectLabel>
           {includeEmpty && (
             <>
-              <SelectItem value={"-1"}>Ingen cirkel</SelectItem>
+              <SelectItem value={"-1"}>
+                {emptyText === "" ? "Ingen cirkel" : emptyText}
+              </SelectItem>
               <Separator />
             </>
           )}

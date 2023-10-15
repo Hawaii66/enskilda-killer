@@ -1,4 +1,5 @@
 import { TargetUser } from "./User";
+import { Circle as Circle2 } from "./Circle";
 
 export type Me = {
   firstname: string;
@@ -16,7 +17,12 @@ export type Circle =
       target: TargetUser;
     };
 
-export type Kills = { target: TargetUser; time: number; circle: string }[];
+export type Kills = {
+  target: TargetUser;
+  id: number;
+  time: number;
+  circle: Circle2;
+}[];
 
 export type Litigation = {
   with: TargetUser;
