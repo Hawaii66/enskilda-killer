@@ -1,6 +1,7 @@
 "use client";
 
 import { Icons } from "@/components/Icons";
+import SelectGroup from "@/components/SelectGroup";
 import SelectUser from "@/components/SelectUser";
 import { Button } from "@/components/ui/button";
 import {
@@ -134,9 +135,9 @@ function UserRenderer({
                   }
                 />
                 <Label className="flex justify-start items-center">Klass</Label>
-                <Input
-                  value={user.group}
-                  onChange={(e) => setUser({ ...user, group: e.target.value })}
+                <SelectGroup
+                  defaultGroup={user.group}
+                  onChangeGroup={(g) => setUser({ ...user, group: g })}
                 />
                 <Label className="flex justify-start items-center">Epost</Label>
                 <Input

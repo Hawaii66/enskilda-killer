@@ -8,7 +8,7 @@ export type Admin = {
   email: string;
 };
 
-export type ConstantKey = "GameState" | "Enskildakaren";
+export type ConstantKey = "GameState" | "Enskildakaren" | "Groups";
 
 export type Rule = {
   rule: string;

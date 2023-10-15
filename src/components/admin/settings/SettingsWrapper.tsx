@@ -9,6 +9,7 @@ import ControlLevers from "./ControlLevers";
 import EnskildaKaren from "./EnskildaKaren";
 import Reset from "./Reset";
 import { useApi } from "@/hooks/useApi";
+import Groups from "./Groups";
 
 type Props = {
   info: Awaited<ReturnType<typeof GetSettings>>;
@@ -32,6 +33,7 @@ function SettingsWrapper({ info: defaultInfo }: Props) {
     <div className="w-full flex flex-col gap-4">
       <ControlLevers refresh={refresh} gameState={info.gameState} />
       <Circles refresh={refresh} circles={info.circles} />
+      <Groups />
       <Admins admins={info.admins} refresh={refresh} />
       <EnskildaKaren elevkaren={info.elevkaren} refresh={refresh} />
       <Separator />

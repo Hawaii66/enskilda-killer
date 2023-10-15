@@ -1,4 +1,5 @@
 import { Icons } from "@/components/Icons";
+import SelectGroup from "@/components/SelectGroup";
 import Top from "@/components/Top";
 import { Button } from "@/components/ui/button";
 import {
@@ -121,9 +122,9 @@ function SignUp({ onJoin }: Props) {
               <Separator />
               <Separator />
               <Label className="flex justify-start items-center">Klass</Label>
-              <Input
-                value={info.group}
-                onChange={(e) => setInfo({ ...info, group: e.target.value })}
+              <SelectGroup
+                defaultGroup={info.group}
+                onChangeGroup={(e) => setInfo({ ...info, group: e })}
               />
               <Label className="flex justify-start items-center">Telefon</Label>
               <Input
