@@ -23,9 +23,14 @@ export const getUserKills = async (id: number) => {
         lastname: target.lastname,
       },
       time: new Date(
-        killsIds.data === null ? "0" : killsIds.data[idx].created_at
+        killsIds.data === null
+          ? "0"
+          : killsIds.data.find((i) => i.target === target.id)?.created_at ?? "0"
       ).getTime(),
-      id: killsIds.data === null ? -1 : killsIds.data[idx].id,
+      id:
+        killsIds.data === null
+          ? -1
+          : killsIds.data.find((i) => i.target === target.id)?.id || -1,
     })) || [];
 
   const circles = await getUserKillCircles(kills.map((i) => i.id));
