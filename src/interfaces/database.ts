@@ -181,18 +181,21 @@ export interface Database {
           created_at: string;
           id: number;
           murderer: number;
+          orderdBy: Database["public"]["Enums"]["OrderedBy"];
           target: number;
         };
         Insert: {
           created_at?: string;
           id?: number;
           murderer: number;
+          orderdBy?: Database["public"]["Enums"]["OrderedBy"];
           target: number;
         };
         Update: {
           created_at?: string;
           id?: number;
           murderer?: number;
+          orderdBy?: Database["public"]["Enums"]["OrderedBy"];
           target?: number;
         };
         Relationships: [
@@ -367,7 +370,7 @@ export interface Database {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      OrderedBy: "Murderer" | "Target";
     };
     CompositeTypes: {
       [_ in never]: never;
