@@ -45,5 +45,25 @@ export const POST = async (request: NextRequest) => {
     await supabase().from("targets").delete().eq("murderer", user.id);
   }
 
+  if (user.circle) {
+    const inActiveCircle = await supabase()
+      .from("usersincircle")
+      .select("id")
+      .eq("user", user.id)
+      .single();
+    if (inActiveCircle.data) {
+      await supabase()
+        .from("usersincircle")
+        .update({ circle: user.circle.id })
+        .eq("id", inActiveCircle.data.id);
+    } else {
+      await supabase()
+        .from("usersincircle")
+        .insert({ circle: user.circle.id, user: user.id });
+    }
+  } else {
+    await supabase().from("usersincircle").delete().eq("user", user.id);
+  }
+
   return NextResponse.json({});
 };
