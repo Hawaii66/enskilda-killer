@@ -73,7 +73,7 @@ function UserRenderer({
     });
     const responseKills = await apiFetch("/api/admin/save/kills", {
       method: "POST",
-      body: kills,
+      body: { kills, user: user.id },
     });
 
     if (responseUser.status === 200 && responseKills.status === 200) {

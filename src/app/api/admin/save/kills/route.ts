@@ -9,13 +9,13 @@ export const POST = async (request: NextRequest) => {
   const id = await emailToId(email);
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
-  const kills: Kills = await request.json();
+  const body: { kills: Kills; user: number } = await request.json();
 
   await supabase()
     .from("kills")
     .delete()
-    .eq("murderer", id)
-    .not("target", "in", `(${kills.map((i) => i.target.id)})`);
+    .eq("murderer", body.user)
+    .not("target", "in", `(${body.kills.map((i) => i.target.id)})`);
 
   return NextResponse.json({});
 };
