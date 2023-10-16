@@ -12,6 +12,7 @@ export const GET = async (request: NextRequest) => {
     .from("pendingkills")
     .select()
     .eq("murderer", id)
+    .eq("orderdBy", "Murderer")
     .single();
 
   if (hasMurdererCase.data !== null) {
@@ -22,6 +23,7 @@ export const GET = async (request: NextRequest) => {
     .from("pendingkills")
     .select()
     .eq("target", id)
+    .eq("orderdBy", "Target")
     .single();
 
   if (hasTargetCase.data !== null) {
@@ -36,8 +38,16 @@ export const DELETE = async (request: NextRequest) => {
   const id = await emailToId(email);
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
-  await supabase().from("pendingkills").delete().eq("murderer", id);
-  await supabase().from("pendingkills").delete().eq("target", id);
+  await supabase()
+    .from("pendingkills")
+    .delete()
+    .eq("murderer", id)
+    .eq("orderdBy", "Murderer");
+  await supabase()
+    .from("pendingkills")
+    .delete()
+    .eq("target", id)
+    .eq("orderdBy", "Target");
 
   return NextResponse.json({});
 };

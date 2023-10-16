@@ -35,6 +35,7 @@ const Murder = async (murderer: number) => {
       await supabase().from("pendingkills").insert({
         murderer: murderer,
         target: targetId,
+        orderdBy: "Murderer",
       });
       return true;
     }
@@ -52,6 +53,7 @@ const Target = async (target: number) => {
 
   //The murderer was first with reporting, confirm kill
   if (result.data) {
+    console.log("Process");
     return await ProcessKill(result.data.murderer);
   } else {
     const murdererResult = await supabase()
@@ -64,6 +66,7 @@ const Target = async (target: number) => {
       await supabase().from("pendingkills").insert({
         murderer: murdererId,
         target: target,
+        orderdBy: "Target",
       });
       return true;
     }
