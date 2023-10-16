@@ -29,6 +29,7 @@ export const GET = async (request: NextRequest) => {
     group: data.group,
     lastname: data.lastname,
     phone: data.phone,
+    isMember: data.isMember,
   };
 
   return NextResponse.json(me);

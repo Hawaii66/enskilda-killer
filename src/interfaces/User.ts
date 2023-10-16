@@ -9,6 +9,7 @@ export type User = {
   group: string;
   target?: TargetUser;
   circle?: Circle;
+  isMember: boolean;
   kills: Record<
     Circle["id"],
     {

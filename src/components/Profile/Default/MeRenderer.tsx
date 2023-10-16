@@ -72,6 +72,9 @@ function MeRenderer() {
         <div className="flex flex-col gap-2">
           <p>Telefon: {me.phone}</p>
           <p>Klass: {me.group}</p>
+          {!me.isMember && (
+            <p>Du måste gå med i elevkåren: LÄNK TILL ELEVKÅREN</p>
+          )}
         </div>
         <Button onClick={logout}>Logga ut</Button>
       </CardFooter>

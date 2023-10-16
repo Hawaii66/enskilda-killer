@@ -7,6 +7,7 @@ export type Me = {
   email: string;
   group: string;
   phone: string;
+  isMember: boolean;
 };
 
 export type Circle =

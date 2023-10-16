@@ -14,8 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { useApi } from "@/hooks/useApi";
 import { useMsal } from "@azure/msal-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -24,6 +26,7 @@ type Info = {
   lastname: string;
   phone: string;
   group: string;
+  isMember: boolean;
 };
 
 type Props = {
@@ -37,6 +40,7 @@ function SignUp({ onJoin }: Props) {
     group: "",
     lastname: "",
     phone: "",
+    isMember: false,
   });
   const [loading, setLoading] = useState(false);
 
@@ -132,6 +136,25 @@ function SignUp({ onJoin }: Props) {
                 value={info.phone}
                 onChange={(e) => setInfo({ ...info, phone: e.target.value })}
               />
+              <Separator />
+              <Separator />
+              <Label className="flex justify-start items-center">
+                Medlem i kåren
+              </Label>
+              <Switch
+                onCheckedChange={(e) => setInfo({ ...info, isMember: e })}
+                checked={info.isMember}
+              />
+              <Link
+                className="text-blue-300 underline underline-offset-4"
+                href={"https://google.com"}
+                target="_blank"
+              >
+                Bli medlem här
+              </Link>
+              <p className="col-span-2">
+                Kom tillbaka sen och slutför registreringen
+              </p>
               <Separator />
               <Separator />
               <Label className="flex justify-start items-center">Email</Label>

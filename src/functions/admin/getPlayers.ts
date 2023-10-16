@@ -36,6 +36,7 @@ export async function GetUsers(): Promise<PlayerInfo[]> {
       (i) => i.id === targetIds.find((j) => j.murderer === user.id)?.target
     ),
     circle: circleMap.get(user.id),
+    isMember: user.isMember,
   }));
 
   const promises: Promise<Kills>[] = [];

@@ -27,6 +27,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
@@ -178,6 +179,13 @@ function UserRenderer({
                 <Input
                   value={user.phone}
                   onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                />
+                <Label className="flex justify-start items-center">
+                  Kåren medlem
+                </Label>
+                <Switch
+                  checked={user.isMember}
+                  onCheckedChange={(e) => setUser({ ...user, isMember: e })}
                 />
               </CardContent>
             </Card>
