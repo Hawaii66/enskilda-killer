@@ -34,7 +34,7 @@ function LitigationRenderer({ litigation, deleteMe }: Props) {
         </CardTitle>
         {litigation.witness && (
           <CardDescription>
-            Vittne: {litigation.witness.firstname} {litigation.with.lastname}
+            Vittne: {litigation.witness.firstname} {litigation.witness.lastname}
           </CardDescription>
         )}
       </CardHeader>

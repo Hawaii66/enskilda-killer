@@ -23,7 +23,7 @@ export const GET = async (request: NextRequest) => {
   const litigations: Litigation[] =
     result.data?.map((litigation, idx) => ({
       text: litigation.text,
-      with: withs[idx],
+      with: withs[idx] ?? { firstname: "", group: "", id: -1, lastname: "" },
       witness: litigation.witness === null ? undefined : witnesses[idx],
       id: litigation.id,
     })) || [];
