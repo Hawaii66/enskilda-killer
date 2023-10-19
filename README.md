@@ -5,8 +5,6 @@ Välkommen till den officiella platsen för Enskilda Killer.
 ## Att göra
 
 - Statistik
-- Toast info //TODO, status = 200
-- Stäng Admin routes för icke admin
 - Slumpa cirkel
 - Backups
 - Spara tidigare år

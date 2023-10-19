@@ -1,3 +1,4 @@
+import { checkIsAdmin } from "@/functions/admin/checkIsAdmin";
 import { emailToId } from "@/functions/emailToId";
 import { getUserKills, getUsersKills } from "@/functions/getUserKills";
 import { supabase } from "@/functions/supabase";
@@ -7,9 +8,8 @@ import { Kills } from "@/interfaces/Profile";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
-  if (!email || !id) return NextResponse.json({}, { status: 400 });
+  const isAdmin = await checkIsAdmin(request);
+  if (!isAdmin) return NextResponse.json({}, { status: 404 });
 
   const moveInfo: BulkMoveInfo = await request.json();
 

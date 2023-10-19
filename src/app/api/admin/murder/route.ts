@@ -1,12 +1,12 @@
+import { checkIsAdmin } from "@/functions/admin/checkIsAdmin";
 import { GhostMurder, MurdererMurder } from "@/functions/admin/murder";
 import { emailToId } from "@/functions/emailToId";
 import { VerifyWithEmail } from "@/functions/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
-  if (!email || !id) return NextResponse.json({}, { status: 400 });
+  const isAdmin = await checkIsAdmin(request);
+  if (!isAdmin) return NextResponse.json({}, { status: 404 });
 
   const data: { murderer: number | undefined; target: number; circle: number } =
     await request.json();

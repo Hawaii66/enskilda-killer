@@ -1,3 +1,4 @@
+import { checkIsAdmin } from "@/functions/admin/checkIsAdmin";
 import { emailToId } from "@/functions/emailToId";
 import { supabase } from "@/functions/supabase";
 import { VerifyWithEmail } from "@/functions/verifyToken";
@@ -5,9 +6,8 @@ import { User } from "@/interfaces/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
-  if (!email || !id) return NextResponse.json({}, { status: 400 });
+  const isAdmin = await checkIsAdmin(request);
+  if (!isAdmin) return NextResponse.json({}, { status: 404 });
 
   const user: User = await request.json();
 
