@@ -23,6 +23,10 @@ async function GetState(): Promise<GameState> {
       allowSignUp: true,
       isPaused: false,
       startdate: Date.now(),
+      info: {
+        text: "Vi har problem med att hitta information från server, ladda om sidan",
+        header: "Problem",
+      },
     };
   }
 

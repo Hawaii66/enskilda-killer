@@ -10,6 +10,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
@@ -32,6 +33,7 @@ type Props = {
 
 function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
   const [state, setState] = useState(defaultGameState);
+  const [showAlert, setShowAlert] = useState(!!defaultGameState.info);
 
   const apiFetch = useApi();
 
@@ -97,11 +99,49 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
             </PopoverContent>
           </Popover>
           <Label>Den först dagen mord kan ske</Label>
+          <Label>Visa alert</Label>
+          <Switch
+            checked={showAlert}
+            onCheckedChange={(s) => {
+              if (!s) {
+                setState({ ...state, info: { header: "", text: "" } });
+              }
+              setShowAlert(s);
+            }}
+          />
+          <Label>Visa en alert på hela hemsidan med viktig information</Label>
+          {showAlert && (
+            <>
+              <Label className="pl-4">Titel</Label>
+              <Input
+                value={state.info.header}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    info: { ...state.info, header: e.target.value },
+                  })
+                }
+              />
+              <Label>Titel på alerten</Label>
+              <Label className="pl-4">Text</Label>
+              <Input
+                value={state.info.text}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    info: { ...state.info, text: e.target.value },
+                  })
+                }
+              />
+              <Label>Text på alerten</Label>
+            </>
+          )}
         </div>
         <Separator />
       </CardContent>
-      <CardFooter>
+      <CardFooter className="gap-4">
         <Button onClick={save}>Spara</Button>
+        <p>OBS: om du ändrar alerten måste du ladda om sidan</p>
       </CardFooter>
     </Card>
   );

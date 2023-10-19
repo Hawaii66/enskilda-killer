@@ -19,7 +19,15 @@ export async function GetSettings() {
 
   const gameState: GameState =
     state === null
-      ? { allowSignUp: true, isPaused: false, startdate: Date.now() }
+      ? {
+          allowSignUp: true,
+          isPaused: false,
+          startdate: Date.now(),
+          info: {
+            header: "Problem",
+            text: "Hittade ingen information från servern",
+          },
+        }
       : JSON.parse(state.data);
 
   const circlesResult = await supabase().from("circles").select("*");

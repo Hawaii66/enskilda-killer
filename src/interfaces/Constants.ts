@@ -2,6 +2,10 @@ export type GameState = {
   startdate: number;
   isPaused: boolean;
   allowSignUp: boolean;
+  info: {
+    header: string;
+    text: string;
+  };
 };
 
 export type Admin = {
