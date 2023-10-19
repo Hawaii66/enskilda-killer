@@ -35,6 +35,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import { PlayerInfo } from "@/interfaces/Admin";
 import { User } from "@/interfaces/User";
 import { format } from "date-fns";
@@ -65,6 +66,7 @@ function UserRenderer({
   };
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const save = async () => {
     const responseUser = await apiFetch("/api/admin/save/user", {
@@ -79,6 +81,9 @@ function UserRenderer({
     if (responseUser.status === 200 && responseKills.status === 200) {
       refresh();
       setOpen(false);
+      toastSave("Spelarens information är nu sparad");
+    } else {
+      toast("Kunde inte spara spelaren och morden");
     }
   };
 

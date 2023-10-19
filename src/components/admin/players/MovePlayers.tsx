@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 type Props = {
   refresh: () => void;
@@ -37,6 +38,7 @@ function MovePlayers({ refresh }: Props) {
     useState<MovePlayersCriterie["key"]>("maxKills");
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const changeCriteria = (c: MovePlayersCriterie, idx: number) => {
     const old = [...criterias];
@@ -68,8 +70,10 @@ function MovePlayers({ refresh }: Props) {
       body: toSend,
     });
     if (response.status === 200) {
-      alert("Successfull move");
       refresh();
+      toastSave("Flyttade spelare");
+    } else {
+      toast("Kunde inte flytta spelare");
     }
   };
 

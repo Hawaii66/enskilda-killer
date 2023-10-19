@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import { Rule } from "@/interfaces/Constants";
 import React, { useState } from "react";
 
@@ -28,6 +29,7 @@ function Rules({ rules: defaultRules }: Props) {
   );
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const updateRule = (rule: Rule, index: number) => {
     const old = [...rules];
@@ -44,7 +46,14 @@ function Rules({ rules: defaultRules }: Props) {
       const updatedRules = await apiFetch("/api/admin/rules", {
         method: "GET",
       });
-      setRules(await updatedRules.json());
+      if (updatedRules.status === 200) {
+        setRules(await updatedRules.json());
+        toastSave("Reglerna är sparade");
+      } else {
+        toast("Kunde inte spara reglerna");
+      }
+    } else {
+      toast("Kunde inte spara reglerna");
     }
   };
 

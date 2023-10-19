@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import React, { useState } from "react";
 
 type Props = {
@@ -24,6 +25,7 @@ function Admins({ admins: defaultAdmins, refresh }: Props) {
   const [name, setName] = useState("");
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const newAdmin = () => {
     setAdmins((a) => [...a, name]);
@@ -36,6 +38,11 @@ function Admins({ admins: defaultAdmins, refresh }: Props) {
     });
     if (response.status === 200) {
       refresh();
+      toastSave(
+        "Admins är sparade, bara dessa personer har tillgång till /admin"
+      );
+    } else {
+      toast("Kunde inte spara admins");
     }
   };
 

@@ -33,6 +33,7 @@ import { AllGroupsContext } from "@/contexts/AllGroupsContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Circle } from "@/interfaces/Circle";
 import MovePlayers from "./MovePlayers";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 type Props = {
   users: PlayerInfo[];
@@ -58,6 +59,7 @@ function List({ users: defaultUsers }: Props) {
   });
 
   const apiFetch = useApi();
+  const { toast, toastTitle } = useBasicToast();
   const circles = useContext(AllCirclesContext);
   const groups = useContext(AllGroupsContext);
 
@@ -65,6 +67,8 @@ function List({ users: defaultUsers }: Props) {
     const response = await apiFetch("/api/admin/players", { method: "GET" });
     if (response.status === 200) {
       setUsers(await response.json());
+    } else {
+      toast("Kunde inte hämta spelare");
     }
   };
 
@@ -88,7 +92,9 @@ function List({ users: defaultUsers }: Props) {
     });
     if (response.status === 200) {
       await updateUsers();
-      alert("Kill confirmed");
+      toastTitle("Mordet gick igenom", "Ladda om sidan för att se resultaten");
+    } else {
+      toast("Kunde inte mörda spelaren");
     }
   };
 

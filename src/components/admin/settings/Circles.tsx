@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import { Circle } from "@/interfaces/Circle";
 import React, { useState } from "react";
 
@@ -22,6 +23,7 @@ function Circles({ circles, refresh }: Props) {
   const [name, setName] = useState("");
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const addCircle = async () => {
     const response = await apiFetch("/api/admin/save/circles", {
@@ -30,7 +32,11 @@ function Circles({ circles, refresh }: Props) {
     });
     if (response.status === 200) {
       refresh();
-      alert("Ladda om sidan");
+      toastSave(
+        "Cirkeln har sparats, ladda om sidan för att se den nya cirkeln"
+      );
+    } else {
+      toast("Kunde inte spara den nya cirkeln");
     }
   };
 

@@ -10,6 +10,7 @@ import EnskildaKaren from "./EnskildaKaren";
 import Reset from "./Reset";
 import { useApi } from "@/hooks/useApi";
 import Groups from "./Groups";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 type Props = {
   info: Awaited<ReturnType<typeof GetSettings>>;
@@ -19,13 +20,14 @@ function SettingsWrapper({ info: defaultInfo }: Props) {
   const [info, setInfo] = useState(defaultInfo);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const refresh = async () => {
     const response = await apiFetch("/api/admin/settings", { method: "GET" });
     if (response.status === 200) {
       setInfo(await response.json());
-
-      alert("Sparat");
+    } else {
+      toast("Kunde inte ladda om inställningar");
     }
   };
 

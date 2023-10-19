@@ -9,6 +9,7 @@ import ToLate from "@/components/Profile/NotSignedUp/ToLate";
 import Top from "@/components/Top";
 import PostRenderer from "@/components/blogg/PostRenderer";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 import { GameStateContext } from "@/contexts/GameStateContext";
 import { useApi } from "@/hooks/useApi";
 import { Post } from "@/interfaces/Post";
@@ -24,12 +25,19 @@ function Page() {
   const gameState = useContext(GameStateContext);
 
   const apiFetch = useApi();
+  const { toast } = useToast();
 
   const fetchExists = async () => {
     const response = await apiFetch("/api/user/exists", { method: "GET" });
     if (response.status === 200) {
       setExists((await response.json()).exists);
       setLoading(false);
+    } else {
+      toast({
+        title: "Något gick fel",
+        description: "Kunde inte se om du finns eller inte :D, ladda om sidan",
+        variant: "destructive",
+      });
     }
   };
 
@@ -37,6 +45,11 @@ function Page() {
     const response = await apiFetch("/api/post", { method: "GET" });
     if (response.status === 200) {
       setLatestPost(await response.json());
+    } else {
+      toast({
+        title: "Något gick fel",
+        description: "Kunde inte ladda senaste inlägget",
+      });
     }
   };
 

@@ -5,16 +5,20 @@ import { Post } from "@/interfaces/Post";
 import React, { useEffect, useState } from "react";
 import EditPostRenderer from "./EditPostRenderer";
 import { Button } from "@/components/ui/button";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 function List() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const fetchPosts = async () => {
     const response = await apiFetch("/api/admin/posts", { method: "GET" });
     if (response.status === 200) {
       setPosts(await response.json());
+    } else {
+      toast("Kunde inte ladda in inläggen", true);
     }
   };
 
@@ -25,6 +29,9 @@ function List() {
     });
     if (response.status === 200) {
       await fetchPosts();
+      toastSave("Inlägget sparat");
+    } else {
+      toast("Kunde inte spara inlägget", true);
     }
   };
 
@@ -34,6 +41,9 @@ function List() {
     });
     if (response.status === 200) {
       await fetchPosts();
+      toastSave("Inlägget toggs bort");
+    } else {
+      toast("Kunde inte ta bort inlägget", true);
     }
   };
 
@@ -41,6 +51,9 @@ function List() {
     const response = await apiFetch("/api/admin/posts", { method: "POST" });
     if (response.status === 200) {
       await fetchPosts();
+      toastSave("Skapade ett inlägg");
+    } else {
+      toast("Kunde inte skapa ett nytt inlägg", true);
     }
   };
 

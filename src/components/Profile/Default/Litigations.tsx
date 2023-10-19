@@ -26,6 +26,7 @@ import { Litigation } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
 import LitigationRenderer from "./LitigationRenderer";
 import { Icons } from "@/components/Icons";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 function Litigations() {
   const [litigations, setLitigations] = useState<Litigation[] | null>(null);
@@ -38,11 +39,14 @@ function Litigations() {
   const [open, setOpen] = useState(false);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const fetchLitigations = async () => {
     const response = await apiFetch("/api/user/litigations", { method: "GET" });
     if (response.status === 200) {
       setLitigations(await response.json());
+    } else {
+      toast("Kunde inte hämta dina tvistemål");
     }
   };
 
@@ -52,6 +56,9 @@ function Litigations() {
     });
     if (response.status === 200) {
       setLitigations((old) => old?.filter((i) => i.id !== id) || []);
+      toastSave("Tog bort tvistemålet");
+    } else {
+      toast("Kunde inte ta bort tvistemålet");
     }
   };
 
@@ -63,6 +70,9 @@ function Litigations() {
     });
     if (response.status === 200) {
       await fetchLitigations();
+      toastSave("Skapade ett nytt tvistemål");
+    } else {
+      toast("Kunde inte skapa ett nytt tvistemål");
     }
 
     setLoading(false);

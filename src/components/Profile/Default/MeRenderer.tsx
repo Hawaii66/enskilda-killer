@@ -15,12 +15,14 @@ import { useMsal } from "@azure/msal-react";
 import { useRouter } from "next/navigation";
 import { Me } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 function MeRenderer() {
   const { instance } = useMsal();
   const router = useRouter();
 
   const apiFetch = useApi();
+  const { toast } = useBasicToast();
 
   const [me, setMe] = useState<Me | null>(null);
 
@@ -28,6 +30,8 @@ function MeRenderer() {
     const result = await apiFetch("/api/user/me", { method: "GET" });
     if (result.status === 200) {
       setMe(await result.json());
+    } else {
+      toast("Kunde inte hämta din information");
     }
   };
 

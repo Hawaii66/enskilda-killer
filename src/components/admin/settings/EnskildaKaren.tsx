@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import React, { useState } from "react";
 
 type Props = {
@@ -24,6 +25,7 @@ function EnskildaKaren({ elevkaren: defaultText, refresh }: Props) {
   const [text, setText] = useState(defaultText);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const save = async () => {
     const response = await apiFetch("/api/admin/save/elevkaren", {
@@ -32,6 +34,9 @@ function EnskildaKaren({ elevkaren: defaultText, refresh }: Props) {
     });
     if (response.status === 200) {
       refresh();
+      toastSave("Sparade elevkårens text");
+    } else {
+      toast("Kunde inte spara elevkårens text");
     }
   };
 

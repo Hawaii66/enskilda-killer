@@ -21,6 +21,7 @@ import { Circle } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
 import { Icons } from "@/components/Icons";
 import { GameStateContext } from "@/contexts/GameStateContext";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 function Circle() {
   const [showTarget, setShowTarget] = useState(false);
@@ -30,11 +31,14 @@ function Circle() {
   const gameState = useContext(GameStateContext);
 
   const apiFetch = useApi();
+  const { toast, toastTitle } = useBasicToast();
 
   const fetchCircle = async () => {
     const response = await apiFetch("/api/user/circle", { method: "GET" });
     if (response.status === 200) {
       setCircle(await response.json());
+    } else {
+      toast("Kunde inte hämta cirkeln");
     }
   };
 
@@ -42,6 +46,8 @@ function Circle() {
     const response = await apiFetch("/api/user/case", { method: "GET" });
     if (response.status === 200) {
       setHasActiveCase((await response.json()).hasCase);
+    } else {
+      toast("Kunde inte hämta om du har mördat eller har dött");
     }
   };
 
@@ -52,6 +58,8 @@ function Circle() {
     });
     if (response.status === 200) {
       await fetchCase();
+    } else {
+      toast("Kunde inte rapportera mordet");
     }
   };
 
@@ -59,6 +67,8 @@ function Circle() {
     const response = await apiFetch("/api/user/case", { method: "DELETE" });
     if (response.status === 200) {
       await fetchCase();
+    } else {
+      toast("Kunde inte rapportera att du dött");
     }
   };
 
@@ -66,7 +76,7 @@ function Circle() {
     await fetchCase();
     await fetchCircle();
 
-    //TODO SHOW TOAST
+    toastTitle("Uppdaterad", "Status är uppdaterad");
   };
 
   useEffect(() => {

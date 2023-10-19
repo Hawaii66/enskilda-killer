@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AllGroupsContext } from "@/contexts/AllGroupsContext";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import React, { useContext, useState } from "react";
 
 function Groups() {
@@ -23,6 +24,7 @@ function Groups() {
   const [groupName, setGroupName] = useState("");
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const save = async () => {
     const response = await apiFetch("/api/admin/save/groups", {
@@ -30,7 +32,9 @@ function Groups() {
       body: groups,
     });
     if (response.status === 200) {
-      alert("Ladda om sidan");
+      toastSave("Sparade klasserna, ladda om sidan för att se resultaten");
+    } else {
+      toast("Kunde inte spara klasserna");
     }
   };
 

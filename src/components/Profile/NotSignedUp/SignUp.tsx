@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import { useMsal } from "@azure/msal-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -45,12 +46,15 @@ function SignUp({ onJoin }: Props) {
   const [loading, setLoading] = useState(false);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
   const { instance } = useMsal();
 
   const fetchEmail = async () => {
     const response = await apiFetch("/api/user/email", { method: "GET" });
     if (response.status === 200) {
       setEmail((await response.json()).email);
+    } else {
+      toast("Kunde inte hitta din email");
     }
   };
 
@@ -61,13 +65,15 @@ function SignUp({ onJoin }: Props) {
   const join = async () => {
     setLoading(true);
 
-    console.log(info);
     const response = await apiFetch("/api/user/join", {
       method: "POST",
       body: info,
     });
     if (response.status === 200) {
       onJoin();
+      toastSave("Du är nu med i Killer");
+    } else {
+      toast("Du kunde inte gå med i spelet, testa igen D:");
     }
 
     setLoading(false);

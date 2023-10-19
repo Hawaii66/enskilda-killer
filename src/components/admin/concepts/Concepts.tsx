@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { GetConcepts } from "@/functions/admin/getConceptsx";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import { Concept, Rule } from "@/interfaces/Constants";
 import React, { useState } from "react";
 
@@ -29,6 +30,7 @@ function Concepts({ concepts: defaultConcepts }: Props) {
   );
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const updateRule = (rule: Concept, index: number) => {
     const old = [...concepts];
@@ -45,7 +47,14 @@ function Concepts({ concepts: defaultConcepts }: Props) {
       const updatedResponse = await apiFetch("/api/admin/concepts", {
         method: "GET",
       });
-      setConcepts(await updatedResponse.json());
+      if (updatedResponse.status === 200) {
+        setConcepts(await updatedResponse.json());
+        toastSave("Begreppen är sparade");
+      } else {
+        toast("Kunde inte ladda begreppen", true);
+      }
+    } else {
+      toast("Kunde inte spara begreppen", true);
     }
   };
 

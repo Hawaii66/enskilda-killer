@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 
 type Props = {
   litigations: FullLitigation[];
@@ -23,6 +24,7 @@ function List({ litigations: defaultLitigations }: Props) {
   const [litigations, setLitigations] = useState(defaultLitigations);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const deleteLitigation = async (id: number) => {
     const response = await apiFetch(`/api/admin/litigations?litigation=${id}`, {
@@ -30,6 +32,9 @@ function List({ litigations: defaultLitigations }: Props) {
     });
     if (response.status === 200) {
       setLitigations((t) => t.filter((i) => i.id !== id));
+      toastSave("Tvistemålet togs bort");
+    } else {
+      toast("Kunde inte ta bort tvistemålet");
     }
   };
 

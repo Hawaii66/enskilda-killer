@@ -20,6 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useApi } from "@/hooks/useApi";
+import { useBasicToast } from "@/hooks/useBasicToast";
 import { GameState } from "@/interfaces/Constants";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -36,6 +37,7 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
   const [showAlert, setShowAlert] = useState(!!defaultGameState.info);
 
   const apiFetch = useApi();
+  const { toast, toastSave } = useBasicToast();
 
   const save = async () => {
     const response = await apiFetch("/api/admin/save/state", {
@@ -44,6 +46,9 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
     });
     if (response.status === 200) {
       refresh();
+      toastSave("Sparade styrspakarna");
+    } else {
+      toast("Kunde inte spara styrspakarna");
     }
   };
 
