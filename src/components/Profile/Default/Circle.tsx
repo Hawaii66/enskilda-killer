@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -20,11 +20,14 @@ import AlertMurder from "./AlertMurder";
 import { Circle } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
 import { Icons } from "@/components/Icons";
+import { GameStateContext } from "@/contexts/GameStateContext";
 
 function Circle() {
   const [showTarget, setShowTarget] = useState(false);
   const [circle, setCircle] = useState<Circle | null>(null);
   const [hasActiveCase, setHasActiveCase] = useState(false);
+
+  const gameState = useContext(GameStateContext);
 
   const apiFetch = useApi();
 
@@ -146,44 +149,52 @@ function Circle() {
             </div>
           )}
         </CardContent>
-        {circle.status === "alive" && (
-          <CardFooter className="justify-evenly gap-4">
-            {hasActiveCase ? (
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className="text-red-500 w-1/2 border-red-500 border-2 hover:text-red-800 hover:border-red-800 hover:bg-white"
-                  >
-                    Rensa mord
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertMurder onClick={deleteDeath} />
-              </AlertDialog>
-            ) : (
-              <>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
-                    >
-                      Jag har blivit mördad
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertMurder onClick={() => reportDeath(false)} />
-                </AlertDialog>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button className="bg-green-500 text-black hover:bg-green-800">
-                      Jag har mördat någon
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertMurder onClick={() => reportDeath(true)} />
-                </AlertDialog>
-              </>
-            )}
+        {gameState?.isPaused ? (
+          <CardFooter>
+            <p className="text-lg font-bold text-gray-800">Spelet är pausat</p>
           </CardFooter>
+        ) : (
+          <>
+            {circle.status === "alive" && (
+              <CardFooter className="justify-evenly gap-4">
+                {hasActiveCase ? (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className="text-red-500 w-1/2 border-red-500 border-2 hover:text-red-800 hover:border-red-800 hover:bg-white"
+                      >
+                        Rensa mord
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertMurder onClick={deleteDeath} />
+                  </AlertDialog>
+                ) : (
+                  <>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className="text-red-500 border-red-500 hover:text-red-800 hover:border-red-800 hover:bg-white"
+                        >
+                          Jag har blivit mördad
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertMurder onClick={() => reportDeath(false)} />
+                    </AlertDialog>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button className="bg-green-500 text-black hover:bg-green-800">
+                          Jag har mördat någon
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertMurder onClick={() => reportDeath(true)} />
+                    </AlertDialog>
+                  </>
+                )}
+              </CardFooter>
+            )}
+          </>
         )}
       </CardHeader>
     </Card>
