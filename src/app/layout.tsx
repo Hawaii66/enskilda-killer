@@ -7,6 +7,7 @@ import GameStateWrapper from "@/components/Contexts/GameStateWrapper";
 import AllUsersWrapper from "@/components/Contexts/AllUsersWrapper";
 import AllGroupsWrapper from "@/components/Contexts/AllGroupsWrapper";
 import AllCirclesWrapper from "@/components/Contexts/AllCirclesWrapper";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -31,6 +32,7 @@ export default function RootLayout({
                   <main className="flex-grow w-full">{children}</main>
 
                   <Footer />
+                  <Toaster />
                 </body>
               </AllCirclesWrapper>
             </AllGroupsWrapper>
