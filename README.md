@@ -19,6 +19,7 @@ Jag använder dessa övergripande saker:
 - Shadcn UI https://ui.shadcn.com/
 - Supabase https://supabase.com/
 - Vercel https://vercel.com/
+- Microsoft Entra ID https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id
 
 ## Kod
 
