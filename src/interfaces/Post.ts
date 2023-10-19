@@ -3,4 +3,6 @@ export type Post = {
   header: string;
   image: string;
   miniheader: string;
+  createdAt: number;
+  id: number;
 };
