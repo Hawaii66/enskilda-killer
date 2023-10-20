@@ -122,7 +122,7 @@ function Circle() {
                     checked={showTarget}
                     onCheckedChange={setShowTarget}
                   />
-                  <Label>Visa offer</Label>
+                  <Label>Klicka till vänster för att visa ditt offer</Label>
                 </div>
                 <Button
                   onClick={update}

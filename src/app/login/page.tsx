@@ -32,7 +32,6 @@ function Page() {
 
   return (
     <div className="w-full">
-      <Top text="Logga in" />
       <div className="flex w-full flex-col gap-4 justify-center mt-12 items-center">
         <p className="text-lg">Logga in nedan för att se denna sida</p>
         <Button
