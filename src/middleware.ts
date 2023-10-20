@@ -8,6 +8,7 @@ export default authMiddleware({
     "/begrepp",
     "/enskildakaren",
     "/profil",
+    "/admin",
   ],
 });
 
