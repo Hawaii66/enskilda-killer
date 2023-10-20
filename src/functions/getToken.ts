@@ -38,9 +38,7 @@ export const getAccessToken = (
 
             console.log(error);
             //alert("Något gick fel med inloggninge, försök igen om en stund");
-            alert(
-              "Du är nu med i Killer2023, ladda om sidan för att se din profil"
-            );
+            alert("Du är nu inloggad, ladda om sidan för att registrera dig");
           });
       }
     });
