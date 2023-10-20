@@ -2,6 +2,8 @@ import {
   AccountInfo,
   IPublicClientApplication,
   InteractionRequiredAuthError,
+  RedirectRequest,
+  SilentRequest,
 } from "@azure/msal-browser";
 
 export const getAccessToken = (
@@ -15,7 +17,7 @@ export const getAccessToken = (
     onSuccess: (token: string) => void;
   }
 ) => {
-  const accessTokenRequest = {
+  const accessTokenRequest: SilentRequest = {
     scopes: ["user.read"],
     account: accounts[0],
   };
@@ -40,6 +42,8 @@ export const getAccessToken = (
             //alert("Något gick fel med inloggninge, försök igen om en stund");
             alert("Du är nu inloggad, ladda om sidan för att registrera dig");
           });
+      } else {
+        console.log("ERROR", error);
       }
     });
 };
