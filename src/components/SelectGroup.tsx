@@ -9,6 +9,7 @@ import {
   SelectGroup as SelectGroupInternal,
 } from "./ui/select";
 import { AllGroupsContext } from "@/contexts/AllGroupsContext";
+import { ScrollArea } from "./ui/scroll-area";
 
 type Props = {
   onChangeGroup?: (group: string) => void;
@@ -32,10 +33,12 @@ function SelectGroup({ defaultGroup, onChangeGroup, disabled }: Props) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroupInternal>
-          <SelectLabel>Välj klass</SelectLabel>
-          {groups.map((group) => (
-            <SelectItem value={group}>{group}</SelectItem>
-          ))}
+          <ScrollArea className="h-[300px]">
+            <SelectLabel>Välj klass</SelectLabel>
+            {groups.map((group) => (
+              <SelectItem value={group}>{group}</SelectItem>
+            ))}
+          </ScrollArea>
         </SelectGroupInternal>
       </SelectContent>
     </Select>
