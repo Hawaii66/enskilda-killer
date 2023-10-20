@@ -36,6 +36,7 @@ export const getAccessToken = (
           .catch(function (error: any) {
             // Acquire token interactive failure
 
+            console.log(error);
             alert("Något gick fel med inloggninge, försök igen om en stund");
           });
       }
