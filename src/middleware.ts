@@ -1,7 +1,16 @@
-import { NextRequest } from "next/server";
+import { authMiddleware } from "@clerk/nextjs";
 
-export function middleware(request: NextRequest) {}
+export default authMiddleware({
+  publicRoutes: [
+    "/",
+    "/statistik",
+    "/regler",
+    "/begrepp",
+    "/enskildakaren",
+    "/profil",
+  ],
+});
 
 export const config = {
-  matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

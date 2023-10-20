@@ -1,8 +1,8 @@
 import { getAccessToken } from "@/functions/getToken";
-import { useMsal } from "@azure/msal-react";
+import { auth, currentUser } from "@clerk/nextjs";
 
 export const useToken = () => {
-  const msal = useMsal();
+  /*const msal = useMsal();
 
   const getToken = async () => {
     const token = (await new Promise((res) => {
@@ -14,5 +14,11 @@ export const useToken = () => {
     return token;
   };
 
-  return getToken;
+  return getToken;*/
+
+  //const { user } = currentUser();
+
+  // console.log(user);
+
+  return () => "";
 };

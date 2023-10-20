@@ -1,11 +1,9 @@
 import Top from "@/components/Top";
 import { Button } from "@/components/ui/button";
-import { useMsal } from "@azure/msal-react";
+import { SignOutButton } from "@clerk/nextjs";
 import React from "react";
 
 function ToLate() {
-  const { instance } = useMsal();
-
   return (
     <div>
       <Top text="Profil" />
@@ -16,9 +14,9 @@ function ToLate() {
         <p className="text-md text-gray-500 font-semibold">
           Du är inte med i Killer
         </p>
-        <Button onClick={() => instance.logout()} variant={"outline"}>
-          Logga ut
-        </Button>
+        <SignOutButton>
+          <Button variant={"outline"}>Logga ut</Button>
+        </SignOutButton>
       </div>
     </div>
   );
