@@ -17,9 +17,8 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
-import { useMsal } from "@azure/msal-react";
+import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 type Info = {
@@ -47,7 +46,6 @@ function SignUp({ onJoin }: Props) {
 
   const apiFetch = useApi();
   const { toast, toastSave } = useBasicToast();
-  const { instance } = useMsal();
 
   const fetchEmail = async () => {
     const response = await apiFetch("/api/user/email", { method: "GET" });
@@ -94,86 +92,112 @@ function SignUp({ onJoin }: Props) {
     <div className="w-full">
       <Top text="Profil" />
       <div className="w-full flex flex-col justify-center items-center mt-12 gap-4">
-        <p className="text-lg font-bold text-black">
-          Vill du vara med i årets killer?
-        </p>
-        <p>Du är inte anmälen ännu</p>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-green-800 text-white px-12 py-8 text-2xl tracking-wide font-bold">
-              Gå med
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Information</DialogTitle>
-              <DialogDescription>
-                Vi behöver veta lite mer om dig
-              </DialogDescription>
-            </DialogHeader>
-            <div
-              className="grid gap-4"
-              style={{ gridTemplateColumns: "1fr 2fr" }}
-            >
-              <Label className="flex justify-start items-center">Förnamn</Label>
-              <Input
-                value={info.firstname}
-                onChange={(e) =>
-                  setInfo({ ...info, firstname: e.target.value })
-                }
-              />
-              <Label className="flex justify-start items-center">
-                Efternamn
-              </Label>
-              <Input
-                value={info.lastname}
-                onChange={(e) => setInfo({ ...info, lastname: e.target.value })}
-              />
-              <Separator />
-              <Separator />
-              <Label className="flex justify-start items-center">Klass</Label>
-              <SelectGroup
-                defaultGroup={info.group}
-                onChangeGroup={(e) => setInfo({ ...info, group: e })}
-              />
-              <Label className="flex justify-start items-center">Telefon</Label>
-              <Input
-                type="tel"
-                value={info.phone}
-                onChange={(e) => setInfo({ ...info, phone: e.target.value })}
-              />
-              <Separator />
-              <Separator />
-              <Label className="flex justify-start items-center">
-                Medlem i kåren
-              </Label>
-              <Switch
-                onCheckedChange={(e) => setInfo({ ...info, isMember: e })}
-                checked={info.isMember}
-              />
-              <Link
-                className="text-blue-300 underline underline-offset-4"
-                href={"https://google.com"}
-                target="_blank"
-              >
-                Bli medlem här
-              </Link>
-              <p className="col-span-2">
-                Kom tillbaka sen och slutför registreringen
-              </p>
-              <Separator />
-              <Separator />
-              <Label className="flex justify-start items-center">Email</Label>
-              <Input value={email} disabled />
-            </div>
-            <DialogFooter className="w-full justify-center items-center">
-              <Button onClick={join}>Gå med</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-        <Button onClick={() => instance.logout()} variant={"outline"}>
-          Logga ut
-        </Button>
+        <div className="text-center text-xl font-bold text-black mb-8">
+          <h1>
+            Hej <span className="text-green-800 underline">{email}</span>!
+          </h1>
+          {email.includes("@nykopingsenskilda.se") ? (
+            <p>Vi hittade inte din email bland de anmälda personerna</p>
+          ) : (
+            <p>Du måste använda din skol mail @nykopingsenskilda.se</p>
+          )}
+        </div>
+
+        {email.includes("@nykopingsenskilda.se") && (
+          <>
+            <p className="text-lg font-bold text-black">
+              Vill du vara med i årets killer?
+            </p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-green-800 hover:bg-green-700 hover:text-black text-white px-12 py-8 text-2xl tracking-wide font-bold">
+                  Gå med i Killer
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Information</DialogTitle>
+                  <DialogDescription>
+                    Vi behöver veta lite mer om dig
+                  </DialogDescription>
+                </DialogHeader>
+                <div
+                  className="grid gap-4"
+                  style={{ gridTemplateColumns: "1fr 2fr" }}
+                >
+                  <Label className="flex justify-start items-center">
+                    Förnamn
+                  </Label>
+                  <Input
+                    value={info.firstname}
+                    onChange={(e) =>
+                      setInfo({ ...info, firstname: e.target.value })
+                    }
+                  />
+                  <Label className="flex justify-start items-center">
+                    Efternamn
+                  </Label>
+                  <Input
+                    value={info.lastname}
+                    onChange={(e) =>
+                      setInfo({ ...info, lastname: e.target.value })
+                    }
+                  />
+                  <Separator />
+                  <Separator />
+                  <Label className="flex justify-start items-center">
+                    Klass
+                  </Label>
+                  <SelectGroup
+                    defaultGroup={info.group}
+                    onChangeGroup={(e) => setInfo({ ...info, group: e })}
+                  />
+                  <Label className="flex justify-start items-center">
+                    Telefon
+                  </Label>
+                  <Input
+                    type="tel"
+                    value={info.phone}
+                    onChange={(e) =>
+                      setInfo({ ...info, phone: e.target.value })
+                    }
+                  />
+                  <Separator />
+                  <Separator />
+                  <Label className="flex justify-start items-center">
+                    Medlem i kåren
+                  </Label>
+                  <Switch
+                    onCheckedChange={(e) => setInfo({ ...info, isMember: e })}
+                    checked={info.isMember}
+                  />
+                  <Link
+                    className="text-blue-300 underline underline-offset-4"
+                    href={"https://google.com"}
+                    target="_blank"
+                  >
+                    Bli medlem här
+                  </Link>
+                  <p className="col-span-2">
+                    Kom tillbaka sen och slutför registreringen
+                  </p>
+                  <Separator />
+                  <Separator />
+                  <Label className="flex justify-start items-center">
+                    Email
+                  </Label>
+                  <Input value={email} disabled />
+                </div>
+                <DialogFooter className="w-full justify-center items-center">
+                  <Button onClick={join}>Gå med</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </>
+        )}
+        <SignOutButton>
+          <Button variant={"outline"}>Logga ut</Button>
+        </SignOutButton>
       </div>
     </div>
   );

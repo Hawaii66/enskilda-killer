@@ -11,14 +11,13 @@ import {
   CardTitle,
 } from "../../ui/card";
 import { Avatar, AvatarFallback } from "../../ui/avatar";
-import { useMsal } from "@azure/msal-react";
 import { useRouter } from "next/navigation";
 import { Me } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
+import { SignOutButton } from "@clerk/nextjs";
 
 function MeRenderer() {
-  const { instance } = useMsal();
   const router = useRouter();
 
   const apiFetch = useApi();
@@ -40,7 +39,6 @@ function MeRenderer() {
   }, []);
 
   const logout = () => {
-    instance.logout();
     router.push("/");
   };
 
@@ -80,7 +78,9 @@ function MeRenderer() {
             <p>Du måste gå med i elevkåren: LÄNK TILL ELEVKÅREN</p>
           )}
         </div>
-        <Button onClick={logout}>Logga ut</Button>
+        <SignOutButton>
+          <Button>Logga ut</Button>
+        </SignOutButton>
       </CardFooter>
     </Card>
   );

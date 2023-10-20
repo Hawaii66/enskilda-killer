@@ -1,3 +1,4 @@
+import { auth, clerkClient } from "@clerk/nextjs";
 import jwt from "jsonwebtoken";
 import { NextRequest } from "next/server";
 
@@ -45,12 +46,18 @@ export const validateToken = async (token: string) => {
 };
 
 export const VerifyWithEmail = async (request: NextRequest) => {
-  const url = new URL(request.url);
+  /*const url = new URL(request.url);
   const token = url.searchParams.get("token");
   const result = await validateToken(token || "");
   if (!result) {
     return undefined;
   }
 
-  return result.email;
+  return result.email;*/
+
+  const { userId } = auth();
+  const t = await clerkClient.users.getUser(userId || "");
+  const email = t.emailAddresses[0].emailAddress;
+
+  return email;
 };

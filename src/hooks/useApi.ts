@@ -1,19 +1,9 @@
-import { useToken } from "./useToken";
-
 export const useApi = () => {
-  const getToken = useToken();
-
   const _fetch = async <T extends {}>(
     url: string,
     { method, body }: { method: "GET" | "POST" | "DELETE" | "PUT"; body?: T }
   ) => {
-    const token = await getToken();
-
-    const t = url.includes("?")
-      ? `${url}&token=${token}`
-      : `${url}?token=${token}`;
-
-    const response = await fetch(t, {
+    const response = await fetch(url, {
       method: method,
       body: body === undefined ? undefined : JSON.stringify(body),
     });
