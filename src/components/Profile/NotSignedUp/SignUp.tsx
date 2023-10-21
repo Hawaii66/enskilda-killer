@@ -63,9 +63,17 @@ function SignUp({ onJoin }: Props) {
   const join = async () => {
     setLoading(true);
 
+    const toSend: typeof info = {
+      firstname: info.firstname.trim(),
+      group: info.group,
+      isMember: info.isMember,
+      lastname: info.lastname.trim(),
+      phone: info.phone.trim(),
+    };
+
     const response = await apiFetch("/api/user/join", {
       method: "POST",
-      body: info,
+      body: toSend,
     });
     if (response.status === 200) {
       onJoin();
@@ -89,9 +97,9 @@ function SignUp({ onJoin }: Props) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center">
       <Top text="Profil" />
-      <div className="w-full flex flex-col justify-center items-center mt-12 gap-4">
+      <div className="md:w-2/3 lg:w-1/2 w-11/12 flex flex-col justify-center items-center mt-12 gap-4">
         <div className="text-center text-xl font-bold text-black mb-8">
           <h1>
             Hej <span className="text-green-800 underline">{email}</span>!
@@ -164,6 +172,9 @@ function SignUp({ onJoin }: Props) {
                   />
                   <Separator />
                   <Separator />
+                  <p className="col-span-2 text-sm text-gray-400">
+                    Du kan göra detta senare
+                  </p>
                   <Label className="flex justify-start items-center">
                     Medlem i kåren
                   </Label>
@@ -173,13 +184,14 @@ function SignUp({ onJoin }: Props) {
                   />
                   <Link
                     className="text-blue-300 underline underline-offset-4"
-                    href={"https://google.com"}
+                    href={"https://www.instagram.com/enskildakaren/"}
                     target="_blank"
                   >
                     Bli medlem här
                   </Link>
                   <p className="col-span-2">
-                    Kom tillbaka sen och slutför registreringen
+                    Följ länken i bion på instagram och kom tillbaka hit sen för
+                    att slutföra din anmälan
                   </p>
                   <Separator />
                   <Separator />
