@@ -16,6 +16,8 @@ import { Me } from "@/interfaces/Profile";
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
 import { SignOutButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
 function MeRenderer() {
   const router = useRouter();
@@ -70,12 +72,27 @@ function MeRenderer() {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="justify-between">
+      <CardFooter className="justify-start flex-col items-start gap-4 md:flex-row md:justify-between">
         <div className="flex flex-col gap-2">
           <p>Telefon: {me.phone}</p>
           <p>Klass: {me.group}</p>
           {!me.isMember && (
-            <p>Du måste gå med i elevkåren: LÄNK TILL ELEVKÅREN</p>
+            <>
+              <Separator />
+              <span className="flex flex-row gap-4">
+                <p>Du måste gå med i elevkåren: </p>
+                <Link
+                  className="text-blue-300 underline underline-offset-4"
+                  href="https://www.instagram.com/enskildakaren/"
+                >
+                  Instagram
+                </Link>
+              </span>
+              <p>
+                När du har gått med i Elevkåren måste du prata med Killer
+                utskottet
+              </p>
+            </>
           )}
         </div>
         <SignOutButton>

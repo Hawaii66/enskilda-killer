@@ -10,7 +10,7 @@ function AlertHeader() {
   return (
     <>
       {state?.info.header && (
-        <div className="w-1/2 py-4">
+        <div className="md:w-2/3 lg:w-1/2 w-11/12 py-4">
           <Alert>
             <AlertTitle>{state.info.header}</AlertTitle>
             <AlertDescription>{state.info.text}</AlertDescription>

@@ -60,7 +60,7 @@ function SelectUser({ onChangeUser, defaultUser }: Props) {
       <PopoverContent>
         <ScrollArea className="h-[300px]">
           <Command>
-            <CommandInput placeholder="Välj person" />
+            <CommandInput className="text-[16px]" placeholder="Välj person" />
             <CommandEmpty>Ingen person vald</CommandEmpty>
             <CommandGroup>
               <CommandItem onSelect={() => setValue("")}>
@@ -81,16 +81,17 @@ function SelectUser({ onChangeUser, defaultUser }: Props) {
                     <CommandItem
                       value={`${user.firstname} ${user.lastname}`}
                       onSelect={(c) => {
-                        setValue(
+                        const user =
                           users
                             .find(
                               (i) =>
                                 i.group === group &&
-                                `${i.firstname} ${i.lastname}`.toLowerCase() ==
-                                  c
+                                `${i.firstname} ${i.lastname}`
+                                  .trim()
+                                  .toLowerCase() == c
                             )
-                            ?.id.toString() || ""
-                        );
+                            ?.id.toString() || "";
+                        setValue(user);
                       }}
                       key={user.id.toString()}
                     >

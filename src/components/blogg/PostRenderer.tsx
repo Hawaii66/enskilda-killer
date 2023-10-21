@@ -22,7 +22,7 @@ function PostRenderer({ post }: Props) {
       <CardContent className="flex flex-col justify-center items-center">
         {post.image && (
           <img
-            className="w-2/3 rounded-lg"
+            className="w-11/12 lg:w-2/3 rounded-lg"
             src={post.image}
             alt="Image for this day"
           />

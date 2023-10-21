@@ -30,9 +30,9 @@ function Layout({ children }: Props) {
       <SignedIn>{children}</SignedIn>
       <SignedOut>
         <div className="w-full flex justify-center ">
-          <Card>
+          <Card className="md:w-2/3 lg:w-1/2 w-11/12">
             <CardHeader>
-              <CardTitle>Logga in</CardTitle>
+              <CardTitle>Logga in på din profil</CardTitle>
               <CardDescription>
                 För att kunna se din profil måste du logga in
               </CardDescription>
@@ -43,13 +43,13 @@ function Layout({ children }: Props) {
                 med din skol mail.
               </p>
               <p>
-                Om du inte är med i killer men vill vara kan du klicka på "Gå
+                Om du inte är med i killer men vill vara måste du klicka på "Gå
                 med" efteråt för att anmäla dig
               </p>
             </CardContent>
             <CardFooter>
               <SignInButton>
-                <Button>Logga in</Button>
+                <Button className="bg-green-800 text-white">Logga in</Button>
               </SignInButton>
             </CardFooter>
           </Card>

@@ -5,10 +5,6 @@ import { Post } from "@/interfaces/Post";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
-  if (!email || !id) return NextResponse.json({}, { status: 400 });
-
   const { data } = await supabase()
     .from("posts")
     .select("*")

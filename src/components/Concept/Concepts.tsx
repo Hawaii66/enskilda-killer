@@ -19,11 +19,11 @@ async function Concepts() {
   const data = await GetData();
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <Top text="Begrepp" />
-      <div className="flex justify-center items-center">
-        <div className="w-1/2 pt-8">
-          <p className="font-serif text-black font-medium text-lg">
+      <div className="md:w-2/3 lg:w-1/2 w-11/12 flex justify-center items-center">
+        <div className="pt-8">
+          <p className="font-serif text-center text-black font-medium text-lg">
             Spelet går ut på att döda ditt specifika offer och ej bli dödad av
             den som ska döda dig. När du dödat ditt offer får du offrets offer
             och kan fortsätta din räd mot finalen.

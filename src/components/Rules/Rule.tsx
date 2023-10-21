@@ -12,21 +12,19 @@ function RenderRule({ rule, isEven, index }: Props) {
     <div
       className={`${
         isEven ? "bg-white" : "bg-green-900"
-      } w-full flex justify-center items-center py-8`}
+      } md:w-2/3 lg:w-1/2 w-11/12 flex justify-center items-start py-8 flex-col`}
     >
-      <div className="w-1/2">
-        <h3
-          className={`font-bold text-2xl font-serif ${
-            isEven ? "text-black" : "text-white"
-          }`}
-        >
-          {index}. {rule.header}
-        </h3>
-        <div
-          className={`font-serif ${isEven ? "text-black" : "text-white"} pt-2`}
-          dangerouslySetInnerHTML={{ __html: rule.rule }}
-        />
-      </div>
+      <h3
+        className={`font-bold text-2xl font-serif ${
+          isEven ? "text-black" : "text-white"
+        }`}
+      >
+        {index}. {rule.header}
+      </h3>
+      <div
+        className={`font-serif ${isEven ? "text-black" : "text-white"} pt-2`}
+        dangerouslySetInnerHTML={{ __html: rule.rule }}
+      />
     </div>
   );
 }
