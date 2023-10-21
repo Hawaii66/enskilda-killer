@@ -4,7 +4,7 @@ import { VerifyWithEmail } from "@/functions/verifyToken";
 import { Post } from "@/interfaces/Post";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (request: NextRequest) => {
+export const POST = async (request: NextRequest) => {
   const { data } = await supabase()
     .from("posts")
     .select("*")

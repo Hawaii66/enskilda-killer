@@ -20,6 +20,7 @@ import {
 
 import React from "react";
 
+export const revalidate = 0;
 type Props = {
   children: React.ReactNode;
 };

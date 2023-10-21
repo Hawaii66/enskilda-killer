@@ -42,7 +42,7 @@ function Page() {
   };
 
   const fetchLatestPost = async () => {
-    const response = await apiFetch("/api/post", { method: "GET" });
+    const response = await apiFetch("/api/post", { method: "POST" });
     if (response.status === 200) {
       setLatestPost(await response.json());
     } else {
