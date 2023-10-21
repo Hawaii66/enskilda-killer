@@ -31,6 +31,7 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.285.0",
     "next": "13.5.4",
+    "next-axiom": "^1.0.0",
     "react": "^18",
     "react-day-picker": "^8.8.2",
     "react-dom": "^18",
