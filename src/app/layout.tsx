@@ -27,11 +27,13 @@ export default function RootLayout({
           <AllUsersWrapper>
             <AllGroupsWrapper>
               <AllCirclesWrapper>
-                <body className="min-h-screen flex flex-col items-center justify-center">
-                  <Header />
-                  <main className="flex-grow w-full">{children}</main>
+                <body>
+                  <div className="min-h-screen flex flex-col items-center justify-center">
+                    <Header />
+                    <main className="flex-grow w-full">{children}</main>
 
-                  <Footer />
+                    <Footer />
+                  </div>
                   <Toaster />
                 </body>
               </AllCirclesWrapper>
