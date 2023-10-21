@@ -20,6 +20,7 @@ Jag använder dessa övergripande saker:
 - Supabase https://supabase.com/
 - Vercel https://vercel.com/
 - Clerk with Microsoft Integration https://clerk.com/
+- Axiom https://app.axiom.co/bene-it-ab-nbxx/dashboards/vercel
 
 ## Kod
 
