@@ -8,6 +8,7 @@ import AllGroupsWrapper from "@/components/Contexts/AllGroupsWrapper";
 import AllCirclesWrapper from "@/components/Contexts/AllCirclesWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
+import { AxiomWebVitals } from "next-axiom";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -22,6 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <AxiomWebVitals />
       <ClerkProvider>
         <GameStateWrapper>
           <AllUsersWrapper>
