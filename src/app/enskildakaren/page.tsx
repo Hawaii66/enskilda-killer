@@ -26,7 +26,7 @@ async function Page() {
       <Top text="Enskilda Kåren" />
       <div className="flex justify-center items-center">
         <div
-          className="w-1/2 text-center pt-4 font-serif text-lg font-medium text-black"
+          className="md:w-2/3 lg:w-1/2 w-11/12 text-center pt-4 font-serif text-lg font-medium text-black"
           dangerouslySetInnerHTML={{ __html: data }}
         ></div>
       </div>

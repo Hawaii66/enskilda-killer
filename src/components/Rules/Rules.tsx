@@ -23,7 +23,7 @@ async function Rules() {
   return (
     <div>
       <Top text="Regler" />
-      <div>
+      <div className="w-full flex flex-col items-center">
         {data
           .sort((a, b) => b.index - a.index)
           .map((rule, idx) => (

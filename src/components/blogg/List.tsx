@@ -11,7 +11,7 @@ async function List() {
   const posts = await GetPosts();
 
   return (
-    <div className="w-1/3">
+    <div className="md:w-2/3 blog:w-1/3 lg:w-1/2 w-11/12">
       <div className="text-center">
         <h1 className="font-semibold text-lg text-gray-800">
           Ett flöde av alla de blogg inlägg vi gör

@@ -4,7 +4,7 @@ import { Separator } from "./ui/separator";
 
 function Footer() {
   return (
-    <footer className="mb-16 mt-12">
+    <footer className="mb-16 mt-12 px-4">
       <Separator className="mb-4" />
       <p>
         Kontakt killer:{" "}
