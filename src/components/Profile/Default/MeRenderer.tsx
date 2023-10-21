@@ -65,9 +65,15 @@ function MeRenderer() {
             </AvatarFallback>
           </Avatar>
           <div>
-            <h3>
-              {me.firstname} {me.lastname}
-            </h3>
+            <Link
+              className="text-blue-800 underline underline-offset-4"
+              href="https://accounts.enskildakiller.se/user"
+              target="_blank"
+            >
+              <h3>
+                {me.firstname} {me.lastname}
+              </h3>
+            </Link>
             <p>{me.email}</p>
           </div>
         </div>
