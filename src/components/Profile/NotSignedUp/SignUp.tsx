@@ -98,7 +98,6 @@ function SignUp({ onJoin }: Props) {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <Top text="Profil" />
       <div className="md:w-2/3 lg:w-1/2 w-11/12 flex flex-col justify-center items-center mt-12 gap-4">
         <div className="text-center text-xl font-bold text-black mb-8">
           <h1>
