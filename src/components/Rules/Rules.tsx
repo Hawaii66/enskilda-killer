@@ -24,6 +24,10 @@ async function Rules() {
     <div>
       <Top text="Regler" />
       <div className="w-full flex flex-col items-center">
+        <p className="text-md font-semibold text-black">
+          Brott mot vilken som helst av dessa regler innebär att man riskerar
+          diskning.
+        </p>
         {data
           .sort((a, b) => b.index - a.index)
           .map((rule, idx) => (
