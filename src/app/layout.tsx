@@ -23,6 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1555847445754750"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <AxiomWebVitals />
       <ClerkProvider>
         <GameStateWrapper>
