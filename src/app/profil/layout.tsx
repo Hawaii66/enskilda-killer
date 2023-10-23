@@ -47,7 +47,7 @@ function Layout({ children }: Props) {
             <CardFooter>
               <SignInButton>
                 <Button className="bg-green-800 text-white">
-                  Logga in (Klicka på Gå Med efteråt du loggat in)
+                  Logga in (Klicka på Gå Med efter du loggat in)
                 </Button>
               </SignInButton>
             </CardFooter>
