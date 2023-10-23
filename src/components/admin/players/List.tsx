@@ -41,7 +41,13 @@ type Props = {
 
 type Filters = {
   orderBy: "id" | "forename" | "lastname" | "kills" | "group";
-  onlyShow: { circle: string } | "alive" | "dead" | "all" | { group: string };
+  onlyShow:
+    | { circle: string }
+    | "alive"
+    | "dead"
+    | "all"
+    | "notMember"
+    | { group: string };
 };
 
 function List({ users: defaultUsers }: Props) {
@@ -52,6 +58,7 @@ function List({ users: defaultUsers }: Props) {
   const [murderer, setMurderer] = useState<TargetUser>();
   const [target, setTarget] = useState<TargetUser>();
   const [circle, setCircle] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState<Filters>({
     orderBy: "id",
@@ -177,6 +184,9 @@ function List({ users: defaultUsers }: Props) {
                       <SelectItem value="main-all">Alla</SelectItem>
                       <SelectItem value="main-alive">Levande</SelectItem>
                       <SelectItem value="main-dead">Döda</SelectItem>
+                      <SelectItem value="main-notMember">
+                        Inte medlem i kåren
+                      </SelectItem>
                     </SelectGroup>
                     <SelectGroup>
                       <SelectLabel>- Cirkel - </SelectLabel>
@@ -198,6 +208,13 @@ function List({ users: defaultUsers }: Props) {
                 </SelectContent>
               </Select>
             </div>
+            <div className="w-1/4 flex flex-row gap-4 mb-4">
+              <Label className="w-1/2 grid place-items-center">Sök</Label>
+              <Input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <div
               className={`flex flex-row gap-4 py-2 px-2 bg-slate-100 underline`}
             >
@@ -211,14 +228,16 @@ function List({ users: defaultUsers }: Props) {
                 Ändra
               </div>
             </div>
-            {filterUsers(users, filters).map((user, idx) => (
-              <UserRenderer
-                refresh={() => updateUsers()}
-                key={user.user.id}
-                index={idx}
-                user={user}
-              />
-            ))}
+            {filterUsers(users, filters)
+              .filter((s) => filterOnSearchQuery(searchQuery, s))
+              .map((user, idx) => (
+                <UserRenderer
+                  refresh={() => updateUsers()}
+                  key={user.user.id}
+                  index={idx}
+                  user={user}
+                />
+              ))}
           </div>
         </CardContent>
       </Card>
@@ -288,6 +307,8 @@ const filterUser = (user: PlayerInfo, filters: Filters) => {
       return user.user.circle !== undefined;
     case "dead":
       return user.user.circle === undefined;
+    case "notMember":
+      return !user.user.isMember;
     default:
       if ("circle" in filters.onlyShow) {
         return (
@@ -348,10 +369,27 @@ const showOnlyKeyToString = (key: Filters["onlyShow"], circles: Circle[]) => {
       return "Döda";
     case "all":
       return "Alla";
+    case "notMember":
+      return "Inte medlem i kåren";
     default:
       if ("circle" in key) {
         return circles.find((i) => i.id.toString() === key.circle)?.name || "";
       }
       return key.group;
   }
+};
+
+const filterOnSearchQuery = (query: string, player: PlayerInfo) => {
+  const {
+    user: { email, firstname, group, id, lastname, phone },
+  } = player;
+
+  return (
+    email.toLowerCase().includes(query.toLowerCase()) ||
+    firstname.toLowerCase().includes(query.toLowerCase()) ||
+    group.toLowerCase().includes(query.toLowerCase()) ||
+    id.toString().includes(query.toLowerCase()) ||
+    lastname.toLowerCase().includes(query.toLowerCase()) ||
+    phone.toLowerCase().includes(query.toLowerCase())
+  );
 };
