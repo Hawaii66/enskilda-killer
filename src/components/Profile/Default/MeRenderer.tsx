@@ -86,7 +86,7 @@ function MeRenderer() {
             <>
               <Separator />
               <span className="flex flex-row gap-4">
-                <p>Du måste gå med i elevkåren: </p>
+                <p>Har du glömt att bli medlem i kåren?: </p>
                 <Link
                   className="text-blue-300 underline underline-offset-4"
                   href="https://www.instagram.com/enskildakaren/"
@@ -95,8 +95,8 @@ function MeRenderer() {
                 </Link>
               </span>
               <p>
-                När du har gått med i Elevkåren måste du prata med Killer
-                utskottet
+                Om du redan är medlem kan du ta kontakt med Killer utskottet för
+                att inte se detta meddelande.
               </p>
             </>
           )}
