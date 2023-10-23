@@ -39,18 +39,16 @@ function Layout({ children }: Props) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p>
-                Klicka på knappen "Logga in", följ instruktionerna och logga in
-                med din skol mail.
-              </p>
-              <p>
+              <p className="">
                 Om du inte är med i killer men vill vara måste du klicka på "Gå
                 med" efteråt för att anmäla dig
               </p>
             </CardContent>
             <CardFooter>
               <SignInButton>
-                <Button className="bg-green-800 text-white">Logga in</Button>
+                <Button className="bg-green-800 text-white">
+                  Logga in (Klicka på Gå Med efteråt du loggat in)
+                </Button>
               </SignInButton>
             </CardFooter>
           </Card>
