@@ -34,9 +34,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Circle } from "@/interfaces/Circle";
 import MovePlayers from "./MovePlayers";
 import { useBasicToast } from "@/hooks/useBasicToast";
+import { User } from "@clerk/nextjs/server";
 
 type Props = {
   users: PlayerInfo[];
+  clerks: User[];
 };
 
 type Filters = {
@@ -44,7 +46,7 @@ type Filters = {
   onlyShow: { circle: string } | "alive" | "dead" | "all" | { group: string };
 };
 
-function List({ users: defaultUsers }: Props) {
+function List({ users: defaultUsers, clerks }: Props) {
   const [users, setUsers] = useState(defaultUsers);
   const [murderMode, setMurderMode] = useState<"ghost" | "murderer">(
     "murderer"
@@ -220,6 +222,26 @@ function List({ users: defaultUsers }: Props) {
               />
             ))}
           </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Har bara loggat in</CardTitle>
+          <CardDescription>
+            De som bara har loggat in, inte anmält sig
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="rounded-lg overflow-hidden">
+          {clerks
+            .filter(
+              (i) =>
+                !users
+                  .map((j) => j.user.email)
+                  .includes(i.emailAddresses[0].emailAddress)
+            )
+            .map((user) => (
+              <p>{user.emailAddresses[0].emailAddress}</p>
+            ))}
         </CardContent>
       </Card>
       <Card>
