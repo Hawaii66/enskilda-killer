@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { isSchoolEmail } from "@/functions/isSchoolEmail";
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
 import { SignOutButton } from "@clerk/nextjs";
@@ -103,14 +104,14 @@ function SignUp({ onJoin }: Props) {
           <h1>
             Hej <span className="text-green-800 underline">{email}</span>!
           </h1>
-          {email.includes("@nykopingsenskilda.se") ? (
+          {isSchoolEmail(email) ? (
             <p>Vi hittade inte din email bland de anmälda personerna</p>
           ) : (
             <p>Du måste använda din skol mail @nykopingsenskilda.se</p>
           )}
         </div>
 
-        {email.includes("@nykopingsenskilda.se") && (
+        {isSchoolEmail(email) && (
           <>
             <p className="text-lg font-bold text-black">
               Vill du vara med i årets killer?
