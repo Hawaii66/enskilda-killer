@@ -53,8 +53,6 @@ type Filters = {
 };
 
 function List({ users: defaultUsers, clerks }: Props) {
-  console.log(clerks, defaultUsers);
-
   const [users, setUsers] = useState(defaultUsers);
   const [murderMode, setMurderMode] = useState<"ghost" | "murderer">(
     "murderer"
