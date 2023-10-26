@@ -1,6 +1,7 @@
 import { emailToId } from "@/functions/emailToId";
 import { supabase } from "@/functions/supabase";
 import { VerifyWithEmail, validateToken } from "@/functions/verifyToken";
+import { PlayerContactInfo } from "@/interfaces/Admin";
 import { Me } from "@/interfaces/Profile";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -30,4 +31,27 @@ export const GET = async (request: NextRequest) => {
   };
 
   return NextResponse.json(me);
+};
+
+export const POST = async (request: NextRequest) => {
+  const email = await VerifyWithEmail(request);
+  const id = await emailToId(email);
+  if (!email || !id) return NextResponse.json({}, { status: 400 });
+
+  const info: PlayerContactInfo & { isMember: boolean } = await request.json();
+
+  const result = await supabase()
+    .from("users")
+    .update({
+      firstname: info.firstname,
+      lastname: info.lastname,
+      group: info.group,
+      isMember: info.isMember,
+      phone: info.phone,
+    })
+    .eq("id", id);
+
+  console.log(result);
+
+  return NextResponse.json(info);
 };
