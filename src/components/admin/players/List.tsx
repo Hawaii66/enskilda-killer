@@ -38,7 +38,7 @@ import { User } from "@clerk/nextjs/server";
 
 type Props = {
   users: PlayerInfo[];
-  clerks: User[];
+  clerks: string[];
 };
 
 type Filters = {
@@ -53,6 +53,8 @@ type Filters = {
 };
 
 function List({ users: defaultUsers, clerks }: Props) {
+  console.log(clerks, defaultUsers);
+
   const [users, setUsers] = useState(defaultUsers);
   const [murderMode, setMurderMode] = useState<"ghost" | "murderer">(
     "murderer"
@@ -252,14 +254,9 @@ function List({ users: defaultUsers, clerks }: Props) {
         </CardHeader>
         <CardContent className="rounded-lg overflow-hidden">
           {clerks
-            .filter(
-              (i) =>
-                !users
-                  .map((j) => j.user.email)
-                  .includes(i.emailAddresses[0].emailAddress)
-            )
+            .filter((i) => !users.map((j) => j.user.email).includes(i))
             .map((user) => (
-              <p>{user.emailAddresses[0].emailAddress}</p>
+              <p>{user}</p>
             ))}
         </CardContent>
       </Card>

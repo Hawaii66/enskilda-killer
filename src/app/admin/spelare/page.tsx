@@ -9,7 +9,14 @@ async function Page() {
   const users = await GetUsers();
   const clerkUsers = await clerkClient.users.getUserList();
 
-  return <List clerks={clerkUsers} users={users} />;
+  console.log(clerkUsers);
+
+  return (
+    <List
+      clerks={clerkUsers.map((i) => i.emailAddresses[0].emailAddress)}
+      users={users}
+    />
+  );
 }
 
 export default Page;
