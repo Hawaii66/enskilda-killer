@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 async function Page() {
   const users = await GetUsers();
-  const clerkUsers = await clerkClient.users.getUserList({ limit: 999 });
+  const clerkUsers = await clerkClient.users.getUserList({ limit: 500 });
 
   return (
     <List
