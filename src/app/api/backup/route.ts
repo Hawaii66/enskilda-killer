@@ -7,5 +7,5 @@ export const POST = async (request: NextRequest) => {
 
   await BackupTables(manual === "true" ? true : false);
 
-  return NextResponse.json({}, {});
+  return NextResponse.json({ success: true }, {});
 };
