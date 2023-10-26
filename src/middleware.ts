@@ -9,6 +9,7 @@ export default authMiddleware({
     "/enskildakaren",
     "/profil",
     "/admin",
+    "/api/backup",
   ],
 });
 
