@@ -20,7 +20,6 @@ export const revalidate = 0;
 function Page() {
   const [exists, setExists] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [latestPost, setLatestPost] = useState<Post>();
 
   const gameState = useContext(GameStateContext);
 
@@ -41,21 +40,8 @@ function Page() {
     }
   };
 
-  const fetchLatestPost = async () => {
-    const response = await apiFetch("/api/post", { method: "POST" });
-    if (response.status === 200) {
-      setLatestPost(await response.json());
-    } else {
-      toast({
-        title: "Något gick fel",
-        description: "Kunde inte ladda senaste inlägget",
-      });
-    }
-  };
-
   useEffect(() => {
     fetchExists();
-    fetchLatestPost();
   }, []);
 
   if (loading)
@@ -80,13 +66,6 @@ function Page() {
       <div className="w-full flex justify-center items-center">
         <div className="2xl:w-1/3 lg:w-2/3 w-11/12 flex justify-center items-center gap-8 pt-8 flex-col">
           <MeRenderer />
-          {latestPost && (
-            <div className="w-full">
-              <Separator className="my-4" />
-              <PostRenderer post={latestPost} />
-              <Separator className="my-4" />
-            </div>
-          )}
 
           <Circle />
           <Kills />
