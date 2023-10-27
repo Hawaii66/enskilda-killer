@@ -17,6 +17,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useApi } from "@/hooks/useApi";
@@ -109,7 +117,10 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
             checked={showAlert}
             onCheckedChange={(s) => {
               if (!s) {
-                setState({ ...state, info: { header: "", text: "" } });
+                setState({
+                  ...state,
+                  info: { header: "", text: "", type: "info" },
+                });
               }
               setShowAlert(s);
             }}
@@ -139,6 +150,27 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
                 }
               />
               <Label>Text på alerten</Label>
+              <Label className="pl-4">Typ</Label>
+              <Select
+                value={state.info.type}
+                onValueChange={(e) =>
+                  setState({
+                    ...state,
+                    info: { ...state.info, type: e as any },
+                  })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue defaultValue={state.info.type} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="info">Info</SelectItem>
+                    <SelectItem value="warning">Varning</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Label>Vilken typ av alert är det</Label>
             </>
           )}
         </div>

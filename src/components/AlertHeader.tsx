@@ -11,8 +11,16 @@ function AlertHeader() {
     <>
       {state?.info.header && (
         <div className="md:w-2/3 lg:w-1/2 w-11/12 py-4">
-          <Alert>
-            <AlertTitle>{state.info.header}</AlertTitle>
+          <Alert
+            className={`${
+              state.info.type === "info"
+                ? "bg-green-800 text-black"
+                : "bg-yellow-300 text-black"
+            }`}
+          >
+            <AlertTitle className="text-lg font-bold">
+              {state.info.header}
+            </AlertTitle>
             <AlertDescription>{state.info.text}</AlertDescription>
           </Alert>
         </div>

@@ -5,6 +5,7 @@ export type GameState = {
   info: {
     header: string;
     text: string;
+    type: "info" | "warning";
   };
 };
 

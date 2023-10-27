@@ -26,6 +26,7 @@ async function GetState(): Promise<GameState> {
       info: {
         text: "Vi har problem med att hitta information från server, ladda om sidan",
         header: "Problem",
+        type: "info",
       },
     };
   }
