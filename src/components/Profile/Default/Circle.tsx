@@ -24,7 +24,6 @@ import { GameStateContext } from "@/contexts/GameStateContext";
 import { useBasicToast } from "@/hooks/useBasicToast";
 
 function Circle() {
-  const [showTarget, setShowTarget] = useState(false);
   const [circle, setCircle] = useState<Circle | null>(null);
   const [hasActiveCase, setHasActiveCase] = useState(false);
 
@@ -116,23 +115,7 @@ function Circle() {
           {circle.status === "alive" && <Separator />}
           {circle.status === "alive" && (
             <div className="flex gap-4 flex-col">
-              <div className="flex flex-row justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={showTarget}
-                    onCheckedChange={setShowTarget}
-                  />
-                  <Label>Klicka till vänster för att visa ditt offer</Label>
-                </div>
-                <Button
-                  onClick={update}
-                  variant={"ghost"}
-                  className="flex flex-row gap-2"
-                >
-                  <Icons.refresh className="w-4 h-4" /> Uppdatera
-                </Button>
-              </div>
-              {showTarget ? (
+              <div className="flex flex-row justify-between items-start">
                 <div className="flex flex-row gap-4">
                   <Avatar>
                     <AvatarFallback>
@@ -147,15 +130,14 @@ function Circle() {
                     <p>{circle.target.group}</p>
                   </div>
                 </div>
-              ) : (
-                <div className="flex flex-row gap-4">
-                  <Skeleton className="h-12 w-12 rounded-full" />
-                  <div>
-                    <Skeleton className="h-4 mb-2 w-36" />
-                    <Skeleton className="h-4 w-16" />
-                  </div>
-                </div>
-              )}
+                <Button
+                  onClick={update}
+                  variant={"ghost"}
+                  className="flex flex-row gap-2"
+                >
+                  <Icons.refresh className="w-4 h-4" /> Uppdatera
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>
