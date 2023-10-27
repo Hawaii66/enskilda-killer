@@ -40,22 +40,10 @@ function LitigationRenderer({ litigation, deleteMe }: Props) {
       </CardHeader>
       <CardContent>{litigation.text}</CardContent>
       <CardFooter>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant={"destructive"}>Ta bort</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogTitle>Är du säker?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Vill du ta bort detta tvistemål, killer utskottet kommer du inte
-              kolla på det
-            </AlertDialogDescription>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={deleteMe}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <p className="text-gray-500 text-sm">
+          Ditt tvistemål undersöks nu av Killer utskottet. Vi återkommer med
+          svar via sms på telefon numret då anget ovan :D
+        </p>
       </CardFooter>
     </Card>
   );
