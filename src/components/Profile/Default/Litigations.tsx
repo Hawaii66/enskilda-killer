@@ -28,6 +28,8 @@ import LitigationRenderer from "./LitigationRenderer";
 import { Icons } from "@/components/Icons";
 import { useBasicToast } from "@/hooks/useBasicToast";
 
+const LITIGATION_MAX_TEXT_LENGTH = 150;
+
 function Litigations() {
   const [litigations, setLitigations] = useState<Litigation[] | null>(null);
   const [info, setInfo] = useState<{
@@ -144,10 +146,16 @@ function Litigations() {
                   />
                 </div>
                 <Label>Berätta mera</Label>
-                <Textarea
-                  value={info.text}
-                  onChange={(e) => setInfo({ ...info, text: e.target.value })}
-                />
+                <div>
+                  <Textarea
+                    maxLength={LITIGATION_MAX_TEXT_LENGTH}
+                    value={info.text}
+                    onChange={(e) => setInfo({ ...info, text: e.target.value })}
+                  />
+                  <Label>
+                    {info.text.length} / {LITIGATION_MAX_TEXT_LENGTH}
+                  </Label>
+                </div>
               </div>
             )}
             <DialogFooter className="w-full justify-between">
