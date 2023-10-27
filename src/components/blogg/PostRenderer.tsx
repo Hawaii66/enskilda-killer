@@ -22,7 +22,7 @@ function PostRenderer({ post }: Props) {
       <CardContent className="h-full">
         {post.image && (
           <img
-            className="w-1/3 float-right rounded-lg"
+            className="w-full md:w-1/3 md:float-right rounded-lg"
             src={post.image}
             alt="Image for this day"
           />
