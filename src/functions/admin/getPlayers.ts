@@ -1,9 +1,10 @@
 import { PlayerInfo } from "@/interfaces/Admin";
 import { Kills } from "@/interfaces/Profile";
 import { TargetUser, User } from "@/interfaces/User";
-import { getUserKills } from "../getUserKills";
+import { getUserKills, getUsersKills } from "../getUserKills";
 import { supabase } from "../supabase";
 import { getUserCircles } from "../getUserCircles";
+import { error } from "console";
 
 export async function GetUsers(): Promise<PlayerInfo[]> {
   const { data: dbUsers } = await supabase().from("users").select("*");
@@ -39,16 +40,11 @@ export async function GetUsers(): Promise<PlayerInfo[]> {
     isMember: user.isMember,
   }));
 
-  const promises: Promise<Kills>[] = [];
-  users.forEach((user) => {
-    promises.push(getUserKills(user.id));
-  });
-
-  const kills = await Promise.all(promises);
+  const kills = await getUsersKills(users.map((i) => i.id));
 
   const players: PlayerInfo[] = users.map((user, idx) => ({
     user: user,
-    kills: kills[idx],
+    kills: kills.get(user.id) ?? [],
   }));
 
   return players;

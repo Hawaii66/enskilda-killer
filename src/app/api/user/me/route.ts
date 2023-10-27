@@ -51,7 +51,5 @@ export const POST = async (request: NextRequest) => {
     })
     .eq("id", id);
 
-  console.log(result);
-
   return NextResponse.json(info);
 };

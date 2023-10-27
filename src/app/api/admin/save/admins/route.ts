@@ -11,12 +11,10 @@ export const POST = async (request: NextRequest) => {
 
   var admins: string[] = await request.json();
 
-  const e = await supabase().from("admins").delete().neq("id", -1);
+  await supabase().from("admins").delete().neq("id", -1);
   await supabase()
     .from("admins")
     .insert(admins.map((i) => ({ email: i })));
-
-  console.log(e, admins);
 
   return NextResponse.json({});
 };

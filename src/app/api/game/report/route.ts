@@ -53,7 +53,6 @@ const Target = async (target: number) => {
 
   //The murderer was first with reporting, confirm kill
   if (result.data) {
-    console.log("Process");
     return await ProcessKill(result.data.murderer);
   } else {
     const murdererResult = await supabase()

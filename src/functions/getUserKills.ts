@@ -1,50 +1,65 @@
 import { Kills } from "@/interfaces/Profile";
 import { supabase } from "./supabase";
-import { getUserKillCircles } from "./getUserCircles";
 
-export const getUserKills = async (id: number) => {
-  const killsIds = await supabase()
-    .from("kills")
-    .select("*")
-    .eq("murderer", id);
-
-  const targets = await supabase()
+export const getUserKills = async (id: number): Promise<Kills> => {
+  const performant = await supabase()
     .from("users")
-    .select("*")
-    .in("id", killsIds.data?.map((i) => i.target) || []);
+    .select(
+      "kills!kills_murderer_fkey(killid:id,time:created_at, users!kills_target_fkey (tid:id,tfirstname:firstname,tlastname:lastname,tgroup:group), circles!kills_circle_fkey (cname:name,cid:id))"
+    )
+    .eq("id", id);
 
-  const kills: Kills =
-    targets.data?.map((target, idx) => ({
-      circle: { id: -1, name: "" },
-      target: {
-        firstname: target.firstname,
-        group: target.group,
-        id: target.id,
-        lastname: target.lastname,
-      },
-      time: new Date(
-        killsIds.data === null
-          ? "0"
-          : killsIds.data.find((i) => i.target === target.id)?.created_at ?? "0"
-      ).getTime(),
-      id:
-        killsIds.data === null
-          ? -1
-          : killsIds.data.find((i) => i.target === target.id)?.id || -1,
-    })) || [];
-
-  const circles = await getUserKillCircles(kills.map((i) => i.id));
-
-  return kills.map((i, idx) => ({
-    ...i,
-    circle: circles[idx] ?? { id: -1, name: "" },
-  }));
+  return (
+    (performant.data &&
+      performant.data[0].kills.map((kill) => ({
+        circle: {
+          id: kill.circles?.cid ?? -1,
+          name: kill.circles?.cname ?? "",
+        },
+        id: kill.killid,
+        time: new Date(kill.time).getTime(),
+        target: {
+          firstname: kill.users?.tfirstname ?? "",
+          group: kill.users?.tgroup ?? "",
+          id: kill.users?.tid ?? -1,
+          lastname: kill.users?.tlastname ?? "",
+        },
+      }))) ||
+    []
+  );
 };
 
-export const getUsersKills = async (ids: number[]) => {
-  const promises: Promise<Kills>[] = [];
-  ids.forEach((i) => promises.push(getUserKills(i)));
+export const getUsersKills = async (
+  ids: number[]
+): Promise<Map<number, Kills>> => {
+  const performant = await supabase()
+    .from("users")
+    .select(
+      "id, kills!kills_murderer_fkey(killid:id,time:created_at, users!kills_target_fkey (tid:id,tfirstname:firstname,tlastname:lastname,tgroup:group), circles!kills_circle_fkey (cname:name,cid:id))"
+    )
+    .in("id", ids);
 
-  const result = await Promise.all(promises);
-  return ids.map((i, idx) => ({ id: i, kills: result[idx] }));
+  const map: Map<number, Kills> = new Map();
+
+  performant.data?.forEach((user) => {
+    map.set(
+      user.id,
+      user.kills.map((kill) => ({
+        circle: {
+          id: kill.circles?.cid ?? -1,
+          name: kill.circles?.cname ?? "",
+        },
+        id: kill.killid,
+        time: new Date(kill.time).getTime(),
+        target: {
+          firstname: kill.users?.tfirstname ?? "",
+          group: kill.users?.tgroup ?? "",
+          id: kill.users?.tid ?? -1,
+          lastname: kill.users?.tlastname ?? "",
+        },
+      }))
+    );
+  });
+
+  return map;
 };

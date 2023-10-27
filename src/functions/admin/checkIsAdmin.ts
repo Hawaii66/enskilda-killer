@@ -4,7 +4,6 @@ import { supabase } from "../supabase";
 
 export const checkIsAdmin = async (request: NextRequest) => {
   const email = await VerifyWithEmail(request);
-  console.log(email);
   if (email === undefined) return false;
 
   const { data } = await supabase()

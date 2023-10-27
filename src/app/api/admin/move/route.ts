@@ -1,8 +1,6 @@
 import { checkIsAdmin } from "@/functions/admin/checkIsAdmin";
-import { emailToId } from "@/functions/emailToId";
-import { getUserKills, getUsersKills } from "@/functions/getUserKills";
+import { getUsersKills } from "@/functions/getUserKills";
 import { supabase } from "@/functions/supabase";
-import { VerifyWithEmail } from "@/functions/verifyToken";
 import { BulkMoveInfo, MovePlayersCriterie } from "@/interfaces/Admin";
 import { Kills } from "@/interfaces/Profile";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,10 +20,7 @@ export const POST = async (request: NextRequest) => {
   const fromUserIds = await getUsersToMove(moveInfo.from);
 
   const filteredUsers = fromUserIds.filter((user) =>
-    filterUserToMove(
-      userKills.find((i) => i.id === user)?.kills || [],
-      moveInfo.criterias
-    )
+    filterUserToMove(userKills.get(user) || [], moveInfo.criterias)
   );
 
   await supabase().from("usersincircle").delete().in("user", filteredUsers);
