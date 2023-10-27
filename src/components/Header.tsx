@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { Icons } from "./Icons";
 
 function Header() {
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(false);
 
   return (
     <header className="w-full flex justify-center items-center flex-col">
