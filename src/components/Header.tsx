@@ -33,7 +33,7 @@ function Header() {
           </Button>
         </div>
         <nav
-          className={`flex lg:flex-row flex-col justify-end items-end lg:items-center gap-4 text-left lg:text-center w-full ${
+          className={`flex lg:flex-row flex-col justify-end items-end lg:items-center gap-4 text-left lg:text-center lg:overflow-visible w-full ${
             expand ? "overflow-visible" : "h-0 overflow-hidden"
           }`}
         >
