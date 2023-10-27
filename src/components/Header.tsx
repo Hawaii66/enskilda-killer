@@ -18,8 +18,8 @@ function Header() {
       >
         <div className="flex w-full justify-between items-center flex-row">
           <div className="flex justify-start items-center flex-row">
-            <img src="/Logo.jpg" className="h-24" />
-            <h1 className="px-8 flex-grow text-2xl  lg:text-5xl tracking-wide font-bold underline ">
+            <img src="/Logo.jpg" className="h-20" />
+            <h1 className="px-8 flex-grow text-2xl  lg:text-5xl tracking-wide font-bold ">
               Killer {new Date(Date.now()).getFullYear()}
             </h1>
           </div>

@@ -37,7 +37,7 @@ export default function RootLayout({
             <AllGroupsWrapper>
               <AllCirclesWrapper>
                 <body>
-                  <div className="min-h-screen flex flex-col items-center justify-center">
+                  <div className="min-h-screen flex flex-col items-center justify-center font-serif">
                     <Header />
                     <main className="flex-grow w-full">{children}</main>
 

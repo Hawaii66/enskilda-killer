@@ -13,22 +13,26 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
+import { Admin } from "@/interfaces/Constants";
 import React, { useState } from "react";
 
 type Props = {
-  admins: string[];
+  admins: Admin[];
   refresh: () => void;
 };
 
 function Admins({ admins: defaultAdmins, refresh }: Props) {
   const [admins, setAdmins] = useState(defaultAdmins);
-  const [name, setName] = useState("");
+  const [newAdmin, setNewAdmin] = useState<Admin>({
+    email: "",
+    name: "",
+  });
 
   const apiFetch = useApi();
   const { toast, toastSave } = useBasicToast();
 
-  const newAdmin = () => {
-    setAdmins((a) => [...a, name]);
+  const addNewAdmin = () => {
+    setAdmins((a) => [...a, newAdmin]);
   };
 
   const save = async () => {
@@ -55,7 +59,9 @@ function Admins({ admins: defaultAdmins, refresh }: Props) {
       <CardContent className="flex flex-col gap-4">
         {admins.map((admin) => (
           <div className="flex flex-row gap-4 items-center">
-            <p>{admin}</p>
+            <p>
+              {admin.email} - {admin.name}
+            </p>
             <Button
               onClick={() => setAdmins((e) => e.filter((i) => i !== admin))}
               variant={"destructive"}
@@ -68,8 +74,19 @@ function Admins({ admins: defaultAdmins, refresh }: Props) {
 
         <div className="flex flex-row gap-4">
           <Label>Ny admin</Label>
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
-          <Button onClick={newAdmin}>Ny admin</Button>
+          <Input
+            value={newAdmin.email}
+            placeholder="email"
+            onChange={(e) =>
+              setNewAdmin({ ...newAdmin, email: e.target.value })
+            }
+          />
+          <Input
+            value={newAdmin.name}
+            placeholder="name"
+            onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })}
+          />
+          <Button onClick={addNewAdmin}>Ny admin</Button>
         </div>
       </CardContent>
       <CardFooter>

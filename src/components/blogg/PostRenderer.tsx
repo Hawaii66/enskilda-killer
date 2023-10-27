@@ -14,20 +14,25 @@ type Props = {
 
 function PostRenderer({ post }: Props) {
   return (
-    <Card>
+    <Card className="pb-4">
       <CardHeader>
         <CardTitle>{post.header}</CardTitle>
         <CardDescription>{post.miniheader}</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col justify-center items-center">
+      <CardContent className="h-full">
         {post.image && (
           <img
-            className="w-11/12 lg:w-2/3 rounded-lg"
+            className="w-1/3 float-right rounded-lg"
             src={post.image}
             alt="Image for this day"
           />
         )}
-        <div dangerouslySetInnerHTML={{ __html: post.text }} />
+        <div
+          className="h-full"
+          dangerouslySetInnerHTML={{
+            __html: post.text,
+          }}
+        />
       </CardContent>
     </Card>
   );

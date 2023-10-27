@@ -10,6 +10,7 @@ export type GameState = {
 
 export type Admin = {
   email: string;
+  name: string;
 };
 
 export type ConstantKey = "GameState" | "Enskildakaren" | "Groups";

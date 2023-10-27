@@ -1,4 +1,4 @@
-import { ConstantKey, GameState } from "@/interfaces/Constants";
+import { Admin, ConstantKey, GameState } from "@/interfaces/Constants";
 import { supabase } from "../supabase";
 import { Circle } from "@/interfaces/Circle";
 
@@ -35,8 +35,12 @@ export async function GetSettings() {
   const circles: Circle[] =
     circlesResult.data?.map((i) => ({ id: i.id, name: i.name })) || [];
 
-  const { data } = await supabase().from("admins").select("email");
-  const admins: string[] = data?.map((i) => i.email) || [];
+  const { data } = await supabase().from("admins").select("*");
+  const admins: Admin[] =
+    data?.map((i) => ({
+      email: i.email,
+      name: i.name,
+    })) || [];
 
   return {
     gameState,
