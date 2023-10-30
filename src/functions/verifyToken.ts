@@ -59,5 +59,6 @@ export const VerifyWithEmail = async (request: NextRequest) => {
   const t = await clerkClient.users.getUser(userId || "");
   const email = t.emailAddresses[0].emailAddress;
 
+
   return email;
 };

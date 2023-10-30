@@ -15,7 +15,7 @@ function AlertHeader() {
             className={`${
               state.info.type === "info"
                 ? "bg-green-800 text-black"
-                : "bg-yellow-300 text-black"
+                : "bg-red-500 text-black"
             }`}
           >
             <AlertTitle className="text-lg font-bold">
