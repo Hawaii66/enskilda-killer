@@ -17,7 +17,11 @@ export const GET = async () => {
       .select("*");
 
     if (result.error || result.data === null || result.data.length === 0) {
-      failed.push(result);
+      failed.push({
+        ...result,
+        email: clerkUsers[i].emailAddresses[0].emailAddress,
+        id: clerkUsers[i].id,
+      });
     }
   }
 
