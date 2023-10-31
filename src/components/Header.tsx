@@ -1,13 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AlertHeader from "./AlertHeader";
 import { Button } from "./ui/button";
 import { Icons } from "./Icons";
+import { useRouter } from "next/navigation";
 
 function Header() {
   const [expand, setExpand] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    document.onkeydown = (e) => {
+      if (e.key === "a" || e.key === "A") {
+        if (e.target === document.querySelector("body")) {
+          router.push("/admin");
+        }
+      }
+    };
+  }, []);
 
   return (
     <header className="w-full flex justify-center items-center flex-col">
