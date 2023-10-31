@@ -1,8 +1,6 @@
 import { checkIsAdmin } from "@/functions/admin/checkIsAdmin";
-import { emailToId } from "@/functions/emailToId";
 import { GetPosts } from "@/functions/getPosts";
 import { supabase } from "@/functions/supabase";
-import { VerifyWithEmail } from "@/functions/verifyToken";
 import { Post } from "@/interfaces/Post";
 import { NextRequest, NextResponse } from "next/server";
 

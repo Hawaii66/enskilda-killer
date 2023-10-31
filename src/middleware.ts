@@ -10,7 +10,6 @@ export default authMiddleware({
     "/profil",
     "/admin",
     "/api/backup",
-    "/api/temp",
   ],
 });
 

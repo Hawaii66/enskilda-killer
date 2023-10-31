@@ -1,10 +1,10 @@
 import { supabase } from "@/functions/supabase";
-import { VerifyWithEmail, validateToken } from "@/functions/verifyToken";
+import { VerifyEmail } from "@/functions/verifyUser";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
+  const email = await VerifyEmail();
   const { userId } = auth();
 
   const data: {

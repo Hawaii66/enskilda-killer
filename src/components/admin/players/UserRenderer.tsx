@@ -195,12 +195,7 @@ function UserRenderer({
                 <Label className="flex justify-start items-center">
                   Clerk Id
                 </Label>
-                <Input
-                  value={user.clerkId}
-                  onChange={(e) =>
-                    setUser({ ...user, clerkId: e.target.value })
-                  }
-                />
+                <Input value={user.clerkId} disabled />
               </CardContent>
             </Card>
             <Card>

@@ -1,7 +1,5 @@
 import { checkIsAdmin } from "@/functions/admin/checkIsAdmin";
 import { GhostMurder, MurdererMurder } from "@/functions/admin/murder";
-import { emailToId } from "@/functions/emailToId";
-import { VerifyWithEmail } from "@/functions/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {

@@ -1,6 +1,4 @@
-import { emailToId } from "@/functions/emailToId";
 import { supabase } from "@/functions/supabase";
-import { VerifyWithEmail } from "@/functions/verifyToken";
 import { Post } from "@/interfaces/Post";
 import { NextRequest, NextResponse } from "next/server";
 

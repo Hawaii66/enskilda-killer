@@ -1,9 +1,9 @@
 import { NextRequest } from "next/server";
-import { VerifyWithEmail } from "../verifyToken";
 import { supabase } from "../supabase";
+import { VerifyEmail } from "../verifyUser";
 
 export const checkIsAdmin = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
+  const email = await VerifyEmail();
   if (email === undefined) return false;
 
   const { data } = await supabase()

@@ -1,13 +1,11 @@
-import { emailToId } from "@/functions/emailToId";
-import { getTargetUser, getTargetUsers } from "@/functions/getTargetUser";
+import { getTargetUsers } from "@/functions/getTargetUser";
 import { supabase } from "@/functions/supabase";
-import { VerifyWithEmail } from "@/functions/verifyToken";
+import { VerifyUser } from "@/functions/verifyUser";
 import { Litigation } from "@/interfaces/Profile";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
+  const { email, id } = await VerifyUser();
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
   const result = await supabase()
@@ -32,8 +30,7 @@ export const GET = async (request: NextRequest) => {
 };
 
 export const DELETE = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
+  const { email, id } = await VerifyUser();
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
   const url = new URL(request.url);
@@ -48,8 +45,7 @@ export const DELETE = async (request: NextRequest) => {
 };
 
 export const POST = async (request: NextRequest) => {
-  const email = await VerifyWithEmail(request);
-  const id = await emailToId(email);
+  const { email, id } = await VerifyUser();
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
   const data: { text: string; with: number; witness: number | undefined } =
