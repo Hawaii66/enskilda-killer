@@ -192,6 +192,15 @@ function UserRenderer({
                   checked={user.isMember}
                   onCheckedChange={(e) => setUser({ ...user, isMember: e })}
                 />
+                <Label className="flex justify-start items-center">
+                  Clerk Id
+                </Label>
+                <Input
+                  value={user.clerkId}
+                  onChange={(e) =>
+                    setUser({ ...user, clerkId: e.target.value })
+                  }
+                />
               </CardContent>
             </Card>
             <Card>

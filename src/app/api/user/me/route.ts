@@ -28,6 +28,7 @@ export const GET = async (request: NextRequest) => {
     lastname: data.lastname,
     phone: data.phone,
     isMember: data.isMember,
+    clerkId: data.clerkId,
   };
 
   return NextResponse.json(me);

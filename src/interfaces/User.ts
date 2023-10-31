@@ -10,6 +10,7 @@ export type User = {
   target?: TargetUser;
   circle?: Circle;
   isMember: boolean;
+  clerkId: string;
   kills: Record<
     Circle["id"],
     {

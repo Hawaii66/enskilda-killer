@@ -303,6 +303,7 @@ export interface Database {
       };
       users: {
         Row: {
+          clerkId: string;
           created_at: string;
           email: string;
           firstname: string;
@@ -313,6 +314,7 @@ export interface Database {
           phone: string;
         };
         Insert: {
+          clerkId?: string;
           created_at?: string;
           email: string;
           firstname: string;
@@ -323,6 +325,7 @@ export interface Database {
           phone: string;
         };
         Update: {
+          clerkId?: string;
           created_at?: string;
           email?: string;
           firstname?: string;

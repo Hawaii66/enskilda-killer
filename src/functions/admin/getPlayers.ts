@@ -38,6 +38,7 @@ export async function GetUsers(): Promise<PlayerInfo[]> {
     ),
     circle: circleMap.get(user.id),
     isMember: user.isMember,
+    clerkId: user.clerkId,
   }));
 
   const kills = await getUsersKills(users.map((i) => i.id));
