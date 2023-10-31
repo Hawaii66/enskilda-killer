@@ -8,8 +8,16 @@ export const GET = async () => {
   const failed: any[] = [];
 
   for (var i = 0; i < clerkUsers.length; i++) {
-    if (clerkUsers[i].emailAddresses.length !== 1) {
-      failed.push(clerkUsers[i].emailAddresses);
+    const result = await supabase()
+      .from("users")
+      .update({
+        clerkId: clerkUsers[i].id,
+      })
+      .eq("email", clerkUsers[i].emailAddresses[0].emailAddress)
+      .select("*");
+
+    if (result.error || result.data === null) {
+      failed.push(result);
     }
   }
 
