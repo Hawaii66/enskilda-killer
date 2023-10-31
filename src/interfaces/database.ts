@@ -136,7 +136,9 @@ export interface Database {
       litigations: {
         Row: {
           created_at: string;
+          helper: number | null;
           id: number;
+          investigator: number | null;
           text: string;
           user: number;
           with: number;
@@ -144,7 +146,9 @@ export interface Database {
         };
         Insert: {
           created_at?: string;
+          helper?: number | null;
           id?: number;
+          investigator?: number | null;
           text: string;
           user: number;
           with: number;
@@ -152,13 +156,27 @@ export interface Database {
         };
         Update: {
           created_at?: string;
+          helper?: number | null;
           id?: number;
+          investigator?: number | null;
           text?: string;
           user?: number;
           with?: number;
           witness?: number | null;
         };
         Relationships: [
+          {
+            foreignKeyName: "litigations_helper_fkey";
+            columns: ["helper"];
+            referencedRelation: "admins";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "litigations_investigator_fkey";
+            columns: ["investigator"];
+            referencedRelation: "admins";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "litigations_user_fkey";
             columns: ["user"];

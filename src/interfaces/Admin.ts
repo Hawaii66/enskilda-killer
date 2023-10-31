@@ -19,6 +19,8 @@ export type FullLitigation = {
   user: PlayerContactInfo;
   with: PlayerContactInfo;
   witness?: PlayerContactInfo;
+  investigator?: { email: string; name: string };
+  helper?: { email: string; name: string };
   text: string;
   id: number;
 };

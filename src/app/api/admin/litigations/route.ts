@@ -16,3 +16,35 @@ export const DELETE = async (request: NextRequest) => {
 
   return NextResponse.json({});
 };
+
+export const POST = async (request: NextRequest) => {
+  const isAdmin = await checkIsAdmin(request);
+  if (!isAdmin) return NextResponse.json({}, { status: 404 });
+
+  const {
+    helper,
+    id,
+    investigator,
+  }: { id: number; helper?: string; investigator?: string } =
+    await request.json();
+
+  const admins = await supabase().from("admins").select("email,id");
+
+  const toUpdate = {
+    helper: helper
+      ? admins.data?.find((i) => i.email === helper)?.id || null
+      : null,
+    investigator: investigator
+      ? admins.data?.find((i) => i.email === investigator)?.id || null
+      : null,
+    id: id,
+  };
+
+  const t = await supabase()
+    .from("litigations")
+    .update(toUpdate)
+    .eq("id", id)
+    .select("*");
+
+  return NextResponse.json({});
+};
