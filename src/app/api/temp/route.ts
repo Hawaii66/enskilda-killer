@@ -16,7 +16,7 @@ export const GET = async () => {
       .eq("email", clerkUsers[i].emailAddresses[0].emailAddress)
       .select("*");
 
-    if (result.error || result.data === null) {
+    if (result.error || result.data === null || result.data.length === 0) {
       failed.push(result);
     }
   }
