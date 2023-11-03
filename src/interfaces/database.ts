@@ -116,18 +116,21 @@ export interface Database {
           {
             foreignKeyName: "kills_circle_fkey";
             columns: ["circle"];
+            isOneToOne: false;
             referencedRelation: "circles";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "kills_murderer_fkey";
             columns: ["murderer"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "kills_target_fkey";
             columns: ["target"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
@@ -168,30 +171,35 @@ export interface Database {
           {
             foreignKeyName: "litigations_helper_fkey";
             columns: ["helper"];
+            isOneToOne: false;
             referencedRelation: "admins";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "litigations_investigator_fkey";
             columns: ["investigator"];
+            isOneToOne: false;
             referencedRelation: "admins";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "litigations_user_fkey";
             columns: ["user"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "litigations_with_fkey";
             columns: ["with"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "litigations_witness_fkey";
             columns: ["witness"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
@@ -223,12 +231,14 @@ export interface Database {
           {
             foreignKeyName: "pendingkills_murderer_fkey";
             columns: ["murderer"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "pendingkills_target_fkey";
             columns: ["target"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
@@ -308,12 +318,14 @@ export interface Database {
           {
             foreignKeyName: "targets_murderer_fkey";
             columns: ["murderer"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "targets_target_fkey";
             columns: ["target"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
@@ -378,12 +390,14 @@ export interface Database {
           {
             foreignKeyName: "usersincircle_circle_fkey";
             columns: ["circle"];
+            isOneToOne: false;
             referencedRelation: "circles";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "usersincircle_user_fkey";
             columns: ["user"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
@@ -402,6 +416,7 @@ export interface Database {
           {
             foreignKeyName: "usersincircle_circle_fkey";
             columns: ["circle"];
+            isOneToOne: false;
             referencedRelation: "circles";
             referencedColumns: ["id"];
           }

@@ -35,6 +35,7 @@ import { Circle } from "@/interfaces/Circle";
 import MovePlayers from "./MovePlayers";
 import { useBasicToast } from "@/hooks/useBasicToast";
 import { User } from "@clerk/nextjs/server";
+import SetTargets from "./SetTargets";
 
 type Props = {
   users: PlayerInfo[];
@@ -304,6 +305,7 @@ function List({ users: defaultUsers, clerks }: Props) {
         </CardContent>
       </Card>
       <MovePlayers refresh={updateUsers} />
+      <SetTargets refresh={updateUsers} />
     </div>
   );
 }
