@@ -64,48 +64,50 @@ function Rules({ rules: defaultRules }: Props) {
         <CardDescription>Ändra och skapa nya regler</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        {rules.map((rule, idx) => (
-          <Card key={idx}>
-            <CardContent className="grid grid-cols-2 gap-2 my-4">
-              <Label>Titel</Label>
-              <Input
-                value={rule.header}
-                onChange={(e) =>
-                  updateRule({ ...rule, header: e.target.value }, idx)
-                }
-              />
-              <Label>
-                Index (för att placera reglerna i en specifik ordning)
-              </Label>
-              <Input
-                value={rule.index}
-                onChange={(e) =>
-                  updateRule(
-                    { ...rule, index: parseInt(e.target.value) || 0 },
-                    idx
-                  )
-                }
-              />
-              <Label>Beskrivning</Label>
-              <Textarea
-                value={rule.rule}
-                onChange={(e) =>
-                  updateRule({ ...rule, rule: e.target.value }, idx)
-                }
-                className="h-36"
-              />
-              <div className="w-1/2">
-                <Button
-                  onClick={() => setRules(rules.filter((_, i) => i !== idx))}
-                  variant={"outline"}
-                  className="flex flex-row gap-2"
-                >
-                  <Icons.delete className="w-4 h-4" /> <p>Ta bort</p>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {rules
+          .sort((a, b) => a.index - b.index)
+          .map((rule, idx) => (
+            <Card key={idx}>
+              <CardContent className="grid grid-cols-2 gap-2 my-4">
+                <Label>Titel</Label>
+                <Input
+                  value={rule.header}
+                  onChange={(e) =>
+                    updateRule({ ...rule, header: e.target.value }, idx)
+                  }
+                />
+                <Label>
+                  Index (för att placera reglerna i en specifik ordning)
+                </Label>
+                <Input
+                  value={rule.index}
+                  onChange={(e) =>
+                    updateRule(
+                      { ...rule, index: parseInt(e.target.value) || 0 },
+                      idx
+                    )
+                  }
+                />
+                <Label>Beskrivning</Label>
+                <Textarea
+                  value={rule.rule}
+                  onChange={(e) =>
+                    updateRule({ ...rule, rule: e.target.value }, idx)
+                  }
+                  className="h-36"
+                />
+                <div className="w-1/2">
+                  <Button
+                    onClick={() => setRules(rules.filter((_, i) => i !== idx))}
+                    variant={"outline"}
+                    className="flex flex-row gap-2"
+                  >
+                    <Icons.delete className="w-4 h-4" /> <p>Ta bort</p>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         <Separator />
         <div></div>
       </CardContent>

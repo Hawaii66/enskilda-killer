@@ -24,17 +24,17 @@ async function Rules() {
     <div>
       <Top text="Regler" />
       <div className="w-full flex flex-col items-center">
-        <p className="text-md font-semibold text-black">
+        <p className="text-2xl underline my-8 font-semibold text-black">
           Brott mot vilken som helst av dessa regler innebär att man riskerar
           diskning.
         </p>
         {data
-          .sort((a, b) => b.index - a.index)
+          .sort((a, b) => a.index - b.index)
           .map((rule, idx) => (
             <RenderRule
               key={rule.index}
               index={idx + 1}
-              isEven={idx % 2 === 0}
+              isEven={idx % 2 === 1}
               rule={rule}
             />
           ))}
