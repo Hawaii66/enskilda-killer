@@ -65,43 +65,45 @@ function Concepts({ concepts: defaultConcepts }: Props) {
         <CardDescription>Ändra och skapa nya begrepp</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        {concepts.map((concept, idx) => (
-          <Card key={idx}>
-            <CardContent className="grid grid-cols-2 gap-2 my-4">
-              <Label>
-                Index (för att placera begreppen i en specifik ordning)
-              </Label>
-              <Input
-                value={concept.index}
-                onChange={(e) =>
-                  updateRule(
-                    { ...concept, index: parseInt(e.target.value) || 0 },
-                    idx
-                  )
-                }
-              />
-              <Label>Beskrivning</Label>
-              <Textarea
-                value={concept.concept}
-                onChange={(e) =>
-                  updateRule({ ...concept, concept: e.target.value }, idx)
-                }
-                className="h-36"
-              />
-              <div className="w-1/2">
-                <Button
-                  onClick={() =>
-                    setConcepts(concepts.filter((_, i) => i !== idx))
+        {concepts
+          .sort((a, b) => a.index - b.index)
+          .map((concept, idx) => (
+            <Card key={idx}>
+              <CardContent className="grid grid-cols-2 gap-2 my-4">
+                <Label>
+                  Index (för att placera begreppen i en specifik ordning)
+                </Label>
+                <Input
+                  value={concept.index}
+                  onChange={(e) =>
+                    updateRule(
+                      { ...concept, index: parseInt(e.target.value) || 0 },
+                      idx
+                    )
                   }
-                  variant={"outline"}
-                  className="flex flex-row gap-2"
-                >
-                  <Icons.delete className="w-4 h-4" /> <p>Ta bort</p>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                />
+                <Label>Beskrivning</Label>
+                <Textarea
+                  value={concept.concept}
+                  onChange={(e) =>
+                    updateRule({ ...concept, concept: e.target.value }, idx)
+                  }
+                  className="h-36"
+                />
+                <div className="w-1/2">
+                  <Button
+                    onClick={() =>
+                      setConcepts(concepts.filter((_, i) => i !== idx))
+                    }
+                    variant={"outline"}
+                    className="flex flex-row gap-2"
+                  >
+                    <Icons.delete className="w-4 h-4" /> <p>Ta bort</p>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         <Separator />
         <div></div>
       </CardContent>
