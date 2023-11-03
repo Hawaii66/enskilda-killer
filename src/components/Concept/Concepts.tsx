@@ -30,7 +30,7 @@ async function Concepts() {
           </p>
           <ul className="pt-4">
             {data
-              .sort((a, b) => b.index - a.index)
+              .sort((a, b) => a.index - b.index)
               .map((concept) => (
                 <li
                   className="text-lg font-serif text-black font-medium py-2"
