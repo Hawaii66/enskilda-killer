@@ -68,6 +68,10 @@ function List({ users: defaultUsers, clerks }: Props) {
     orderBy: "id",
     onlyShow: "all",
   });
+  const [targetFilters, setTargetFilters] = useState<Filters>({
+    onlyShow: "all",
+    orderBy: "id",
+  });
 
   const apiFetch = useApi();
   const { toast, toastTitle } = useBasicToast();
@@ -146,71 +150,139 @@ function List({ users: defaultUsers, clerks }: Props) {
                 </SelectContent>
               </Select>
             </div>
-            <div className="w-1/4 flex flex-row gap-4 mb-4">
-              <Label className="w-1/2 grid place-items-center">
-                Visa endast
-              </Label>
-              <Select
-                onValueChange={(s) => {
-                  if (s.startsWith("main-")) {
-                    setFilters({
-                      ...filters,
-                      onlyShow: s.replace("main-", "") as any,
-                    });
-                  }
-                  if (s.startsWith("group-")) {
-                    setFilters({
-                      ...filters,
-                      onlyShow: {
-                        group: s.replace("group-", ""),
-                      },
-                    });
-                  }
-                  if (s.startsWith("circle-")) {
-                    setFilters({
-                      ...filters,
-                      onlyShow: {
-                        circle: s.replace("circle-", ""),
-                      },
-                    });
-                  }
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue>
-                    {showOnlyKeyToString(filters.onlyShow, circles)}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <ScrollArea className="h-[40vh]">
-                    <SelectGroup>
-                      <SelectLabel>- Stora -</SelectLabel>
-                      <SelectItem value="main-all">Alla</SelectItem>
-                      <SelectItem value="main-alive">Levande</SelectItem>
-                      <SelectItem value="main-dead">Döda</SelectItem>
-                      <SelectItem value="main-notMember">
-                        Inte medlem i kåren
-                      </SelectItem>
-                    </SelectGroup>
-                    <SelectGroup>
-                      <SelectLabel>- Cirkel - </SelectLabel>
-                      {circles.map((circle) => (
-                        <SelectItem value={`circle-${circle.id}`}>
-                          {circle.name}
+            <div className="w-1/2 flex flex-row gap-4 mb-4">
+              <div className="w-1/2 flex flex-row gap-4">
+                <Label className="w-1/2 grid place-items-center">
+                  Visa endast
+                </Label>
+                <Select
+                  onValueChange={(s) => {
+                    if (s.startsWith("main-")) {
+                      setFilters({
+                        ...filters,
+                        onlyShow: s.replace("main-", "") as any,
+                      });
+                    }
+                    if (s.startsWith("group-")) {
+                      setFilters({
+                        ...filters,
+                        onlyShow: {
+                          group: s.replace("group-", ""),
+                        },
+                      });
+                    }
+                    if (s.startsWith("circle-")) {
+                      setFilters({
+                        ...filters,
+                        onlyShow: {
+                          circle: s.replace("circle-", ""),
+                        },
+                      });
+                    }
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue>
+                      {showOnlyKeyToString(filters.onlyShow, circles)}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <ScrollArea className="h-[40vh]">
+                      <SelectGroup>
+                        <SelectLabel>- Stora -</SelectLabel>
+                        <SelectItem value="main-all">Alla</SelectItem>
+                        <SelectItem value="main-alive">Levande</SelectItem>
+                        <SelectItem value="main-dead">Döda</SelectItem>
+                        <SelectItem value="main-notMember">
+                          Inte medlem i kåren
                         </SelectItem>
-                      ))}
-                    </SelectGroup>
-                    <SelectGroup>
-                      <SelectLabel>- Klass -</SelectLabel>
-                      {groups.map((group) => (
-                        <SelectItem value={`group-${group}`}>
-                          {group}
+                      </SelectGroup>
+                      <SelectGroup>
+                        <SelectLabel>- Cirkel - </SelectLabel>
+                        {circles.map((circle) => (
+                          <SelectItem value={`circle-${circle.id}`}>
+                            {circle.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                      <SelectGroup>
+                        <SelectLabel>- Klass -</SelectLabel>
+                        {groups.map((group) => (
+                          <SelectItem value={`group-${group}`}>
+                            {group}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </ScrollArea>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="w-1/2 flex flex-row gap-4 mb-4">
+                <Label className="w-1/2 grid place-items-center">
+                  Visa endast (target)
+                </Label>
+                <Select
+                  onValueChange={(s) => {
+                    if (s.startsWith("main-")) {
+                      setTargetFilters({
+                        ...filters,
+                        onlyShow: s.replace("main-", "") as any,
+                      });
+                    }
+                    if (s.startsWith("group-")) {
+                      setTargetFilters({
+                        ...filters,
+                        onlyShow: {
+                          group: s.replace("group-", ""),
+                        },
+                      });
+                    }
+                    if (s.startsWith("circle-")) {
+                      setTargetFilters({
+                        ...filters,
+                        onlyShow: {
+                          circle: s.replace("circle-", ""),
+                        },
+                      });
+                    }
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue>
+                      {showOnlyKeyToString(targetFilters.onlyShow, circles)}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <ScrollArea className="h-[40vh]">
+                      <SelectGroup>
+                        <SelectLabel>- Stora -</SelectLabel>
+                        <SelectItem value="main-all">Alla</SelectItem>
+                        <SelectItem value="main-alive">Levande</SelectItem>
+                        <SelectItem value="main-dead">Döda</SelectItem>
+                        <SelectItem value="main-notMember">
+                          Inte medlem i kåren
                         </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </ScrollArea>
-                </SelectContent>
-              </Select>
+                      </SelectGroup>
+                      <SelectGroup>
+                        <SelectLabel>- Cirkel - </SelectLabel>
+                        {circles.map((circle) => (
+                          <SelectItem value={`circle-${circle.id}`}>
+                            {circle.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                      <SelectGroup>
+                        <SelectLabel>- Klass -</SelectLabel>
+                        {groups.map((group) => (
+                          <SelectItem value={`group-${group}`}>
+                            {group}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </ScrollArea>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <div className="w-1/4 flex flex-row gap-4 mb-4">
               <Label className="w-1/2 grid place-items-center">Sök</Label>
@@ -232,7 +304,7 @@ function List({ users: defaultUsers, clerks }: Props) {
                 Ändra
               </div>
             </div>
-            {filterUsers(users, filters)
+            {filterUsers(users, filters, targetFilters)
               .filter((s) => filterOnSearchQuery(searchQuery, s))
               .map((user, idx) => (
                 <UserRenderer
@@ -314,10 +386,33 @@ function List({ users: defaultUsers, clerks }: Props) {
 
 export default List;
 
-const filterUsers = (users: PlayerInfo[], filters: Filters) => {
+const filterUsers = (
+  users: PlayerInfo[],
+  filters: Filters,
+  targetFilters: Filters
+) => {
   return users
     .filter((u) => filterUser(u, filters))
+    .filter((u) => filterTargetUser(u, targetFilters))
     .sort((a, b) => sortUser(a, b, filters));
+};
+
+const filterTargetUser = (user: PlayerInfo, filters: Filters) => {
+  switch (filters.onlyShow) {
+    case "all":
+      return true;
+    case "alive":
+      return true;
+    case "dead":
+      return true;
+    case "notMember":
+      return true;
+    default:
+      if ("circle" in filters.onlyShow) {
+        return true;
+      }
+      return user.user.target?.group === filters.onlyShow.group;
+  }
 };
 
 const filterUser = (user: PlayerInfo, filters: Filters) => {
@@ -402,15 +497,34 @@ const showOnlyKeyToString = (key: Filters["onlyShow"], circles: Circle[]) => {
 
 const filterOnSearchQuery = (query: string, player: PlayerInfo) => {
   const {
-    user: { email, firstname, group, id, lastname, phone },
+    user: { email, firstname, group, id, lastname, phone, target },
   } = player;
 
+  const lowercase = query.toLowerCase().replaceAll(" ", "");
+
   return (
-    email.toLowerCase().includes(query.toLowerCase()) ||
-    firstname.toLowerCase().includes(query.toLowerCase()) ||
-    group.toLowerCase().includes(query.toLowerCase()) ||
-    id.toString().includes(query.toLowerCase()) ||
-    lastname.toLowerCase().includes(query.toLowerCase()) ||
-    phone.toLowerCase().includes(query.toLowerCase())
+    [
+      email,
+      group,
+      id,
+      `${firstname} ${lastname}`,
+      phone,
+      `${target?.firstname} ${target?.lastname}`,
+    ].filter((i) => isMatch(query, i)).length > 0
+  );
+};
+
+const isMatch = (query: string, toTest: string | number | undefined) => {
+  if (toTest === undefined) return false;
+  if (query === "") return true;
+
+  return (
+    query
+      .toLowerCase()
+      .split(" ")
+      .filter((i) => {
+        if (i === "") return false;
+        return toTest.toString().toLowerCase().includes(i);
+      }).length > 0
   );
 };
