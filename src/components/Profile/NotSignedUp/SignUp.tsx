@@ -2,6 +2,7 @@ import { Icons } from "@/components/Icons";
 import SelectGroup from "@/components/SelectGroup";
 import Top from "@/components/Top";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -210,8 +211,19 @@ function SignUp({ onJoin }: Props) {
             </Dialog>
           </>
         )}
+        <Card>
+          <CardContent className="pt-4 gap-2 flex flex-col">
+            <p>
+              Fel email? Logga ut från microsoft först uppe till höger på
+              länken:
+            </p>
+            <Link target="_blank" href="https://account.microsoft.com/">
+              <Button variant={"outline"}>Logga ut (Microsoft)</Button>
+            </Link>
+          </CardContent>
+        </Card>
         <SignOutButton>
-          <Button variant={"outline"}>Logga ut</Button>
+          <Button>Logga ut</Button>
         </SignOutButton>
       </div>
     </div>
