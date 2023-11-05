@@ -34,5 +34,7 @@ export const POST = async (request: NextRequest) => {
     }
   });
 
-  return NextResponse.json(failed);
+  return NextResponse.json({
+    arr: failed,
+  });
 };
