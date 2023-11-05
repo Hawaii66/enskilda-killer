@@ -45,5 +45,7 @@ export const VerifyUser = async (): Promise<VerifiedInfo> => {
     };
   }
 
-  return {};
+  return {
+    email: email,
+  };
 };

@@ -107,7 +107,10 @@ function SignUp({ onJoin }: Props) {
           {isSchoolEmail(email) ? (
             <p>Vi hittade inte din email bland de anmälda personerna</p>
           ) : (
-            <p>Du måste använda din skol mail @nykopingsenskilda.se</p>
+            <>
+              <p>Du måste använda din skol mail @nykopingsenskilda.se</p>
+              <p>Just nu har du mailen: {email}</p>
+            </>
           )}
         </div>
 
