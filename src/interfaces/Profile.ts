@@ -31,4 +31,5 @@ export type Litigation = {
   witness?: TargetUser;
   text: string;
   id: number;
+  reason: string;
 };

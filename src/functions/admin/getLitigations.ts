@@ -39,6 +39,7 @@ export async function GetLitigations() {
   const litigations: Partial<FullLitigation>[] = data.map((litigation) => ({
     text: litigation.text,
     id: litigation.id,
+    reason: litigation.reason,
     user: uniqueUsers.find((i) => i.id === litigation.user),
     with: uniqueUsers.find((i) => i.id === litigation.with),
     witness: uniqueUsers.find((i) => i.id === litigation.witness),

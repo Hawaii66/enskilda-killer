@@ -27,6 +27,7 @@ import { useApi } from "@/hooks/useApi";
 import LitigationRenderer from "./LitigationRenderer";
 import { Icons } from "@/components/Icons";
 import { useBasicToast } from "@/hooks/useBasicToast";
+import SelectLitigationReason from "@/components/SelectLitigationReason";
 
 const LITIGATION_MAX_TEXT_LENGTH = 150;
 
@@ -36,7 +37,8 @@ function Litigations() {
     with: number;
     witness: number | undefined;
     text: string;
-  }>({ text: "", with: 0, witness: 0 });
+    reason: string;
+  }>({ text: "", with: 0, witness: 0, reason: "" });
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -141,6 +143,17 @@ function Litigations() {
                       setInfo({
                         ...info,
                         witness: u === undefined ? undefined : u.id,
+                      })
+                    }
+                  />
+                </div>
+                <Label>Anledning</Label>
+                <div className="flex w-full justify-start items-center">
+                  <SelectLitigationReason
+                    onChangeReason={(u) =>
+                      setInfo({
+                        ...info,
+                        reason: u,
                       })
                     }
                   />

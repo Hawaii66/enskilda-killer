@@ -17,6 +17,13 @@ export async function GetSettings() {
     .eq("query", key2)
     .single();
 
+  const key3: ConstantKey = "LitigationReasons";
+  const { data: litigations } = await supabase()
+    .from("constants")
+    .select("data")
+    .eq("query", key3)
+    .single();
+
   const gameState: GameState =
     state === null
       ? {
@@ -47,5 +54,6 @@ export async function GetSettings() {
     circles,
     admins,
     elevkaren: elevkaren?.data || "",
+    litigationReasons: JSON.parse(litigations?.data || "[]") as string[],
   };
 }

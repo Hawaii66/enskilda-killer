@@ -142,6 +142,7 @@ export interface Database {
           helper: number | null;
           id: number;
           investigator: number | null;
+          reason: string;
           text: string;
           user: number;
           with: number;
@@ -152,6 +153,7 @@ export interface Database {
           helper?: number | null;
           id?: number;
           investigator?: number | null;
+          reason: string;
           text: string;
           user: number;
           with: number;
@@ -162,6 +164,7 @@ export interface Database {
           helper?: number | null;
           id?: number;
           investigator?: number | null;
+          reason?: string;
           text?: string;
           user?: number;
           with?: number;

@@ -23,6 +23,7 @@ export type FullLitigation = {
   helper?: { email: string; name: string };
   text: string;
   id: number;
+  reason: string;
 };
 
 export type MovePlayersCriterie =

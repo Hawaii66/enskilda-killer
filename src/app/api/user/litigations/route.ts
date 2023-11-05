@@ -24,6 +24,7 @@ export const GET = async (request: NextRequest) => {
       with: withs[idx] ?? { firstname: "", group: "", id: -1, lastname: "" },
       witness: litigation.witness === null ? undefined : witnesses[idx],
       id: litigation.id,
+      reason: litigation.reason,
     })) || [];
 
   return NextResponse.json(litigations);
@@ -48,14 +49,19 @@ export const POST = async (request: NextRequest) => {
   const { email, id } = await VerifyUser();
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
-  const data: { text: string; with: number; witness: number | undefined } =
-    await request.json();
+  const data: {
+    text: string;
+    with: number;
+    witness: number | undefined;
+    reason: string;
+  } = await request.json();
 
   await supabase().from("litigations").insert({
     text: data.text,
     user: id,
     with: data.with,
     witness: data.witness,
+    reason: data.reason,
   });
 
   return NextResponse.json({});

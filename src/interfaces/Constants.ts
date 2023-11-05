@@ -14,7 +14,11 @@ export type Admin = {
   name: string;
 };
 
-export type ConstantKey = "GameState" | "Enskildakaren" | "Groups";
+export type ConstantKey =
+  | "GameState"
+  | "Enskildakaren"
+  | "Groups"
+  | "LitigationReasons";
 
 export type Rule = {
   rule: string;
@@ -25,10 +29,4 @@ export type Rule = {
 export type Concept = {
   concept: string;
   index: number;
-};
-
-export type Litigation = {
-  userid: number;
-  withid: number;
-  text: string;
 };

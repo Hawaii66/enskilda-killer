@@ -144,7 +144,9 @@ function List({ litigations: defaultLitigations, admins }: Props) {
                 )}
               </div>
               <Separator />
-              <p>{litigation.text}</p>
+              <p>
+                <b>{litigation.reason} -</b> {litigation.text}
+              </p>
               <Separator />
               <div className="flex flex-row gap-8 justify-start items-center">
                 {litigation.investigator ? (

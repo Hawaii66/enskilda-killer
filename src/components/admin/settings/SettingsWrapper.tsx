@@ -11,6 +11,7 @@ import Reset from "./Reset";
 import { useApi } from "@/hooks/useApi";
 import Groups from "./Groups";
 import { useBasicToast } from "@/hooks/useBasicToast";
+import LitigationReasons from "./LitigationReasons";
 
 type Props = {
   info: Awaited<ReturnType<typeof GetSettings>>;
@@ -37,6 +38,7 @@ function SettingsWrapper({ info: defaultInfo }: Props) {
       <Circles refresh={refresh} circles={info.circles} />
       <Groups />
       <Admins admins={info.admins} refresh={refresh} />
+      <LitigationReasons refresh={refresh} reasons={info.litigationReasons} />
       <EnskildaKaren elevkaren={info.elevkaren} refresh={refresh} />
       <Separator />
       <Reset />

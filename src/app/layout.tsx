@@ -9,6 +9,7 @@ import AllCirclesWrapper from "@/components/Contexts/AllCirclesWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
 import { AxiomWebVitals } from "next-axiom";
+import AllLitigationReasonsWrapper from "@/components/Contexts/AllLitigationReasons";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -36,15 +37,17 @@ export default function RootLayout({
           <AllUsersWrapper>
             <AllGroupsWrapper>
               <AllCirclesWrapper>
-                <body>
-                  <div className="min-h-screen flex flex-col items-center justify-center font-serif">
-                    <Header />
-                    <main className="flex-grow w-full">{children}</main>
+                <AllLitigationReasonsWrapper>
+                  <body>
+                    <div className="min-h-screen flex flex-col items-center justify-center font-serif">
+                      <Header />
+                      <main className="flex-grow w-full">{children}</main>
 
-                    <Footer />
-                  </div>
-                  <Toaster />
-                </body>
+                      <Footer />
+                    </div>
+                    <Toaster />
+                  </body>
+                </AllLitigationReasonsWrapper>
               </AllCirclesWrapper>
             </AllGroupsWrapper>
           </AllUsersWrapper>
