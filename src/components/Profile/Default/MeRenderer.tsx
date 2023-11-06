@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import {
   Card,
@@ -31,12 +31,15 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import SelectGroup from "@/components/SelectGroup";
 import { Icons } from "@/components/Icons";
+import { GameStateContext } from "@/contexts/GameStateContext";
 
 function MeRenderer() {
   const router = useRouter();
 
   const apiFetch = useApi();
   const { toast } = useBasicToast();
+
+  const gameState = useContext(GameStateContext);
 
   const [me, setMe] = useState<Me | null>(null);
   const [editedMe, setEditedMe] = useState<Me | undefined>(undefined);
@@ -138,7 +141,7 @@ function MeRenderer() {
           )}
         </div>
         <div className="flex flex-row justify-end items-center gap-4">
-          {editedMe && (
+          {editedMe && gameState?.allowSignUp && (
             <Dialog
               open={openSaveDialog}
               onOpenChange={(e) => {
