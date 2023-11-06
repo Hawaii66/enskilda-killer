@@ -118,6 +118,8 @@ async function GetKillsPerDay() {
   return map;
 }
 
+export const revalidate = 60 * 3;
+
 async function page() {
   const circles = await GetGroupStats();
   const userKills = await GetMostKills();
