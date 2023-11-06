@@ -73,16 +73,51 @@ function Circles({ circles }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Bar
-          options={GetOptions({ onlyIntegers: true })}
-          data={{
-            labels: Array.from(circles)
-              .sort((a, b) => a[0].localeCompare(b[0]))
-              .sort((a, b) => a[0].length - b[0].length)
-              .map((i) => i[0]),
-            datasets: datasets,
-          }}
-        />
+        <div className="hidden lg:block">
+          <Bar
+            options={GetOptions({ onlyIntegers: true })}
+            data={{
+              labels: Array.from(circles)
+                .sort((a, b) => a[0].localeCompare(b[0]))
+                .sort((a, b) => a[0].length - b[0].length)
+                .map((i) => i[0]),
+              datasets: datasets,
+            }}
+          />
+        </div>
+        <div className="lg:hidden h-96">
+          <Bar
+            options={{
+              maintainAspectRatio: false,
+              indexAxis: "y",
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: (i: any) => {
+                      if (i % 1 === 0) {
+                        return i;
+                      }
+                      return undefined;
+                    },
+                  },
+                },
+                y: {
+                  ticks: {
+                    autoSkip: false,
+                  },
+                },
+              },
+            }}
+            data={{
+              labels: Array.from(circles)
+                .sort((a, b) => a[0].localeCompare(b[0]))
+                .sort((a, b) => a[0].length - b[0].length)
+                .map((i) => i[0]),
+              datasets: datasets,
+            }}
+          />
+        </div>
       </CardContent>
       <CardFooter>
         <Button onClick={() => setOrder((s) => !s)}>Byt ordning</Button>

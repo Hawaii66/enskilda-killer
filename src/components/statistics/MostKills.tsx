@@ -31,26 +31,74 @@ function MostKills({ kills }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Bar
-          options={GetOptions({ onlyIntegers: true })}
-          data={{
-            labels: Array.from(kills)
-              .filter((i) => (showAlive ? i[1].alive : true))
-              .map((i) => i[0]),
-            datasets: [
-              {
-                label: `Mord (${
-                  showAlive
-                    ? "visar endast personer i en cirkel"
-                    : "visar även döda personer"
-                })`,
-                data: Array.from(kills)
-                  .filter((i) => (showAlive ? i[1].alive : true))
-                  .map((i) => i[1].kills),
+        <div className="hidden lg:block">
+          <Bar
+            options={GetOptions({ onlyIntegers: true })}
+            data={{
+              labels: Array.from(kills)
+                .filter((i) => (showAlive ? i[1].alive : true))
+                .map((i) => i[0]),
+              datasets: [
+                {
+                  label: `Mord (${
+                    showAlive
+                      ? "visar endast personer i en cirkel"
+                      : "visar även döda personer"
+                  })`,
+                  data: Array.from(kills)
+                    .filter((i) => (showAlive ? i[1].alive : true))
+                    .map((i) => i[1].kills),
+                },
+              ],
+            }}
+          />
+        </div>
+        <div className="lg:hidden h-96">
+          <Bar
+            options={{
+              maintainAspectRatio: false,
+              indexAxis: "y",
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: (i: any) => {
+                      if (i % 1 === 0) {
+                        return i;
+                      }
+                      return undefined;
+                    },
+                  },
+                },
+                y: {
+                  ticks: {
+                    autoSkip: false,
+                  },
+                },
               },
-            ],
-          }}
-        />
+            }}
+            data={{
+              labels: Array.from(kills)
+                .filter((i) => (showAlive ? i[1].alive : true))
+                .map((i) => i[0]),
+              datasets: [
+                {
+                  label: `Mord (${
+                    showAlive
+                      ? "visar endast personer i en cirkel"
+                      : "visar även döda personer"
+                  })`,
+                  data: Array.from(kills)
+                    .filter((i) => (showAlive ? i[1].alive : true))
+                    .map((i) => i[1].kills),
+                  backgroundColor: Array.from(kills)
+                    .filter((i) => (showAlive ? i[1].alive : true))
+                    .map((i) => (i[1].alive ? "#A6FF9696" : "#FF666696")),
+                },
+              ],
+            }}
+          />
+        </div>
       </CardContent>
       <CardFooter className="gap-4">
         <Label>Visa endast levande</Label>

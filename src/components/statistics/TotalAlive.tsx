@@ -24,8 +24,6 @@ type Props = {
 ChartJS.register(ArcElement);
 
 function TotalAlive({ total }: Props) {
-  const [inPercent, setInPercent] = useState(false);
-
   return (
     <Card>
       <CardHeader>
@@ -38,36 +36,25 @@ function TotalAlive({ total }: Props) {
         <div className="md:w-1/2 w-full">
           <Pie
             data={{
-              labels: ["Levande", "Döda"],
+              labels: [
+                `Levande: ${Math.round(
+                  (total.alive / (total.alive + total.dead)) * 100
+                )}%`,
+                `Döda: ${Math.round(
+                  (total.dead / (total.alive + total.dead)) * 100
+                )}%`,
+              ],
               datasets: [
                 {
-                  label: inPercent ? "Procent" : "Antal",
+                  label: "Antal",
                   backgroundColor: ["#A6FF9696", "#FF666696"],
-                  data: [
-                    total.alive / (inPercent ? total.alive + total.dead : 1),
-                    total.dead / (inPercent ? total.alive + total.dead : 1),
-                  ].map((i) => (inPercent ? Math.round(i * 100) : i)),
+                  data: [total.alive, total.dead],
                 },
               ],
-            }}
-            options={{
-              plugins: {
-                tooltip: {
-                  callbacks: inPercent
-                    ? {
-                        label: (e) => `${e.label}: ${e.raw}%`,
-                      }
-                    : undefined,
-                },
-              },
             }}
           />
         </div>
       </CardContent>
-      <CardFooter className="gap-4">
-        <Label>Visa procent</Label>
-        <Switch checked={inPercent} onCheckedChange={setInPercent} />
-      </CardFooter>
     </Card>
   );
 }
