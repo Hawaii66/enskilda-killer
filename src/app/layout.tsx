@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
 import { AxiomWebVitals } from "next-axiom";
 import AllLitigationReasonsWrapper from "@/components/Contexts/AllLitigationReasons";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Enskilda Killer",
@@ -46,6 +47,7 @@ export default function RootLayout({
                       <Footer />
                     </div>
                     <Toaster />
+                    <Analytics />
                   </body>
                 </AllLitigationReasonsWrapper>
               </AllCirclesWrapper>
