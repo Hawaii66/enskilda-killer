@@ -3,6 +3,8 @@ import { GetLitigations } from "@/functions/admin/getLitigations";
 import { supabase } from "@/functions/supabase";
 import React from "react";
 
+export const revalidate = 0;
+
 async function Page() {
   const litigations = await GetLitigations();
   const admins = await supabase().from("admins").select("*");
