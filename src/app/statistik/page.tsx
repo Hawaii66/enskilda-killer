@@ -106,7 +106,7 @@ async function GetKillsPerDay() {
 
   const today = Date.now();
 
-  var time = startOfDay(startDay).getTime();
+  var time = startOfDay(addHours(startDay, 1)).getTime();
   while (time < today) {
     const count = killsPerDay?.find((i) => isSameDay(time, i.time))?.count;
 
