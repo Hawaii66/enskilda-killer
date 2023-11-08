@@ -15,6 +15,7 @@ export const getUserKills = async (id: number): Promise<Kills> => {
         circle: {
           id: kill.circles?.cid ?? -1,
           name: kill.circles?.cname ?? "",
+          color: "",
         },
         id: kill.killid,
         time: new Date(kill.time).getTime(),
@@ -48,6 +49,7 @@ export const getUsersKills = async (
         circle: {
           id: kill.circles?.cid ?? -1,
           name: kill.circles?.cname ?? "",
+          color: "",
         },
         id: kill.killid,
         time: new Date(kill.time).getTime(),

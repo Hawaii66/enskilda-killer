@@ -40,7 +40,11 @@ export async function GetSettings() {
   const circlesResult = await supabase().from("circles").select("*");
 
   const circles: Circle[] =
-    circlesResult.data?.map((i) => ({ id: i.id, name: i.name })) || [];
+    circlesResult.data?.map((i) => ({
+      id: i.id,
+      name: i.name,
+      color: i.color,
+    })) || [];
 
   const { data } = await supabase().from("admins").select("*");
   const admins: Admin[] =
