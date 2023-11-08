@@ -18,6 +18,7 @@ async function GetAllCircles() {
   const circles: Circle[] = result.data.map((c) => ({
     id: c.id,
     name: c.name,
+    color: c.color,
   }));
 
   return circles;
