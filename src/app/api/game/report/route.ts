@@ -2,7 +2,7 @@ import { supabase } from "@/functions/supabase";
 import { VerifyUser } from "@/functions/verifyUser";
 import { NextRequest, NextResponse } from "next/server";
 
-export const logger = {
+const logger = {
   log: console.log,
 };
 
