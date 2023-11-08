@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   CardContent,
@@ -13,10 +13,11 @@ import { Chart as ChartJS, ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
+import { StatsContext } from "@/contexts/StatsContext";
 
 type Props = {
   total: {
-    alive: number;
+    circles: Map<number, number>;
     dead: number;
   };
 };
@@ -24,6 +25,18 @@ type Props = {
 ChartJS.register(ArcElement);
 
 function TotalAlive({ total }: Props) {
+  const { circles } = useContext(StatsContext);
+
+  const labels = ["Döda", ...Array.from(circles).map((i) => i[1].name)];
+  const data = [
+    total.dead,
+    ...Array.from(circles).map(
+      (i) => Array.from(total.circles).find((j) => j[0] === i[0])?.[1] || 0
+    ),
+  ];
+
+  const colors = ["#FF666696", ...Array.from(circles).map((i) => i[1].color)];
+
   return (
     <Card>
       <CardHeader>
@@ -36,19 +49,12 @@ function TotalAlive({ total }: Props) {
         <div className="md:w-1/2 w-full">
           <Pie
             data={{
-              labels: [
-                `Levande: ${Math.round(
-                  (total.alive / (total.alive + total.dead)) * 100
-                )}%`,
-                `Döda: ${Math.round(
-                  (total.dead / (total.alive + total.dead)) * 100
-                )}%`,
-              ],
+              labels,
               datasets: [
                 {
                   label: "Antal",
-                  backgroundColor: ["#A6FF9696", "#FF666696"],
-                  data: [total.alive, total.dead],
+                  backgroundColor: colors,
+                  data,
                 },
               ],
             }}

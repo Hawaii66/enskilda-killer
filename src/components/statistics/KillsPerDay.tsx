@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -21,8 +21,9 @@ import {
 import { Line } from "react-chartjs-2";
 import { format } from "date-fns";
 import { GetOptions } from "@/functions/statsOptions";
+import { StatsContext } from "@/contexts/StatsContext";
 type Props = {
-  kills: Map<number, number>;
+  kills: Map<number, Map<number, number>>;
 };
 
 ChartJS.register(
@@ -36,6 +37,16 @@ ChartJS.register(
 );
 
 function KillsPerDay({ kills }: Props) {
+  const { circles } = useContext(StatsContext);
+
+  const datasets = Array.from(circles).map((circle) => ({
+    label: circle[1].name,
+    backgroundColor: circle[1].color,
+    borderColor: circle[1].color,
+    data: Array.from(kills).map((day) => day[1].get(circle[0]) || null),
+  }));
+  const labels = Array.from(kills).map((day) => format(day[0], "MM/dd"));
+
   return (
     <Card>
       <CardHeader>
@@ -46,17 +57,12 @@ function KillsPerDay({ kills }: Props) {
       </CardHeader>
       <CardContent>
         <Line
-          options={GetOptions({ onlyIntegers: true })}
+          options={{
+            ...GetOptions({ onlyIntegers: true }),
+          }}
           data={{
-            labels: Array.from(kills).map((i) => format(i[0], "MM/dd")),
-            datasets: [
-              {
-                data: Array.from(kills).map((i) => i[1]),
-                label: "Kills per dag",
-                backgroundColor: "#FF666696",
-                borderColor: "#FF666696",
-              },
-            ],
+            labels,
+            datasets,
           }}
         />
       </CardContent>
@@ -65,3 +71,19 @@ function KillsPerDay({ kills }: Props) {
 }
 
 export default KillsPerDay;
+
+/*
+
+{
+            labels: Array.from(kills).map((i) => format(i[0], "MM/dd")),
+            datasets: [
+              {
+                data: Array.from(kills).map((i) => i[1].get(1)),
+                label: "Kills per dag",
+                backgroundColor: "#FF666696",
+                borderColor: "#FF666696",
+              },
+            ],
+          }}
+
+*/

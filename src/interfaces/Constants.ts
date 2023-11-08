@@ -18,7 +18,8 @@ export type ConstantKey =
   | "GameState"
   | "Enskildakaren"
   | "Groups"
-  | "LitigationReasons";
+  | "LitigationReasons"
+  | "JoinCircle";
 
 export type Rule = {
   rule: string;

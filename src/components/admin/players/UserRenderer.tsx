@@ -73,12 +73,13 @@ function UserRenderer({
       method: "POST",
       body: user,
     });
-    const responseKills = await apiFetch("/api/admin/save/kills", {
+    /*const responseKills = await apiFetch("/api/admin/save/kills", {
       method: "POST",
       body: { kills, user: user.id },
-    });
+    });*/
 
-    if (responseUser.status === 200 && responseKills.status === 200) {
+    if (responseUser.status === 200) {
+      // && responseKills.status === 200) {
       refresh();
       setOpen(false);
       toastSave("Spelarens information är nu sparad");

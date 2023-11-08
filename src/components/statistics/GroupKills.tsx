@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -10,12 +10,22 @@ import {
 } from "../ui/card";
 import { GetOptions } from "@/functions/statsOptions";
 import { Bar } from "react-chartjs-2";
+import { StatsContext } from "@/contexts/StatsContext";
 
 type Props = {
-  kills: Map<string, number>;
+  kills: Map<string, Map<number, number>>;
 };
 
 function GroupKills({ kills }: Props) {
+  const { circles } = useContext(StatsContext);
+
+  const labels = Array.from(kills).map((i) => i[0]);
+  const datasets = Array.from(circles).map((circle) => ({
+    label: circle[1].name,
+    backgroundColor: circle[1].color,
+    data: Array.from(kills).map((group) => group[1].get(circle[0]) || 0),
+  }));
+
   return (
     <Card>
       <CardHeader>
@@ -28,21 +38,10 @@ function GroupKills({ kills }: Props) {
       <CardContent>
         <div className="hidden lg:block">
           <Bar
-            options={GetOptions({ onlyIntegers: true })}
+            options={GetOptions({ onlyIntegers: true, stacked: true })}
             data={{
-              labels: Array.from(kills)
-                .sort((a, b) => a[0].localeCompare(b[0]))
-                .sort((a, b) => a[0].length - b[0].length)
-                .map((i) => i[0]),
-              datasets: [
-                {
-                  label: "Mord",
-                  data: Array.from(kills)
-                    .sort((a, b) => a[0].localeCompare(b[0]))
-                    .sort((a, b) => a[0].length - b[0].length)
-                    .map((i) => i[1]),
-                },
-              ],
+              labels,
+              datasets,
             }}
           />
         </div>
@@ -62,29 +61,17 @@ function GroupKills({ kills }: Props) {
                       return undefined;
                     },
                   },
+                  stacked: true,
                 },
                 y: {
                   ticks: {
                     autoSkip: false,
                   },
+                  stacked: true,
                 },
               },
             }}
-            data={{
-              labels: Array.from(kills)
-                .sort((a, b) => a[0].localeCompare(b[0]))
-                .sort((a, b) => a[0].length - b[0].length)
-                .map((i) => i[0]),
-              datasets: [
-                {
-                  label: "Mord",
-                  data: Array.from(kills)
-                    .sort((a, b) => a[0].localeCompare(b[0]))
-                    .sort((a, b) => a[0].length - b[0].length)
-                    .map((i) => i[1]),
-                },
-              ],
-            }}
+            data={{ labels, datasets }}
           />
         </div>
       </CardContent>

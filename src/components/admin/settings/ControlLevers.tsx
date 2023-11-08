@@ -1,5 +1,6 @@
 "use client";
 
+import SelectCircle from "@/components/SelectCircle";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -43,6 +44,7 @@ type Props = {
 function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
   const [state, setState] = useState(defaultGameState);
   const [showAlert, setShowAlert] = useState(!!defaultGameState.info);
+  const [joinCircle, setJoinCircle] = useState<number>();
 
   const apiFetch = useApi();
   const { toast, toastSave } = useBasicToast();
@@ -52,7 +54,13 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
       method: "POST",
       body: state,
     });
-    if (response.status === 200) {
+    const response2 = await apiFetch("/api/admin/save/joincircle", {
+      method: "POST",
+      body: {
+        circle: joinCircle,
+      },
+    });
+    if (response.status === 200 && response2.status === 200) {
       refresh();
       toastSave("Sparade styrspakarna");
     } else {
@@ -82,6 +90,12 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
             onCheckedChange={(s) => setState({ ...state, allowSignUp: s })}
           />
           <Label>Nya spelar kan skapa ett konto</Label>
+          <Label>Gå med cirkel</Label>
+          <SelectCircle
+            includeEmpty
+            onChangeCircle={(c) => setJoinCircle(c?.id)}
+          />
+          <Label>Vilken cirkel ska nya spelare placeras i</Label>
           <Label>Killer Startade</Label>
           <Popover>
             <PopoverTrigger asChild>

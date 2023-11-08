@@ -1,3 +1,4 @@
+import StatsWrapper from "@/components/Contexts/StatsWrapper";
 import Top from "@/components/Top";
 import Circles from "@/components/statistics/Circles";
 import GroupKills from "@/components/statistics/GroupKills";
@@ -17,22 +18,43 @@ import React from "react";
 
 async function GetGroupStats() {
   const result = await supabase().from("users").select("group, id");
-  const circleUsers = await supabase().from("usersincircle").select("user");
+  const circleUsers = await supabase()
+    .from("usersincircle")
+    .select("user,circle");
 
   const map: Map<
     string,
     {
-      alive: number;
+      circles: Map<number, number>;
       dead: number;
     }
   > = new Map();
 
+  const dead: Map<string, number> = new Map();
+
   result.data?.forEach((user) => {
     const previous = map.get(user.group);
-    const inCircle = circleUsers.data?.map((i) => i.user).includes(user.id);
+
+    const circles: Map<number, number> =
+      previous?.circles || new Map<number, number>();
+    const circle = circleUsers.data?.find((i) => i.user === user.id)?.circle;
+
+    if (circle) {
+      circles.set(circle, (circles.get(circle) || 0) + 1);
+    } else {
+      dead.set(user.group, (dead.get(user.group) || 0) + 1);
+    }
+
     map.set(user.group, {
-      alive: (previous === undefined ? 0 : previous.alive) + (inCircle ? 1 : 0),
-      dead: (previous === undefined ? 0 : previous.dead) + (inCircle ? 0 : 1),
+      dead: 0,
+      circles,
+    });
+  });
+
+  Array.from(dead).forEach((dead) => {
+    map.set(dead[0], {
+      circles: map.get(dead[0])?.circles || new Map(),
+      dead: dead[1],
     });
   });
 
@@ -58,12 +80,16 @@ async function GetMostKills() {
 }
 
 async function GetGroupKills() {
-  const kills = await supabase().from("groupkills").select("*");
+  const kills = await supabase().from("groupkillscircle").select("*");
 
-  const map: Map<string, number> = new Map();
+  const map: Map<string, Map<number, number>> = new Map();
 
-  kills.data?.forEach((group) => {
-    map.set(group.group || "", group.kills || 0);
+  kills.data?.forEach((row) => {
+    if (row.group === null || row.circle === null) return;
+
+    var group = map.get(row.group) || new Map<number, number>();
+    group.set(row.circle, row.count || 0);
+    map.set(row.group, group);
   });
 
   return map;
@@ -73,11 +99,17 @@ async function GetAliveTotal() {
   const totalUsers =
     (await supabase().from("users").select("id")).data?.length || 0;
   const totalAlive =
-    (await supabase().from("usersincircle").select("id")).data?.length || 0;
+    (await supabase().from("usersincircle").select("circle")).data || [];
+
+  const map: Map<number, number> = new Map();
+  totalAlive.forEach((user) => {
+    const newCount = (map.get(user.circle) || 0) + 1;
+    map.set(user.circle, newCount);
+  });
 
   return {
-    alive: totalAlive,
-    dead: totalUsers - totalAlive,
+    dead: totalUsers - totalAlive.length,
+    circles: map,
   };
 }
 
@@ -94,22 +126,30 @@ async function GetKillsPerDay() {
     ).startdate
   );
 
-  const data = await supabase().from("killsperday").select("*");
+  const data = await supabase().from("killsperdaycircle").select("*");
 
   const killsPerDay = data.data?.map((i) => ({
     time: addHours(startOfDay(new Date(i.time || "")), 1).getTime(),
     count: i.count,
+    circle: i.circle,
   }));
 
-  const map: Map<number, number> = new Map(); // Map<day (UTC), number of kills>
+  const map: Map<number, Map<number, number>> = new Map(); // Map<day (UTC), number of kills>
 
   const today = Date.now();
 
   var time = startOfDay(addHours(startDay, 1)).getTime();
   while (time < today) {
-    const count = killsPerDay?.find((i) => isSameDay(time, i.time))?.count;
+    const killsOneDay =
+      killsPerDay?.filter((i) => isSameDay(time, i.time)) || [];
 
-    map.set(time, count ?? 0);
+    const dayMap = new Map<number, number>();
+    killsOneDay.forEach((kill) => {
+      if (kill.circle === null) return;
+      dayMap.set(kill.circle, kill.count || 0);
+    });
+
+    map.set(time, dayMap);
 
     time = addDays(time, 1).getTime();
   }
@@ -139,11 +179,13 @@ async function page() {
               Här kan du se live statistik för årets Killer
             </p>
           </div>
-          <KillsPerDay kills={killsPerDay} />
-          <Circles circles={circles} />
-          <MostKills kills={userKills} />
-          <GroupKills kills={groupKills} />
-          <TotalAlive total={totalAlive} />
+          <StatsWrapper>
+            <KillsPerDay kills={killsPerDay} />
+            <Circles groups={circles} />
+            <MostKills kills={userKills} />
+            <GroupKills kills={groupKills} />
+            <TotalAlive total={totalAlive} />
+          </StatsWrapper>
         </div>
       </div>
     </>

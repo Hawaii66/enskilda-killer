@@ -1,6 +1,7 @@
 type Options = Partial<{
   onlyIntegers: boolean;
   numberOnXAxis: boolean;
+  stacked: boolean;
 }>;
 
 export const GetOptions = (options: Options) => {
@@ -8,6 +9,7 @@ export const GetOptions = (options: Options) => {
     scales: {
       x: options.numberOnXAxis
         ? {
+            stacked: options.stacked,
             beginAtZero: true,
             ticks: options.onlyIntegers
               ? {
@@ -20,11 +22,14 @@ export const GetOptions = (options: Options) => {
                 }
               : undefined,
           }
-        : undefined,
+        : {
+            stacked: options.stacked,
+          },
       y: {
         beginAtZero: true,
         ticks: options.onlyIntegers
           ? {
+              stacked: options.stacked,
               callback: (i: any) => {
                 if (i % 1 === 0) {
                   return i;
@@ -32,7 +37,9 @@ export const GetOptions = (options: Options) => {
                 return undefined;
               },
             }
-          : undefined,
+          : {
+              stacked: options.stacked,
+            },
       },
     },
   };

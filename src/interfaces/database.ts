@@ -32,16 +32,19 @@ export interface Database {
       };
       circles: {
         Row: {
+          color: string;
           created_at: string;
           id: number;
           name: string;
         };
         Insert: {
+          color?: string;
           created_at?: string;
           id?: number;
           name: string;
         };
         Update: {
+          color?: string;
           created_at?: string;
           id?: number;
           name?: string;
@@ -432,12 +435,44 @@ export interface Database {
         };
         Relationships: [];
       };
+      groupkillscircle: {
+        Row: {
+          circle: number | null;
+          count: number | null;
+          group: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "kills_circle_fkey";
+            columns: ["circle"];
+            isOneToOne: false;
+            referencedRelation: "circles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       killsperday: {
         Row: {
           count: number | null;
           time: string | null;
         };
         Relationships: [];
+      };
+      killsperdaycircle: {
+        Row: {
+          circle: number | null;
+          count: number | null;
+          time: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "kills_circle_fkey";
+            columns: ["circle"];
+            isOneToOne: false;
+            referencedRelation: "circles";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
     Functions: {

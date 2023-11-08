@@ -1,7 +1,7 @@
 "use client";
 
 import { supabase } from "@/functions/supabase";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,9 +22,10 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { GetOptions } from "@/functions/statsOptions";
+import { StatsContext } from "@/contexts/StatsContext";
 
 type Props = {
-  circles: Map<string, { alive: number; dead: number }>;
+  groups: Map<string, { circles: Map<number, number>; dead: number }>;
 };
 
 ChartJS.register(
@@ -36,33 +37,34 @@ ChartJS.register(
   Legend
 );
 
-function Circles({ circles }: Props) {
-  const [order, setOrder] = useState(false);
+function Circles({ groups }: Props) {
+  const { circles } = useContext(StatsContext);
+
+  console.log(groups);
+
+  const groupsSortedArray = Array.from(groups)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .sort((a, b) => a[0].length - b[0].length);
 
   const datasets = [
-    {
-      label: "Levande",
-      data: Array.from(circles)
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .sort((a, b) => a[0].length - b[0].length)
-        .map((i) => i[1].alive),
-      backgroundColor: "#A6FF9696",
+    ...Array.from(circles).map((circle) => ({
+      label: circle[1].name,
+      backgroundColor: circle[1].color,
+      data: [
+        ...groupsSortedArray.map(
+          (group) => group[1].circles.get(circle[0]) || 0
+        ),
+      ],
       stack: "0",
-    },
+    })),
     {
       label: "Döda",
-      data: Array.from(circles)
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .sort((a, b) => a[0].length - b[0].length)
-        .map((i) => i[1].dead),
+      data: groupsSortedArray.map((g) => g[1].dead),
       backgroundColor: "#FF666696",
       stack: "0",
     },
   ];
-
-  if (order) {
-    datasets.reverse();
-  }
+  const labels = [...groupsSortedArray.map((i) => i[0])];
 
   return (
     <Card>
@@ -75,12 +77,9 @@ function Circles({ circles }: Props) {
       <CardContent>
         <div className="hidden lg:block">
           <Bar
-            options={GetOptions({ onlyIntegers: true })}
+            options={GetOptions({ onlyIntegers: true, stacked: true })}
             data={{
-              labels: Array.from(circles)
-                .sort((a, b) => a[0].localeCompare(b[0]))
-                .sort((a, b) => a[0].length - b[0].length)
-                .map((i) => i[0]),
+              labels: labels,
               datasets: datasets,
             }}
           />
@@ -101,27 +100,23 @@ function Circles({ circles }: Props) {
                       return undefined;
                     },
                   },
+                  stacked: true,
                 },
                 y: {
                   ticks: {
                     autoSkip: false,
                   },
+                  stacked: true,
                 },
               },
             }}
             data={{
-              labels: Array.from(circles)
-                .sort((a, b) => a[0].localeCompare(b[0]))
-                .sort((a, b) => a[0].length - b[0].length)
-                .map((i) => i[0]),
+              labels: labels,
               datasets: datasets,
             }}
           />
         </div>
       </CardContent>
-      <CardFooter>
-        <Button onClick={() => setOrder((s) => !s)}>Byt ordning</Button>
-      </CardFooter>
     </Card>
   );
 }
