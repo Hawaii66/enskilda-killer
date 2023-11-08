@@ -43,8 +43,7 @@ async function GetMostKills() {
   const kills = await supabase()
     .from("countkills")
     .select("*")
-    .order("count", { ascending: false })
-    .limit(10);
+    .order("count", { ascending: false });
 
   const map: Map<string, { alive: boolean; kills: number }> = new Map();
 
