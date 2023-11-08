@@ -82,6 +82,7 @@ function MostKills({ kills }: Props) {
             data={{
               labels: Array.from(kills)
                 .filter((i) => (showAlive ? i[1].alive : true))
+                .filter((_, i) => i < 10)
                 .map((i) => i[0]),
               datasets: [
                 {
@@ -92,9 +93,11 @@ function MostKills({ kills }: Props) {
                   })`,
                   data: Array.from(kills)
                     .filter((i) => (showAlive ? i[1].alive : true))
+                    .filter((_, i) => i < 10)
                     .map((i) => i[1].kills),
                   backgroundColor: Array.from(kills)
                     .filter((i) => (showAlive ? i[1].alive : true))
+                    .filter((_, i) => i < 10)
                     .map((i) => (i[1].alive ? "#A6FF9696" : "#FF666696")),
                 },
               ],
