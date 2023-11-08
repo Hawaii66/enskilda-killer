@@ -2,13 +2,20 @@ import { supabase } from "@/functions/supabase";
 import { VerifyUser } from "@/functions/verifyUser";
 import { NextRequest, NextResponse } from "next/server";
 
+export const logger = {
+  log: console.log,
+};
+
 export const POST = async (request: NextRequest) => {
   const { email, id } = await VerifyUser();
+  logger.log("User reported: ", email, id, new Date().toDateString());
   if (!email || !id) return NextResponse.json({}, { status: 400 });
 
   const data: { isMurderer: boolean } = await request.json();
+  logger.log("Data: ", data);
 
   const status = data.isMurderer ? await Murder(id) : await Target(id);
+  logger.log("Status of murder: ", status);
 
   return NextResponse.json({}, { status: status === true ? 200 : 400 });
 };
