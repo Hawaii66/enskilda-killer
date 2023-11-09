@@ -10,6 +10,7 @@ export default authMiddleware({
     "/profil",
     "/admin",
     "/api/backup",
+    "/api/game/circles",
   ],
 });
 
