@@ -45,7 +45,7 @@ function KillsPerDay({ kills }: Props) {
     borderColor: circle[1].color,
     data: Array.from(kills).map((day) => day[1].get(circle[0]) || null),
   }));
-  const labels = Array.from(kills).map((day) => format(day[0], "MM/dd"));
+  const labels = Array.from(kills).map((day) => format(day[0], "dd/MM"));
 
   return (
     <Card>
