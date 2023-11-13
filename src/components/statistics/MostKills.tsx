@@ -22,7 +22,7 @@ type Props = {
 
 function MostKills({ kills }: Props) {
   const { circles } = useContext(StatsContext);
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState([10]);
   const [showAlive, setShowAlive] = useState(false);
   const [activeCircle, setActiveCircles] = useState(
     Array.from(circles).map((i) => ({
@@ -73,7 +73,7 @@ function MostKills({ kills }: Props) {
     .filter((i) => i[1].kills.size > 0)
     .sort((a, b) => compareSortKills(a[1].kills, b[1].kills));
 
-  const labels = filteredUsers.map((i) => i[0]).filter((_, i) => i < count);
+  const labels = filteredUsers.map((i) => i[0]).filter((_, i) => i < count[0]);
 
   const datasets = Array.from(circles)
     .filter((c) => activeCircle.find((i) => i.circle.id === c[1].id)?.enabled)
@@ -83,7 +83,7 @@ function MostKills({ kills }: Props) {
       stack: "0",
       data: filteredUsers.map((user) => user[1].kills.get(circle[0]) ?? 0),
     }))
-    .filter((_, i) => i < count);
+    .filter((_, i) => i < count[0]);
 
   return (
     <Card>
@@ -177,7 +177,7 @@ function MostKills({ kills }: Props) {
           min={10}
           max={50}
           step={1}
-          defaultValue={[count]}
+          defaultValue={count}
           onValueChange={setCount}
         />
       </CardFooter>
