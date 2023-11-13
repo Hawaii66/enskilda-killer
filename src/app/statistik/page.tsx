@@ -190,7 +190,7 @@ async function page() {
               target="_blank"
               className="text-blue-500 text-lg font-bold"
             >
-              Enkät Länk
+              Klicka här (https://forms.gle/2aSV3hwCeuHTWGeQA)
             </Link>
           </div>
           <StatsWrapper>
