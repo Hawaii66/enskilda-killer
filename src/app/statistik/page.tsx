@@ -14,6 +14,7 @@ import {
   isSameDay,
   startOfDay,
 } from "date-fns";
+import Link from "next/link";
 import React from "react";
 
 async function GetGroupStats() {
@@ -172,12 +173,25 @@ async function page() {
       <div className="w-full flex justify-center items-center mt-4">
         <div className="md:w-2/3 lg:grid lg:w-full lg:grid-cols-2 w-11/12 lg:px-8 flex flex-col gap-4">
           <div className="text-center lg:col-span-2">
-            <h1 className="text-xl underline font-bold text-black">
+            {/*<h1 className="text-xl underline font-bold text-black">
               Statistik för Killer
             </h1>
             <p className="text-md font-bold text-gray-600">
               Här kan du se live statistik för årets Killer
+  </p>*/}
+            <h1 className="text-2xl underline font-bold text-black">
+              Hjälp Simplito UF
+            </h1>
+            <p className="text-lg font-bold text-gray-600">
+              Hej, det tar endast 1 minut att fylla i enkäten
             </p>
+            <Link
+              href="https://forms.gle/2aSV3hwCeuHTWGeQA"
+              target="_blank"
+              className="text-blue-500 text-lg font-bold"
+            >
+              Enkät Länk
+            </Link>
           </div>
           <StatsWrapper>
             <KillsPerDay kills={killsPerDay} />
