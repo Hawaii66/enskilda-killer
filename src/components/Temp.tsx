@@ -21,7 +21,7 @@ function Temp() {
           track("Form");
         }}
       >
-        Klicka här (https://forms.gle/2aSV3hwCeuHTWGeQA)
+        Klicka här
       </Link>
     </>
   );
