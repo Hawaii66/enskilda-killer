@@ -127,7 +127,21 @@ export interface Database {
             foreignKeyName: "kills_murderer_fkey";
             columns: ["murderer"];
             isOneToOne: false;
+            referencedRelation: "countkillscircle";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "kills_murderer_fkey";
+            columns: ["murderer"];
+            isOneToOne: false;
             referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "kills_target_fkey";
+            columns: ["target"];
+            isOneToOne: false;
+            referencedRelation: "countkillscircle";
             referencedColumns: ["id"];
           },
           {
@@ -192,6 +206,13 @@ export interface Database {
             foreignKeyName: "litigations_user_fkey";
             columns: ["user"];
             isOneToOne: false;
+            referencedRelation: "countkillscircle";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "litigations_user_fkey";
+            columns: ["user"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
@@ -199,7 +220,21 @@ export interface Database {
             foreignKeyName: "litigations_with_fkey";
             columns: ["with"];
             isOneToOne: false;
+            referencedRelation: "countkillscircle";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "litigations_with_fkey";
+            columns: ["with"];
+            isOneToOne: false;
             referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "litigations_witness_fkey";
+            columns: ["witness"];
+            isOneToOne: false;
+            referencedRelation: "countkillscircle";
             referencedColumns: ["id"];
           },
           {
@@ -238,7 +273,21 @@ export interface Database {
             foreignKeyName: "pendingkills_murderer_fkey";
             columns: ["murderer"];
             isOneToOne: false;
+            referencedRelation: "countkillscircle";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pendingkills_murderer_fkey";
+            columns: ["murderer"];
+            isOneToOne: false;
             referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pendingkills_target_fkey";
+            columns: ["target"];
+            isOneToOne: false;
+            referencedRelation: "countkillscircle";
             referencedColumns: ["id"];
           },
           {
@@ -325,7 +374,21 @@ export interface Database {
             foreignKeyName: "targets_murderer_fkey";
             columns: ["murderer"];
             isOneToOne: false;
+            referencedRelation: "countkillscircle";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "targets_murderer_fkey";
+            columns: ["murderer"];
+            isOneToOne: false;
             referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "targets_target_fkey";
+            columns: ["target"];
+            isOneToOne: false;
+            referencedRelation: "countkillscircle";
             referencedColumns: ["id"];
           },
           {
@@ -404,6 +467,13 @@ export interface Database {
             foreignKeyName: "usersincircle_user_fkey";
             columns: ["user"];
             isOneToOne: false;
+            referencedRelation: "countkillscircle";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "usersincircle_user_fkey";
+            columns: ["user"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }
@@ -422,6 +492,33 @@ export interface Database {
           {
             foreignKeyName: "usersincircle_circle_fkey";
             columns: ["circle"];
+            isOneToOne: false;
+            referencedRelation: "circles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      countkillscircle: {
+        Row: {
+          alive: number | null;
+          circle: number | null;
+          count: number | null;
+          firstname: string | null;
+          group: string | null;
+          id: number | null;
+          lastname: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "kills_circle_fkey";
+            columns: ["circle"];
+            isOneToOne: false;
+            referencedRelation: "circles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "usersincircle_circle_fkey";
+            columns: ["alive"];
             isOneToOne: false;
             referencedRelation: "circles";
             referencedColumns: ["id"];

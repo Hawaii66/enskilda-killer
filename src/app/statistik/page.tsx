@@ -65,16 +65,27 @@ async function GetGroupStats() {
 
 async function GetMostKills() {
   const kills = await supabase()
-    .from("countkills")
+    .from("countkillscircle")
     .select("*")
     .order("count", { ascending: false });
 
-  const map: Map<string, { alive: boolean; kills: number }> = new Map();
+  const map: Map<
+    string,
+    {
+      alive: boolean;
+      kills: Map<number, number>;
+    }
+  > = new Map();
 
   kills.data?.forEach((user) => {
-    map.set(`${user.firstname} ${user.lastname}`, {
-      alive: user.circle !== null,
-      kills: user.count ?? 0,
+    if (user.circle === null || user.count === null) return;
+
+    const key = `${user.firstname} ${user.lastname} ${user.group}`;
+    map.set(key, {
+      alive: user.alive !== null,
+      kills:
+        map.get(key)?.kills.set(user.circle, user.count) ??
+        new Map().set(user.circle, user.count),
     });
   });
 
