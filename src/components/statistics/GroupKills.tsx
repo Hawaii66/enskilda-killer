@@ -24,6 +24,7 @@ function GroupKills({ kills }: Props) {
     label: circle[1].name,
     backgroundColor: circle[1].color,
     data: Array.from(kills).map((group) => group[1].get(circle[0]) || 0),
+    stack: "0",
   }));
 
   return (
