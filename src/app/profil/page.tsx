@@ -6,6 +6,7 @@ import Litigations from "@/components/Profile/Default/Litigations";
 import MeRenderer from "@/components/Profile/Default/MeRenderer";
 import SignUp from "@/components/Profile/NotSignedUp/SignUp";
 import ToLate from "@/components/Profile/NotSignedUp/ToLate";
+import Temp from "@/components/Temp";
 import Top from "@/components/Top";
 import PostRenderer from "@/components/blogg/PostRenderer";
 import { Separator } from "@/components/ui/separator";
@@ -73,19 +74,7 @@ function Page() {
             <p className="text-md font-bold text-gray-600">
               Här kan du se live statistik för årets Killer
   </p>*/}
-            <h1 className="text-2xl underline font-bold text-black">
-              Hjälp Simplito UF
-            </h1>
-            <p className="text-lg font-bold text-gray-600">
-              Hej, det tar endast 1 minut att fylla i enkäten
-            </p>
-            <Link
-              href="https://forms.gle/2aSV3hwCeuHTWGeQA"
-              target="_blank"
-              className="text-blue-500 text-lg font-bold"
-            >
-              Klicka här (https://forms.gle/2aSV3hwCeuHTWGeQA)
-            </Link>
+            <Temp />
           </div>
           <MeRenderer />
 

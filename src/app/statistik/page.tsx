@@ -1,4 +1,5 @@
 import StatsWrapper from "@/components/Contexts/StatsWrapper";
+import Temp from "@/components/Temp";
 import Top from "@/components/Top";
 import Circles from "@/components/statistics/Circles";
 import GroupKills from "@/components/statistics/GroupKills";
@@ -179,19 +180,7 @@ async function page() {
             <p className="text-md font-bold text-gray-600">
               Här kan du se live statistik för årets Killer
   </p>*/}
-            <h1 className="text-2xl underline font-bold text-black">
-              Hjälp Simplito UF
-            </h1>
-            <p className="text-lg font-bold text-gray-600">
-              Hej, det tar endast 1 minut att fylla i enkäten
-            </p>
-            <Link
-              href="https://forms.gle/2aSV3hwCeuHTWGeQA"
-              target="_blank"
-              className="text-blue-500 text-lg font-bold"
-            >
-              Klicka här (https://forms.gle/2aSV3hwCeuHTWGeQA)
-            </Link>
+            <Temp />
           </div>
           <StatsWrapper>
             <KillsPerDay kills={killsPerDay} />
