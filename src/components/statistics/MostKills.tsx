@@ -171,11 +171,11 @@ function MostKills({ kills }: Props) {
             </div>
           );
         })}
-        <Label>Antaled personer: {count}</Label>
+        <Label>Antalet personer: {count}</Label>
         <Slider
           className="flex-grow"
-          min={10}
-          max={50}
+          min={5}
+          max={15}
           step={1}
           defaultValue={count}
           onValueChange={setCount}
