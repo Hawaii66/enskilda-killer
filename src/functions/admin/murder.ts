@@ -40,6 +40,17 @@ export const MurdererMurder = async (
 };
 
 export const GhostMurder = async (target: number, circel: number) => {
+  const murderer = await supabase()
+    .from("targets")
+    .select("murderer")
+    .eq("target", target)
+    .single();
+  const myTarget = await supabase()
+    .from("targets")
+    .select("target")
+    .eq("murderer", target)
+    .single();
+
   await supabase().from("pendingkills").delete().eq("murderer", target);
   await supabase().from("pendingkills").delete().eq("target", target);
 
@@ -51,4 +62,11 @@ export const GhostMurder = async (target: number, circel: number) => {
 
   await supabase().from("targets").delete().eq("murderer", target);
   await supabase().from("targets").delete().eq("target", target);
+
+  await supabase()
+    .from("targets")
+    .insert({
+      murderer: murderer.data?.murderer ?? -1,
+      target: myTarget.data?.target ?? -1,
+    });
 };
