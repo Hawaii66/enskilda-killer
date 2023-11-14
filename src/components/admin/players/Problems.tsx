@@ -38,6 +38,7 @@ function Problems() {
         {targetProblems.map((user) => (
           <p>{user}</p>
         ))}
+        {targetProblems.length === 0 && <p>Inga problem just nu</p>}
       </CardContent>
     </Card>
   );
