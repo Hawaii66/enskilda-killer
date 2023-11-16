@@ -63,19 +63,6 @@ function List() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Button className="w-1/3" onClick={createPost}>
-        Nytt inlägg
-      </Button>
-      {posts
-        .sort((a, b) => b.createdAt - a.createdAt)
-        .map((p) => (
-          <EditPostRenderer
-            deletePost={() => deletePost(p)}
-            post={p}
-            save={savePost}
-            key={p.id}
-          />
-        ))}
       <div>
         <p>Info för att styla text</p>
         <div>
@@ -91,6 +78,19 @@ function List() {
           </ul>
         </div>
       </div>
+      <Button className="w-1/3" onClick={createPost}>
+        Nytt inlägg
+      </Button>
+      {posts
+        .sort((a, b) => b.createdAt - a.createdAt)
+        .map((p) => (
+          <EditPostRenderer
+            deletePost={() => deletePost(p)}
+            post={p}
+            save={savePost}
+            key={p.id}
+          />
+        ))}
     </div>
   );
 }
