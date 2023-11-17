@@ -44,6 +44,7 @@ export async function GetSettings() {
       id: i.id,
       name: i.name,
       color: i.color,
+      hidden: i.hidden,
     })) || [];
 
   const { data } = await supabase().from("admins").select("*");

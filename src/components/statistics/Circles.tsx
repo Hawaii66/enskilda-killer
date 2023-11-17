@@ -40,8 +40,6 @@ ChartJS.register(
 function Circles({ groups }: Props) {
   const { circles } = useContext(StatsContext);
 
-  console.log(groups);
-
   const groupsSortedArray = Array.from(groups)
     .sort((a, b) => a[0].localeCompare(b[0]))
     .sort((a, b) => a[0].length - b[0].length);
@@ -56,12 +54,14 @@ function Circles({ groups }: Props) {
         ),
       ],
       stack: "0",
+      hidden: circle[1].hidden,
     })),
     {
       label: "Döda",
       data: groupsSortedArray.map((g) => g[1].dead),
       backgroundColor: "#FF666696",
       stack: "0",
+      hidden: false,
     },
   ];
   const labels = [...groupsSortedArray.map((i) => i[0])];

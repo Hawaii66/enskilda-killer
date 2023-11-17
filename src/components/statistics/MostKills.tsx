@@ -26,7 +26,7 @@ function MostKills({ kills }: Props) {
   const [showAlive, setShowAlive] = useState(false);
   const [activeCircle, setActiveCircles] = useState(
     Array.from(circles).map((i) => ({
-      enabled: true,
+      enabled: !i[1].hidden,
       circle: i[1],
     }))
   );
@@ -55,8 +55,6 @@ function MostKills({ kills }: Props) {
       Array.from(user[1].kills).map((circle) => {
         if (activeCircle.find((i) => i.circle.id === circle[0])?.enabled) {
           newKills.set(circle[0], circle[1]);
-        } else {
-          console.log("Filter away", circle);
         }
       });
 
