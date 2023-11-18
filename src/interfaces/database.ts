@@ -453,6 +453,7 @@ export interface Database {
           isMember: boolean;
           lastname: string;
           phone: string;
+          show_murderer: boolean;
         };
         Insert: {
           clerkId?: string;
@@ -464,6 +465,7 @@ export interface Database {
           isMember?: boolean;
           lastname: string;
           phone: string;
+          show_murderer?: boolean;
         };
         Update: {
           clerkId?: string;
@@ -475,6 +477,7 @@ export interface Database {
           isMember?: boolean;
           lastname?: string;
           phone?: string;
+          show_murderer?: boolean;
         };
         Relationships: [];
       };

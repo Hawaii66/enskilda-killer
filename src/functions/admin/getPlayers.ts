@@ -39,6 +39,7 @@ export async function GetUsers(): Promise<PlayerInfo[]> {
     circle: circleMap.get(user.id),
     isMember: user.isMember,
     clerkId: user.clerkId,
+    showMurderer: user.show_murderer,
   }));
 
   const kills = await getUsersKills(users.map((i) => i.id));
