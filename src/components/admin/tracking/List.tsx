@@ -71,7 +71,7 @@ function List({ trackings }: Props) {
             .filter((i) => filterOnSearch(searchQuery, i))
             .filter((i) => filterOnDays(dates, i))
             .sort((a, b) =>
-              compareAsc(new Date(a.createdAt), new Date(b.createdAt))
+              compareAsc(new Date(b.createdAt), new Date(a.createdAt))
             )
             .map((track, index) => (
               <Sheet key={track.id}>
@@ -109,9 +109,7 @@ function List({ trackings }: Props) {
                   <Separator className="my-2" />
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: prettyPrintJson.toHtml(
-                        JSON.parse(track.data || "")
-                      ),
+                      __html: dataToHtml(track.data),
                     }}
                   />
                 </SheetContent>
@@ -122,6 +120,17 @@ function List({ trackings }: Props) {
     </Card>
   );
 }
+
+const dataToHtml = (data: string | undefined) => {
+  if (data === undefined) return "<p>Ingen data</p>";
+
+  try {
+    const parsed = JSON.parse(data);
+    return prettyPrintJson.toHtml(parsed);
+  } catch {
+    return data;
+  }
+};
 
 const filterOnSearch = (query: string, track: Track) => {
   const lower = query
