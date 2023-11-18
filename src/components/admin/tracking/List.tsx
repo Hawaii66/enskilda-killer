@@ -21,6 +21,7 @@ import {
 import { Track } from "@/interfaces/Track";
 import { compareAsc, format, isSameDay } from "date-fns";
 import React, { useState } from "react";
+import { prettyPrintJson } from "pretty-print-json";
 
 type Props = {
   trackings: Track[];
@@ -39,6 +40,10 @@ function List({ trackings }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/pretty-print-json@2.0/dist/css/pretty-print-json.css"
+        />
         <div>
           <Input
             placeholder="Sök "
@@ -53,6 +58,10 @@ function List({ trackings }: Props) {
           />
         </div>
         <div className="w-full flex flex-col pt-8">
+          <h1>
+            OBS: vissa tider kan vara fel med 1h åt ena eller andra hållet (ex
+            02:00 kan vara 01:00 eller 03:00)
+          </h1>
           <div className={`w-full flex flex-row gap-4 px-4 py-2 bg-slate-100`}>
             <p className="font-bold w-1/6">Typ </p>
             <p className="font-bold w-1/6">Datum</p>
@@ -98,7 +107,13 @@ function List({ trackings }: Props) {
                     </div>
                   )}
                   <Separator className="my-2" />
-                  <div>{track.data}</div>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: prettyPrintJson.toHtml(
+                        JSON.parse(track.data || "")
+                      ),
+                    }}
+                  />
                 </SheetContent>
               </Sheet>
             ))}
