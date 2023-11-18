@@ -42,6 +42,10 @@ const tabs: { name: string; href: string }[] = [
     href: "/admin/installningar",
     name: "Inställningar",
   },
+  {
+    href: "/admin/tracking",
+    name: "Tracking",
+  },
 ];
 
 function Layout({ children }: Props) {

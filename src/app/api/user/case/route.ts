@@ -1,4 +1,5 @@
 import { supabase } from "@/functions/supabase";
+import { trackWithUser } from "@/functions/tracking";
 import { VerifyUser } from "@/functions/verifyUser";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,6 +35,8 @@ export const GET = async (request: NextRequest) => {
 export const DELETE = async (request: NextRequest) => {
   const { email, id } = await VerifyUser();
   if (!email || !id) return NextResponse.json({}, { status: 400 });
+
+  await trackWithUser("Case", id, "Tar bort cases med sig i");
 
   await supabase()
     .from("pendingkills")
