@@ -1,15 +1,31 @@
 "use client";
 
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+
+declare const window: any;
+
+const initAd = () => {
+  (window.adsbygoogle = window.adsbygoogle || []).push({});
+};
 
 function BloggAd() {
+  const router = useRouter();
+
+  useEffect(() => {
+    initAd();
+  });
+
   return (
-    <>
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1555847445754750"
-        crossOrigin="anonymous"
-      ></script>
+    <div
+      key={
+        router.asPath.replace(/\//g, "-") +
+        "-" +
+        "6638719098" +
+        "-" +
+        "default-ad-unit-type"
+      }
+    >
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
@@ -18,8 +34,7 @@ function BloggAd() {
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </>
+    </div>
   );
 }
 
