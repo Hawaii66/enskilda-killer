@@ -7,6 +7,13 @@ import GroupKills from "@/components/statistics/GroupKills";
 import KillsPerDay from "@/components/statistics/KillsPerDay";
 import MostKills from "@/components/statistics/MostKills";
 import TotalAlive from "@/components/statistics/TotalAlive";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { supabase } from "@/functions/supabase";
 import {
   addDays,
@@ -197,7 +204,17 @@ async function page() {
             <KillsPerDay kills={killsPerDay} />
             <Circles groups={circles} />
             <MostKills kills={userKills} />
-            <StatsAd />
+            <Card>
+              <CardHeader>
+                <CardTitle>Reklam</CardTitle>
+                <CardDescription>
+                  Reklam för att betala för Killer
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <StatsAd />
+              </CardContent>
+            </Card>
             <GroupKills kills={groupKills} />
             <TotalAlive total={totalAlive} />
           </StatsWrapper>
