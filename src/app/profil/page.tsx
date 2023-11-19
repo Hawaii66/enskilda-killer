@@ -8,6 +8,8 @@ import SignUp from "@/components/Profile/NotSignedUp/SignUp";
 import ToLate from "@/components/Profile/NotSignedUp/ToLate";
 import Temp from "@/components/Temp";
 import Top from "@/components/Top";
+import ProfilMulti from "@/components/ads/ProfilMulti";
+import ProfilNormal from "@/components/ads/ProfilNormal";
 import PostRenderer from "@/components/blogg/PostRenderer";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
@@ -67,19 +69,12 @@ function Page() {
       <Top text="Profil" />
       <div className="w-full flex justify-center items-center">
         <div className="2xl:w-1/3 lg:w-2/3 w-11/12 flex justify-center items-center gap-8 pt-8 flex-col">
-          <div className="text-center w-full">
-            {/*<h1 className="text-xl underline font-bold text-black">
-              Statistik för Killer
-            </h1>
-            <p className="text-md font-bold text-gray-600">
-              Här kan du se live statistik för årets Killer
-  </p>*/}
-            <Temp />
-          </div>
           <MeRenderer />
-
+          <ProfilNormal />
           <Circle />
+          <ProfilNormal />
           <Kills />
+          <ProfilMulti />
           <Litigations />
         </div>
       </div>

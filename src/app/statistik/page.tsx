@@ -1,6 +1,7 @@
 import StatsWrapper from "@/components/Contexts/StatsWrapper";
 import Temp from "@/components/Temp";
 import Top from "@/components/Top";
+import StatsAd from "@/components/ads/StatsAd";
 import Circles from "@/components/statistics/Circles";
 import GroupKills from "@/components/statistics/GroupKills";
 import KillsPerDay from "@/components/statistics/KillsPerDay";
@@ -185,18 +186,18 @@ async function page() {
       <div className="w-full flex justify-center items-center mt-4">
         <div className="md:w-2/3 lg:grid lg:w-full lg:grid-cols-2 w-11/12 lg:px-8 flex flex-col gap-4">
           <div className="text-center lg:col-span-2">
-            {/*<h1 className="text-xl underline font-bold text-black">
+            <h1 className="text-xl underline font-bold text-black">
               Statistik för Killer
             </h1>
             <p className="text-md font-bold text-gray-600">
               Här kan du se live statistik för årets Killer
-  </p>*/}
-            <Temp />
+            </p>
           </div>
           <StatsWrapper>
             <KillsPerDay kills={killsPerDay} />
             <Circles groups={circles} />
             <MostKills kills={userKills} />
+            <StatsAd />
             <GroupKills kills={groupKills} />
             <TotalAlive total={totalAlive} />
           </StatsWrapper>

@@ -6,6 +6,7 @@ import React from "react";
 import PostRenderer from "./PostRenderer";
 import { Separator } from "../ui/separator";
 import { GetPosts } from "@/functions/getPosts";
+import BloggAd from "../ads/BloggAd";
 
 async function List() {
   const posts = await GetPosts();
@@ -21,7 +22,10 @@ async function List() {
         {posts
           .sort((a, b) => b.createdAt - a.createdAt)
           .map((post) => (
-            <PostRenderer key={post.createdAt} post={post} />
+            <>
+              <PostRenderer key={post.createdAt} post={post} />
+              <BloggAd />
+            </>
           ))}
       </div>
     </div>
