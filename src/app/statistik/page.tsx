@@ -204,17 +204,7 @@ async function page() {
             <KillsPerDay kills={killsPerDay} />
             <Circles groups={circles} />
             <MostKills kills={userKills} />
-            <Card>
-              <CardHeader>
-                <CardTitle>Reklam</CardTitle>
-                <CardDescription>
-                  Reklam för att betala för Killer
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <StatsAd />
-              </CardContent>
-            </Card>
+            <StatsAd />
             <GroupKills kills={groupKills} />
             <TotalAlive total={totalAlive} />
           </StatsWrapper>
