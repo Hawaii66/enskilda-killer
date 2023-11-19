@@ -12,7 +12,9 @@ type Props = {
 declare const window: any;
 
 const initAd = () => {
-  (window.adsbygoogle = window.adsbygoogle || []).push({});
+  if (window.adsbygoogle && !window.adsbygoogle.loaded) {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }
 };
 
 function Ad({ slot, client, format }: Props) {
