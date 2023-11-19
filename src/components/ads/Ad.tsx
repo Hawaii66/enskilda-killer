@@ -1,49 +1,54 @@
 "use client";
 
+import React, { Component } from "react";
 import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
 
 type Props = {
   slot: string;
   client: string;
   format: string;
+  index?: number;
 };
 
 declare const window: any;
 
-const initAd = () => {
-  if (window.adsbygoogle && !window.adsbygoogle.loaded) {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+class Ad extends Component<Props> {
+  componentDidMount() {
+    this.initAd();
   }
-};
 
-function Ad({ slot, client, format }: Props) {
-  const pathname = usePathname();
+  initAd() {
+    console.log("Init");
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-  useEffect(() => {
-    initAd();
-  });
-
-  return (
-    <div
-      key={
-        pathname.replace(/\//g, "-") +
-        "-" +
-        { slot } +
-        "-" +
-        "default-ad-unit-type"
-      }
-    >
-      <ins
-        className="adsbygoogle"
-        style={{ display: "block" }}
-        data-ad-client={client}
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive="true"
-      ></ins>
-    </div>
-  );
+  render() {
+    return (
+      <div
+        key={
+          window.location.href.replace(/\//g, "-") +
+          "-" +
+          this.props.slot +
+          "-" +
+          this.props.index
+        }
+        className="w-full"
+      >
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client={this.props.client}
+          data-ad-slot={this.props.slot}
+          data-ad-format={this.props.format}
+          data-full-width-responsive="true"
+        ></ins>
+      </div>
+    );
+  }
 }
 
 export default Ad;

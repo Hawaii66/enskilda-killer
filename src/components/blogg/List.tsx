@@ -16,10 +16,10 @@ async function List() {
       <div className="w-full flex gap-4 flex-col">
         {posts
           .sort((a, b) => b.createdAt - a.createdAt)
-          .map((post) => (
+          .map((post, idx) => (
             <>
               <PostRenderer key={post.createdAt} post={post} />
-              <BloggAd />
+              <BloggAd index={idx} />
             </>
           ))}
       </div>

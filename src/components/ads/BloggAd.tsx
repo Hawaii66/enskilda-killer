@@ -1,8 +1,18 @@
 import Ad from "./Ad";
 
-function BloggAd() {
+type Props = {
+  index: number;
+};
+
+function BloggAd({ index }: Props) {
   return (
-    <Ad client="ca-pub-1555847445754750" slot="6638719098" format="auto" />
+    <Ad
+      key={index}
+      index={index}
+      client="ca-pub-1555847445754750"
+      slot="6638719098"
+      format="auto"
+    />
   );
 }
 
