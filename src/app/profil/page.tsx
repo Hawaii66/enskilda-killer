@@ -65,7 +65,7 @@ function Page() {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <Top text="Profil" />
       <div className="w-full flex justify-center items-center">
         <div className="2xl:w-1/3 lg:w-2/3 w-11/12 flex justify-center items-center gap-8 pt-8 flex-col">
