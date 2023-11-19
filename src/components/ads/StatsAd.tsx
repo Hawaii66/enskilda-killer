@@ -1,14 +1,13 @@
 import React from "react";
+import Ad from "./Ad";
 
 function StatsAd() {
   return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block" }}
-      data-ad-format="autorelaxed"
-      data-ad-client="ca-pub-1555847445754750"
-      data-ad-slot="7216754855"
-    ></ins>
+    <Ad
+      format="autorelaxed"
+      client="ca-pub-1555847445754750"
+      slot="7216754855"
+    />
   );
 }
 
