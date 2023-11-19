@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 declare const window: any;
@@ -10,7 +10,7 @@ const initAd = () => {
 };
 
 function BloggAd() {
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     initAd();
@@ -19,7 +19,7 @@ function BloggAd() {
   return (
     <div
       key={
-        router.asPath.replace(/\//g, "-") +
+        pathname.replace(/\//g, "-") +
         "-" +
         "6638719098" +
         "-" +
