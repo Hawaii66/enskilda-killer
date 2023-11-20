@@ -22,15 +22,27 @@ import { useApi } from "@/hooks/useApi";
 import { Icons } from "@/components/Icons";
 import { GameStateContext } from "@/contexts/GameStateContext";
 import { useBasicToast } from "@/hooks/useBasicToast";
+import { TargetUser } from "@/interfaces/User";
 
 function Circle() {
   const [circle, setCircle] = useState<Circle | null>(null);
   const [hasActiveCase, setHasActiveCase] = useState(false);
+  const [murderer, setMurderer] = useState<TargetUser>();
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
 
   const gameState = useContext(GameStateContext);
 
   const apiFetch = useApi();
   const { toast, toastTitle } = useBasicToast();
+
+  const fetchMurderer = async () => {
+    const response = await apiFetch("/api/user/murderer", { method: "GET" });
+    if (response.status === 200) {
+      setMurderer(await response.json());
+    } else if (response.status !== 201) {
+      toast("Kunde inte hämta mördare");
+    }
+  };
 
   const fetchCircle = async () => {
     const response = await apiFetch("/api/user/circle", { method: "GET" });
@@ -72,15 +84,19 @@ function Circle() {
   };
 
   const update = async () => {
+    setLoadingUpdate(true);
     await fetchCase();
     await fetchCircle();
+    await fetchMurderer();
 
     toastTitle("Uppdaterad", "Status är uppdaterad");
+    setLoadingUpdate(false);
   };
 
   useEffect(() => {
     fetchCircle();
     fetchCase();
+    fetchMurderer();
   }, []);
 
   if (!circle) {
@@ -131,16 +147,53 @@ function Circle() {
                   </div>
                 </div>
                 <Button
+                  disabled={loadingUpdate}
                   onClick={update}
                   variant={"ghost"}
                   className="flex flex-row gap-2"
                 >
-                  <Icons.refresh className="w-4 h-4" /> Uppdatera
+                  <Icons.refresh className="w-4 h-4" />{" "}
+                  {loadingUpdate ? "Laddar" : "Uppdatera"}
                 </Button>
               </div>
             </div>
           )}
+          {murderer && (
+            <>
+              {circle.status === "alive" && <Separator />}
+              <div className="flex gap-4 flex-col">
+                <h1 className="text-red-500 font-bold">Din mördare</h1>
+                <div className="flex flex-row justify-between items-start">
+                  <div className="flex flex-row gap-4">
+                    <Avatar>
+                      <AvatarFallback>
+                        {murderer.firstname.charAt(0)}
+                        {murderer.lastname.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3>
+                        {murderer.firstname} {murderer.lastname}
+                      </h3>
+                      <p>{murderer.group}</p>
+                    </div>
+                  </div>
+                  <Button
+                    disabled={loadingUpdate}
+                    onClick={update}
+                    variant={"ghost"}
+                    className="flex flex-row gap-2"
+                  >
+                    <Icons.refresh className="w-4 h-4" />{" "}
+                    {loadingUpdate ? "Laddar" : "Uppdatera"}
+                  </Button>
+                </div>
+              </div>
+              {circle.status === "alive" && <Separator />}
+            </>
+          )}
         </CardContent>
+
         {gameState?.isPaused ? (
           <CardFooter>
             <p className="text-lg font-bold text-gray-800">Spelet är pausat</p>

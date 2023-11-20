@@ -19,3 +19,19 @@ export const POST = async (request: NextRequest) => {
 
   return NextResponse.json({});
 };
+
+export const PUT = async (request: NextRequest) => {
+  const isAdmin = await checkIsAdmin(request);
+  if (!isAdmin) return NextResponse.json({}, { status: 404 });
+
+  var circle: Circle = await request.json();
+
+  await supabase()
+    .from("circles")
+    .update({
+      hidden: circle.hidden,
+    })
+    .eq("id", circle.id);
+
+  return NextResponse.json({});
+};

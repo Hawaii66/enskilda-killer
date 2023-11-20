@@ -1,5 +1,6 @@
 import { getTargetUsers } from "@/functions/getTargetUser";
 import { supabase } from "@/functions/supabase";
+import { trackWithUser } from "@/functions/tracking";
 import { VerifyUser } from "@/functions/verifyUser";
 import { Litigation } from "@/interfaces/Profile";
 import { NextRequest, NextResponse } from "next/server";
@@ -55,6 +56,8 @@ export const POST = async (request: NextRequest) => {
     witness: number | undefined;
     reason: string;
   } = await request.json();
+
+  await trackWithUser("Tvistemål", id, data);
 
   await supabase().from("litigations").insert({
     text: data.text,

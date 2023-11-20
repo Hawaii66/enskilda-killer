@@ -1,11 +1,7 @@
-"use client";
-
-import { supabase } from "@/functions/supabase";
-import { Post } from "@/interfaces/Post";
 import React from "react";
 import PostRenderer from "./PostRenderer";
-import { Separator } from "../ui/separator";
 import { GetPosts } from "@/functions/getPosts";
+import BloggAd from "../ads/BloggAd";
 
 async function List() {
   const posts = await GetPosts();
@@ -20,8 +16,11 @@ async function List() {
       <div className="w-full flex gap-4 flex-col">
         {posts
           .sort((a, b) => b.createdAt - a.createdAt)
-          .map((post) => (
-            <PostRenderer key={post.createdAt} post={post} />
+          .map((post, idx) => (
+            <>
+              <PostRenderer key={post.createdAt} post={post} />
+              <BloggAd index={idx} />
+            </>
           ))}
       </div>
     </div>

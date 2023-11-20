@@ -37,6 +37,7 @@ import { useBasicToast } from "@/hooks/useBasicToast";
 import { User } from "@clerk/nextjs/server";
 import SetTargets from "./SetTargets";
 import Debug from "./Debug";
+import Problems from "./Problems";
 
 type Props = {
   users: PlayerInfo[];
@@ -51,6 +52,7 @@ type Filters = {
     | "dead"
     | "all"
     | "notMember"
+    | "seeMurderer"
     | { group: string };
 };
 
@@ -196,6 +198,9 @@ function List({ users: defaultUsers, clerks }: Props) {
                         <SelectItem value="main-notMember">
                           Inte medlem i kåren
                         </SelectItem>
+                        <SelectItem value="main-seeMurderer">
+                          Kan se mördare
+                        </SelectItem>
                       </SelectGroup>
                       <SelectGroup>
                         <SelectLabel>- Cirkel - </SelectLabel>
@@ -262,6 +267,9 @@ function List({ users: defaultUsers, clerks }: Props) {
                         <SelectItem value="main-notMember">
                           Inte medlem i kåren
                         </SelectItem>
+                        <SelectItem value="main-seeMurderer">
+                          Kan se mördare
+                        </SelectItem>
                       </SelectGroup>
                       <SelectGroup>
                         <SelectLabel>- Cirkel - </SelectLabel>
@@ -312,6 +320,9 @@ function List({ users: defaultUsers, clerks }: Props) {
                   key={user.user.id}
                   index={idx}
                   user={user}
+                  murderer={
+                    users.find((i) => i.user.target?.id === user.user.id)?.user
+                  }
                 />
               ))}
           </div>
@@ -379,6 +390,7 @@ function List({ users: defaultUsers, clerks }: Props) {
       </Card>
       <MovePlayers refresh={updateUsers} />
       <SetTargets refresh={updateUsers} />
+      <Problems />
       <Debug />
     </div>
   );
@@ -407,6 +419,8 @@ const filterTargetUser = (user: PlayerInfo, filters: Filters) => {
       return true;
     case "notMember":
       return true;
+    case "seeMurderer":
+      return true;
     default:
       if ("circle" in filters.onlyShow) {
         return true;
@@ -425,6 +439,8 @@ const filterUser = (user: PlayerInfo, filters: Filters) => {
       return user.user.circle === undefined;
     case "notMember":
       return !user.user.isMember;
+    case "seeMurderer":
+      return user.user.showMurderer;
     default:
       if ("circle" in filters.onlyShow) {
         return (
@@ -487,6 +503,8 @@ const showOnlyKeyToString = (key: Filters["onlyShow"], circles: Circle[]) => {
       return "Alla";
     case "notMember":
       return "Inte medlem i kåren";
+    case "seeMurderer":
+      return "Kan se mördare";
     default:
       if ("circle" in key) {
         return circles.find((i) => i.id.toString() === key.circle)?.name || "";

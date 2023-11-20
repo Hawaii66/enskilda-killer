@@ -17,7 +17,7 @@ function StatsWrapper({ children }: Props) {
   const { toast } = useBasicToast();
 
   const fetchCircles = async () => {
-    const response = await apiFetch("/api/game/circles", { method: "GET" });
+    const response = await apiFetch("/api/game/circles", { method: "POST" });
     if (response.status === 200) {
       const circles: Circle[] = await response.json();
       const map: Map<number, Circle> = new Map();

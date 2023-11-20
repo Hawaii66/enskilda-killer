@@ -18,6 +18,7 @@ export const POST = async (request: NextRequest) => {
       group: user.group,
       phone: user.phone,
       isMember: user.isMember,
+      show_murderer: user.showMurderer,
     })
     .eq("id", user.id);
 

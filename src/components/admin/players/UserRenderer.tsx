@@ -37,12 +37,13 @@ import {
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
 import { PlayerInfo } from "@/interfaces/Admin";
-import { User } from "@/interfaces/User";
+import { TargetUser, User } from "@/interfaces/User";
 import { format } from "date-fns";
 import React, { useState } from "react";
 
 type Props = {
   user: PlayerInfo;
+  murderer?: TargetUser;
   index: number;
   refresh: () => void;
 };
@@ -51,6 +52,7 @@ function UserRenderer({
   user: { kills: defaultKills, user: defaultUser },
   index,
   refresh,
+  murderer,
 }: Props) {
   const [user, setUser] = useState(defaultUser);
   const [kills, setKills] = useState(defaultKills);
@@ -215,22 +217,9 @@ function UserRenderer({
                   defaultCircle={user.circle}
                   onChangeCircle={(e) => setUser({ ...user, circle: e })}
                 />
-                {/*<Input
-                  value={user.circle?.id.toString()}
-                  onChange={(e) =>
-                    setUser({
-                      ...user,
-                      circle: isNaN(parseInt(e.target.value))
-                        ? undefined
-                        : {
-                            id: parseInt(e.target.value),
-                            name: "",
-                          },
-                    })
-                  }
-                />*/}
               </CardContent>
             </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>Offer</CardTitle>
@@ -282,6 +271,64 @@ function UserRenderer({
                     </Label>
                     <Input
                       value={user.target.id}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Mördare</CardTitle>
+                <CardDescription>Spelarens mördare</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4">
+                <div className="flex flex-row gap-4">
+                  <Label className="flex justify-center items-center">
+                    Spelaren kan se sin mördare
+                  </Label>
+                  <Switch
+                    checked={user.showMurderer}
+                    onCheckedChange={(state) => {
+                      setUser({ ...user, showMurderer: state });
+                    }}
+                  />
+                </div>
+                {murderer && (
+                  <div
+                    className="grid gap-2"
+                    style={{ gridTemplateColumns: "1fr 3fr 1fr 3fr" }}
+                  >
+                    <Label className="flex justify-start items-center">
+                      Förnamn
+                    </Label>
+                    <Input
+                      value={murderer.firstname}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                    <Label className="flex justify-start items-center">
+                      Efternamn
+                    </Label>
+                    <Input
+                      value={murderer.lastname}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                    <Label className="flex justify-start items-center">
+                      Klass
+                    </Label>
+                    <Input
+                      value={murderer.group}
+                      disabled
+                      className="bg-slate-100"
+                    />
+                    <Label className="flex justify-start items-center">
+                      Id
+                    </Label>
+                    <Input
+                      value={murderer.id}
                       disabled
                       className="bg-slate-100"
                     />

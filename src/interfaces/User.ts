@@ -18,6 +18,7 @@ export type User = {
       kills: number;
     }
   >;
+  showMurderer: boolean;
 };
 
 export type TargetUser = {

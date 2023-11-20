@@ -1,21 +1,21 @@
 import { supabase } from "@/functions/supabase";
+import { trackWithUser } from "@/functions/tracking";
 import { VerifyUser } from "@/functions/verifyUser";
 import { NextRequest, NextResponse } from "next/server";
 
-const logger = {
-  log: console.log,
-};
-
 export const POST = async (request: NextRequest) => {
   const { email, id } = await VerifyUser();
-  logger.log("User reported: ", email, id, new Date().toDateString());
   if (!email || !id) return NextResponse.json({}, { status: 400 });
+  await trackWithUser("Report", id, {
+    id,
+    email,
+  });
 
   const data: { isMurderer: boolean } = await request.json();
-  logger.log("Data: ", data);
+  await trackWithUser("Report", id, data);
 
   const status = data.isMurderer ? await Murder(id) : await Target(id);
-  logger.log("Status of murder: ", status);
+  await trackWithUser("Report", id, status);
 
   return NextResponse.json({}, { status: status === true ? 200 : 400 });
 };
@@ -28,6 +28,11 @@ const Murder = async (murderer: number) => {
     .single();
   //The target was first with reporting, confirm kill
   if (result.data) {
+    await trackWithUser(
+      "Murder",
+      murderer,
+      "Mördare klickade sist, processar killen, användare är murderer"
+    );
     return await ProcessKill(murderer);
   } else {
     const targetResult = await supabase()
@@ -58,6 +63,11 @@ const Target = async (target: number) => {
 
   //The murderer was first with reporting, confirm kill
   if (result.data) {
+    await trackWithUser(
+      "Murder",
+      target,
+      "Target klickade sist, processar killen, användare är target"
+    );
     return await ProcessKill(result.data.murderer);
   } else {
     const murdererResult = await supabase()

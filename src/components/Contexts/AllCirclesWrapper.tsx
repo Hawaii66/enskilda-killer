@@ -19,6 +19,7 @@ async function GetAllCircles() {
     id: c.id,
     name: c.name,
     color: c.color,
+    hidden: c.hidden,
   }));
 
   return circles;

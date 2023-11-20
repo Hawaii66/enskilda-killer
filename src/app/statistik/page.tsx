@@ -1,11 +1,19 @@
 import StatsWrapper from "@/components/Contexts/StatsWrapper";
 import Temp from "@/components/Temp";
 import Top from "@/components/Top";
+import StatsAd from "@/components/ads/StatsAd";
 import Circles from "@/components/statistics/Circles";
 import GroupKills from "@/components/statistics/GroupKills";
 import KillsPerDay from "@/components/statistics/KillsPerDay";
 import MostKills from "@/components/statistics/MostKills";
 import TotalAlive from "@/components/statistics/TotalAlive";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { supabase } from "@/functions/supabase";
 import {
   addDays,
@@ -65,16 +73,27 @@ async function GetGroupStats() {
 
 async function GetMostKills() {
   const kills = await supabase()
-    .from("countkills")
+    .from("countkillscircle")
     .select("*")
     .order("count", { ascending: false });
 
-  const map: Map<string, { alive: boolean; kills: number }> = new Map();
+  const map: Map<
+    string,
+    {
+      alive: boolean;
+      kills: Map<number, number>;
+    }
+  > = new Map();
 
   kills.data?.forEach((user) => {
-    map.set(`${user.firstname} ${user.lastname}`, {
-      alive: user.circle !== null,
-      kills: user.count ?? 0,
+    if (user.circle === null || user.count === null) return;
+
+    const key = `${user.firstname} ${user.lastname} ${user.group}`;
+    map.set(key, {
+      alive: user.alive !== null,
+      kills:
+        map.get(key)?.kills.set(user.circle, user.count) ??
+        new Map().set(user.circle, user.count),
     });
   });
 
@@ -174,18 +193,18 @@ async function page() {
       <div className="w-full flex justify-center items-center mt-4">
         <div className="md:w-2/3 lg:grid lg:w-full lg:grid-cols-2 w-11/12 lg:px-8 flex flex-col gap-4">
           <div className="text-center lg:col-span-2">
-            {/*<h1 className="text-xl underline font-bold text-black">
+            <h1 className="text-xl underline font-bold text-black">
               Statistik för Killer
             </h1>
             <p className="text-md font-bold text-gray-600">
               Här kan du se live statistik för årets Killer
-  </p>*/}
-            <Temp />
+            </p>
           </div>
           <StatsWrapper>
             <KillsPerDay kills={killsPerDay} />
             <Circles groups={circles} />
             <MostKills kills={userKills} />
+            <StatsAd />
             <GroupKills kills={groupKills} />
             <TotalAlive total={totalAlive} />
           </StatsWrapper>
