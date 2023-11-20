@@ -25,6 +25,7 @@ const Murder = async (murderer: number) => {
     .from("pendingkills")
     .select("*")
     .eq("murderer", murderer)
+    .eq("orderdBy", "Target")
     .single();
   //The target was first with reporting, confirm kill
   if (result.data) {
@@ -59,6 +60,7 @@ const Target = async (target: number) => {
     .from("pendingkills")
     .select("*")
     .eq("target", target)
+    .eq("orderdBy", "Murderer")
     .single();
 
   //The murderer was first with reporting, confirm kill
