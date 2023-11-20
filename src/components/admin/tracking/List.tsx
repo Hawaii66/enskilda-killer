@@ -59,8 +59,9 @@ function List({ trackings }: Props) {
         </div>
         <div className="w-full flex flex-col pt-8">
           <h1>
-            OBS: vissa tider kan vara fel med 1h åt ena eller andra hållet (ex
-            02:00 kan vara 01:00 eller 03:00)
+            OBS: vissa tider i rutan till höger kan vara fel med exakt 1 h (ex:
+            02:00 kan vara 01:00 eller 03:00). I listan är alla tider den tid
+            det skedde
           </h1>
           <div className={`w-full flex flex-row gap-4 px-4 py-2 bg-slate-100`}>
             <p className="font-bold w-1/6">Typ </p>
