@@ -141,5 +141,20 @@ const ProcessKill = async (murderer: number) => {
 
   await supabase().from("usersincircle").delete().eq("user", targetId);
 
+  const { data: canSeeMurderer } = await supabase()
+    .from("users")
+    .select("show_murderer")
+    .eq("id", targetId)
+    .single();
+
+  if (canSeeMurderer?.show_murderer) {
+    await supabase()
+      .from("users")
+      .update({
+        show_murderer: true,
+      })
+      .eq("id", murderer);
+  }
+
   return true;
 };
