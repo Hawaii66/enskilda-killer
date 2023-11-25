@@ -1,7 +1,8 @@
 # Killer
 
 Welcome to the official repo for Enskilda Killer.
-The website is live here:  https://enskildakiller.vercel.app/
+- The website is live here:  https://enskildakiller.vercel.app/
+- Info about project: https://www.sebastianahlman.se/projects/enskildakiller
 
 ## Att göra
 
