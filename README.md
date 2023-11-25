@@ -1,6 +1,6 @@
 # Killer
 
-Välkommen till den officiella platsen för Enskilda Killer.
+Welcome to the official repo for Enskilda Killer.
 The website is live here:  https://enskildakiller.vercel.app/
 
 ## Att göra
