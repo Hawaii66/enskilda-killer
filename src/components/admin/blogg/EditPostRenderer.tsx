@@ -56,6 +56,7 @@ function EditPostRenderer({ post: defaultPost, save, deletePost }: Props) {
         <Textarea
           value={post.text}
           onChange={(e) => setPost({ ...post, text: e.target.value })}
+          className="h-48"
         />
       </CardContent>
       <CardFooter className="gap-4">
