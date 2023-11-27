@@ -1,6 +1,9 @@
 # Killer
 
-Välkommen till den officiella platsen för Enskilda Killer.
+Welcome to the official repo for Enskilda Killer.
+- The website is live here:  https://enskildakiller.vercel.app/
+- Info about project: https://www.sebastianahlman.se/projects/enskildakiller (including largest problems solveed)
+- Currently used by ca 200-500 users daily at my school
 
 ## Att göra
 
