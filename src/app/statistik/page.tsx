@@ -12,7 +12,7 @@ function page() {
               Statistik för Killer
             </h1>
             <p className="text-md font-bold text-gray-600">
-              Statistiken göms då student poäng avgörs fredag 1/dec
+              Statistiken göms då studentpoäng avgörs fredag 1/dec
             </p>
           </div>
         </div>
