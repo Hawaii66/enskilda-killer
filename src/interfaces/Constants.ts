@@ -7,6 +7,7 @@ export type GameState = {
     text: string;
     type: "info" | "warning";
   };
+  murderMove: number;
 };
 
 export type Admin = {

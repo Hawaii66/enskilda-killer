@@ -1,6 +1,7 @@
 import { supabase } from "@/functions/supabase";
 import { trackWithUser } from "@/functions/tracking";
 import { VerifyUser } from "@/functions/verifyUser";
+import { ConstantKey } from "@/interfaces/Constants";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
@@ -92,9 +93,23 @@ const Target = async (target: number) => {
 };
 
 const ProcessKill = async (murderer: number) => {
-  await supabase().from("pendingkills").delete().eq("murderer", murderer);
+  const supabaseClient = supabase();
 
-  const circleData = await supabase()
+  const key: ConstantKey = "GameState";
+  const state = await supabaseClient
+    .from("constants")
+    .select("data")
+    .eq("query", key)
+    .single();
+  if (!state.data) {
+    return false;
+  }
+
+  const murderMoveCircle = JSON.parse(state.data.data).murderMove;
+
+  await supabaseClient.from("pendingkills").delete().eq("murderer", murderer);
+
+  const circleData = await supabaseClient
     .from("usersincircle")
     .select("circle")
     .eq("user", murderer)
@@ -105,7 +120,7 @@ const ProcessKill = async (murderer: number) => {
 
   const circleId = circleData.data.circle;
 
-  const targetData = await supabase()
+  const targetData = await supabaseClient
     .from("targets")
     .select("target")
     .eq("murderer", murderer)
@@ -116,13 +131,13 @@ const ProcessKill = async (murderer: number) => {
 
   const targetId = targetData.data.target;
 
-  await supabase().from("kills").insert({
+  await supabaseClient.from("kills").insert({
     circle: circleId,
     murderer: murderer,
     target: targetId,
   });
 
-  const nextTarget = await supabase()
+  const nextTarget = await supabaseClient
     .from("targets")
     .select("target")
     .eq("murderer", targetId)
@@ -133,29 +148,50 @@ const ProcessKill = async (murderer: number) => {
 
   const nextTargetId = nextTarget.data.target;
 
-  await supabase().from("targets").delete().eq("murderer", murderer);
-  await supabase().from("targets").delete().eq("murderer", targetId);
+  await supabaseClient.from("targets").delete().eq("murderer", murderer);
+  await supabaseClient.from("targets").delete().eq("murderer", targetId);
 
-  await supabase().from("targets").insert({
-    murderer: murderer,
+  var newMurderer = murderer;
+  if (murderMoveCircle !== -1) {
+    const j = await supabaseClient
+      .from("targets")
+      .select("murderer")
+      .eq("target", murderer)
+      .single();
+    if (!j.data) {
+      return false;
+    }
+    newMurderer = j.data.murderer;
+
+    await supabaseClient
+      .from("usersincircle")
+      .update({
+        circle: murderMoveCircle,
+      })
+      .eq("user", murderer);
+    await supabaseClient.from("targets").delete().eq("murderer", newMurderer);
+  }
+
+  await supabaseClient.from("targets").insert({
+    murderer: newMurderer,
     target: nextTargetId,
   });
 
-  await supabase().from("usersincircle").delete().eq("user", targetId);
+  await supabaseClient.from("usersincircle").delete().eq("user", targetId);
 
-  const { data: canSeeMurderer } = await supabase()
+  const { data: canSeeMurderer } = await supabaseClient
     .from("users")
     .select("show_murderer")
     .eq("id", targetId)
     .single();
 
   if (canSeeMurderer?.show_murderer) {
-    await supabase()
+    await supabaseClient
       .from("users")
       .update({
         show_murderer: true,
       })
-      .eq("id", murderer);
+      .eq("id", newMurderer);
   }
 
   return true;

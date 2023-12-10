@@ -96,6 +96,15 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
             onChangeCircle={(c) => setJoinCircle(c?.id)}
           />
           <Label>Vilken cirkel ska nya spelare placeras i</Label>
+          <Label>Flytta mördare</Label>
+          <SelectCircle
+            emptyText="Flytta inte mördare"
+            includeEmpty
+            onChangeCircle={(c) =>
+              setState({ ...state, murderMove: c === undefined ? -1 : c.id })
+            }
+          />
+          <Label>Om mördare mördar, vart ska mördaren flyttas</Label>
           <Label>Killer Startade</Label>
           <Popover>
             <PopoverTrigger asChild>
