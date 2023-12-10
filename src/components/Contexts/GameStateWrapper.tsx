@@ -28,6 +28,7 @@ async function GetState(): Promise<GameState> {
         header: "Problem",
         type: "info",
       },
+      murderMove: -1,
     };
   }
 
