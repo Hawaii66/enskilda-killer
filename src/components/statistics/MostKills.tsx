@@ -173,7 +173,7 @@ function MostKills({ kills }: Props) {
         <Slider
           className="flex-grow"
           min={5}
-          max={15}
+          max={20}
           step={1}
           defaultValue={count}
           onValueChange={setCount}
