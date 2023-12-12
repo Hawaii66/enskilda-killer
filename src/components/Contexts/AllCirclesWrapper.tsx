@@ -20,6 +20,7 @@ async function GetAllCircles() {
     name: c.name,
     color: c.color,
     hidden: c.hidden,
+    multipleTargets: c.multipleTargets,
   }));
 
   return circles;
