@@ -6,7 +6,9 @@ export const getUserCircles = async (
 ): Promise<Map<number, Circle | undefined>> => {
   const performent = await supabase()
     .from("users")
-    .select("id, usersincircle ( circles (name,id,color,hidden))")
+    .select(
+      "id, usersincircle ( circles (name,id,color,hidden,multipleTargets))"
+    )
     .in("id", ids);
   const map: Map<number, Circle | undefined> = new Map();
 
@@ -19,6 +21,8 @@ export const getUserCircles = async (
             name: user.usersincircle[0].circles?.name ?? "",
             color: user.usersincircle[0].circles?.color ?? "",
             hidden: user.usersincircle[0].circles?.hidden ?? false,
+            multipleTargets:
+              user.usersincircle[0].circles?.multipleTargets ?? false,
           }
         : undefined
     )
@@ -47,6 +51,7 @@ export const getUserKillCircle = async (killId: number) => {
     name: circleData.name,
     color: circleData.color,
     hidden: circleData.hidden,
+    multipleTargets: circleData.multipleTargets,
   };
 
   return circle;
