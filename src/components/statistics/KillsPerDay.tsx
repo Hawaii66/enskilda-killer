@@ -36,6 +36,38 @@ ChartJS.register(
   Legend
 );
 
+function TransformNull(arr: (number | null)[]) {
+  var right = arr.length - 1;
+  var maxRight = 0;
+
+  while (right > 0) {
+    if (arr[right] !== null) {
+      maxRight = right;
+      break;
+    }
+
+    right -= 1;
+  }
+
+  var i = 0;
+  var hasSeenNumber = false;
+  while (i < maxRight) {
+    if (hasSeenNumber) {
+      if (arr[i] === null) {
+        arr[i] = 0;
+      }
+    } else {
+      if (arr[i] !== null) {
+        hasSeenNumber = true;
+      }
+    }
+
+    i += 1;
+  }
+
+  return arr;
+}
+
 function KillsPerDay({ kills }: Props) {
   const { circles } = useContext(StatsContext);
 
@@ -43,8 +75,11 @@ function KillsPerDay({ kills }: Props) {
     label: circle[1].name,
     backgroundColor: circle[1].color,
     borderColor: circle[1].color,
-    data: Array.from(kills).map((day) => day[1].get(circle[0]) || null),
+    data: TransformNull(
+      Array.from(kills).map((day) => day[1].get(circle[0]) || null)
+    ),
   }));
+
   const labels = Array.from(kills).map((day) => format(day[0], "dd/MM"));
 
   return (
