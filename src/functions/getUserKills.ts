@@ -5,7 +5,7 @@ export const getUserKills = async (id: number): Promise<Kills> => {
   const performant = await supabase()
     .from("users")
     .select(
-      "kills!kills_murderer_fkey(killid:id,time:created_at, users!kills_target_fkey (tid:id,tfirstname:firstname,tlastname:lastname,tgroup:group), circles!kills_circle_fkey (cname:name,cid:id))"
+      "kills!kills_murderer_fkey(killid:id,time:created_at, users!kills_target_fkey (tid:id,tfirstname:firstname,tlastname:lastname,tgroup:group), circles!kills_circle_fkey (cname:name,cid:id,cmult:multipleTargets))"
     )
     .eq("id", id);
 
@@ -17,6 +17,7 @@ export const getUserKills = async (id: number): Promise<Kills> => {
           name: kill.circles?.cname ?? "",
           color: "",
           hidden: false,
+          multipleTargets: kill.circles?.cmult ?? false,
         },
         id: kill.killid,
         time: new Date(kill.time).getTime(),
@@ -37,7 +38,7 @@ export const getUsersKills = async (
   const performant = await supabase()
     .from("users")
     .select(
-      "id, kills!kills_murderer_fkey(killid:id,time:created_at, users!kills_target_fkey (tid:id,tfirstname:firstname,tlastname:lastname,tgroup:group), circles!kills_circle_fkey (cname:name,cid:id))"
+      "id, kills!kills_murderer_fkey(killid:id,time:created_at, users!kills_target_fkey (tid:id,tfirstname:firstname,tlastname:lastname,tgroup:group), circles!kills_circle_fkey (cname:name,cid:id,cmult:multipleTargets))"
     )
     .in("id", ids);
 
@@ -52,6 +53,7 @@ export const getUsersKills = async (
           name: kill.circles?.cname ?? "",
           color: "",
           hidden: false,
+          multipleTargets: kill.circles?.cmult ?? false,
         },
         id: kill.killid,
         time: new Date(kill.time).getTime(),

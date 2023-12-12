@@ -62,10 +62,12 @@ function Circle() {
     }
   };
 
-  const reportDeath = async (isMurderer: boolean) => {
+  const reportDeath = async (isMurderer: boolean, target?: TargetUser) => {
+    if (!target) return;
+
     const response = await apiFetch("/api/game/report", {
       method: "POST",
-      body: { isMurderer },
+      body: { isMurderer, otherUser: target.id },
     });
     if (response.status === 200) {
       await fetchCase();
@@ -131,31 +133,33 @@ function Circle() {
           {circle.status === "alive" && <Separator />}
           {circle.status === "alive" && (
             <div className="flex gap-4 flex-col">
-              <div className="flex flex-row justify-between items-start">
-                <div className="flex flex-row gap-4">
-                  <Avatar>
-                    <AvatarFallback>
-                      {circle.target.firstname.charAt(0)}
-                      {circle.target.lastname.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3>
-                      {circle.target.firstname} {circle.target.lastname}
-                    </h3>
-                    <p>{circle.target.group}</p>
+              {circle.targets.map((target) => (
+                <div className="flex flex-row justify-between items-start">
+                  <div className="flex flex-row gap-4">
+                    <Avatar>
+                      <AvatarFallback>
+                        {target.firstname.charAt(0)}
+                        {target.lastname.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3>
+                        {target.firstname} {target.lastname}
+                      </h3>
+                      <p>{target.group}</p>
+                    </div>
                   </div>
+                  <Button
+                    disabled={loadingUpdate}
+                    onClick={update}
+                    variant={"ghost"}
+                    className="flex flex-row gap-2"
+                  >
+                    <Icons.refresh className="w-4 h-4" />{" "}
+                    {loadingUpdate ? "Laddar" : "Uppdatera"}
+                  </Button>
                 </div>
-                <Button
-                  disabled={loadingUpdate}
-                  onClick={update}
-                  variant={"ghost"}
-                  className="flex flex-row gap-2"
-                >
-                  <Icons.refresh className="w-4 h-4" />{" "}
-                  {loadingUpdate ? "Laddar" : "Uppdatera"}
-                </Button>
-              </div>
+              ))}
             </div>
           )}
           {murderer && (
@@ -225,7 +229,10 @@ function Circle() {
                           Jag har blivit mördad
                         </Button>
                       </AlertDialogTrigger>
-                      <AlertMurder onClick={() => reportDeath(false)} />
+                      <AlertMurder
+                        showSelect
+                        onClick={(target) => reportDeath(false, target)}
+                      />
                     </AlertDialog>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
@@ -233,7 +240,11 @@ function Circle() {
                           Jag har mördat någon
                         </Button>
                       </AlertDialogTrigger>
-                      <AlertMurder onClick={() => reportDeath(true)} />
+                      <AlertMurder
+                        showSelect
+                        isMurderer
+                        onClick={(target) => reportDeath(true, target)}
+                      />
                     </AlertDialog>
                   </>
                 )}

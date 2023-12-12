@@ -16,7 +16,7 @@ export type Circle =
   | {
       status: "alive";
       circle?: string;
-      target: TargetUser;
+      targets: TargetUser[];
     };
 
 export type Kills = {

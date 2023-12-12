@@ -4,9 +4,7 @@ import { Circle } from "@/interfaces/Circle";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const { data } = await supabase()
-    .from("circles")
-    .select("color,id,name,hidden");
+  const { data } = await supabase().from("circles").select("*");
 
   const circles: Circle[] =
     data?.map((c) => ({
@@ -14,6 +12,7 @@ export const POST = async (request: NextRequest) => {
       name: c.name,
       color: c.color,
       hidden: c.hidden,
+      multipleTargets: c.multipleTargets,
     })) || [];
 
   return NextResponse.json(circles);
