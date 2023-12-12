@@ -12,20 +12,35 @@ export const POST = async (request: NextRequest) => {
     email,
   });
 
-  const data: { isMurderer: boolean } = await request.json();
+  const data: { isMurderer: boolean; otherUser: number } = await request.json();
   await trackWithUser("Report", id, data);
 
-  const status = data.isMurderer ? await Murder(id) : await Target(id);
+  const status = data.isMurderer
+    ? await Murder(id, data.otherUser)
+    : await Target(id, data.otherUser);
   await trackWithUser("Report", id, status);
 
   return NextResponse.json({}, { status: status === true ? 200 : 400 });
 };
 
-const Murder = async (murderer: number) => {
+const Murder = async (murderer: number, expectedTarget: number) => {
+  const d = await supabase()
+    .from("targets")
+    .select("*")
+    .eq("murderer", murderer)
+    .eq("target", expectedTarget)
+    .single();
+  if (!d.data) {
+    return false;
+  }
+
+  const targetId = d.data.target;
+
   const result = await supabase()
     .from("pendingkills")
     .select("*")
     .eq("murderer", murderer)
+    .eq("target", targetId)
     .eq("orderdBy", "Target")
     .single();
   //The target was first with reporting, confirm kill
@@ -35,32 +50,35 @@ const Murder = async (murderer: number) => {
       murderer,
       "Mördare klickade sist, processar killen, användare är murderer"
     );
-    return await ProcessKill(murderer);
+    return await ProcessKill(murderer, targetId);
   } else {
-    const targetResult = await supabase()
-      .from("targets")
-      .select("*")
-      .eq("murderer", murderer)
-      .single();
-    if (targetResult.data) {
-      const targetId = targetResult.data.target;
-      await supabase().from("pendingkills").insert({
-        murderer: murderer,
-        target: targetId,
-        orderdBy: "Murderer",
-      });
-      return true;
-    }
+    await supabase().from("pendingkills").insert({
+      murderer: murderer,
+      target: targetId,
+      orderdBy: "Murderer",
+    });
+    return true;
   }
-
-  return false;
 };
 
-const Target = async (target: number) => {
+const Target = async (target: number, expectedMurderer: number) => {
+  const d = await supabase()
+    .from("targets")
+    .select("*")
+    .eq("target", target)
+    .eq("murderer", expectedMurderer)
+    .single();
+  if (!d.data) {
+    return false;
+  }
+
+  const murdererId = d.data.murderer;
+
   const result = await supabase()
     .from("pendingkills")
     .select("*")
     .eq("target", target)
+    .eq("murderer", murdererId)
     .eq("orderdBy", "Murderer")
     .single();
 
@@ -71,28 +89,18 @@ const Target = async (target: number) => {
       target,
       "Target klickade sist, processar killen, användare är target"
     );
-    return await ProcessKill(result.data.murderer);
+    return await ProcessKill(result.data.murderer, target);
   } else {
-    const murdererResult = await supabase()
-      .from("targets")
-      .select("*")
-      .eq("target", target)
-      .single();
-    if (murdererResult.data) {
-      const murdererId = murdererResult.data.murderer;
-      await supabase().from("pendingkills").insert({
-        murderer: murdererId,
-        target: target,
-        orderdBy: "Target",
-      });
-      return true;
-    }
+    const j = await supabase().from("pendingkills").insert({
+      murderer: murdererId,
+      target: target,
+      orderdBy: "Target",
+    });
+    return true;
   }
-
-  return false;
 };
 
-const ProcessKill = async (murderer: number) => {
+const ProcessKill = async (murderer: number, targetId: number) => {
   const supabaseClient = supabase();
 
   const key: ConstantKey = "GameState";
@@ -105,7 +113,8 @@ const ProcessKill = async (murderer: number) => {
     return false;
   }
 
-  const murderMoveCircle = JSON.parse(state.data.data).murderMove;
+  const parsed = JSON.parse(state.data.data);
+  const murderMoveCircle = parsed.murderMove;
 
   await supabaseClient.from("pendingkills").delete().eq("murderer", murderer);
 
@@ -120,22 +129,45 @@ const ProcessKill = async (murderer: number) => {
 
   const circleId = circleData.data.circle;
 
-  const targetData = await supabaseClient
-    .from("targets")
-    .select("target")
-    .eq("murderer", murderer)
+  const hasMultipleTargets = await supabaseClient
+    .from("circles")
+    .select("multipleTargets")
+    .eq("id", circleId)
     .single();
-  if (!targetData.data) {
-    return false;
-  }
-
-  const targetId = targetData.data.target;
 
   await supabaseClient.from("kills").insert({
     circle: circleId,
     murderer: murderer,
     target: targetId,
   });
+
+  if (hasMultipleTargets.data?.multipleTargets) {
+    await supabaseClient.from("targets").delete().eq("target", targetId);
+    await supabaseClient.from("usersincircle").delete().eq("user", targetId);
+
+    const { data: canSeeMurderer } = await supabaseClient
+      .from("users")
+      .select("show_murderer")
+      .eq("id", targetId)
+      .single();
+
+    if (canSeeMurderer?.show_murderer) {
+      await supabaseClient
+        .from("users")
+        .update({
+          show_murderer: true,
+        })
+        .eq("id", murderer);
+    }
+
+    await trackWithUser("MultipleTargets", murderer, {
+      target: targetId,
+      murderer: murderer,
+      cansee: canSeeMurderer?.show_murderer,
+    });
+
+    return;
+  }
 
   const nextTarget = await supabaseClient
     .from("targets")

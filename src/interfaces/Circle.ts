@@ -3,4 +3,5 @@ export type Circle = {
   id: number;
   color: string;
   hidden: boolean;
+  multipleTargets: boolean;
 };

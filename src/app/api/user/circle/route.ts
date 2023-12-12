@@ -25,26 +25,25 @@ export const GET = async (request: NextRequest) => {
     .eq("id", userCircle.data.circle)
     .single();
 
-  const targetId = await supabase()
+  const targetsId = await supabase()
     .from("targets")
     .select("target")
-    .eq("murderer", id)
-    .single();
-  const { data: target } = await supabase()
+    .eq("murderer", id);
+  const { data: targets } = await supabase()
     .from("users")
     .select("*")
-    .eq("id", targetId.data?.target || 0)
-    .single();
+    .in("id", targetsId.data?.map((i) => i.target) || []);
 
   const response: Circle = {
     status: "alive",
     circle: circle.data?.name || "",
-    target: {
-      firstname: target?.firstname || "",
-      group: target?.group || "",
-      id: targetId.data?.target || 0,
-      lastname: target?.lastname || "",
-    },
+    targets:
+      targets?.map((target) => ({
+        firstname: target?.firstname || "",
+        group: target?.group || "",
+        id: target.id || 0,
+        lastname: target?.lastname || "",
+      })) || [],
   };
 
   return NextResponse.json(response);

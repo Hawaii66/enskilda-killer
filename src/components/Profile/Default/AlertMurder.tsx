@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -8,12 +8,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../../ui/alert-dialog";
+import { TargetUser } from "@/interfaces/User";
+import SelectUser from "@/components/SelectUser";
 
 type Props = {
-  onClick: () => void;
+  onClick: (user?: TargetUser) => void;
+  showSelect?: boolean;
+  isMurderer?: boolean;
 };
 
-function AlertMurder({ onClick }: Props) {
+function AlertMurder({ onClick, showSelect, isMurderer }: Props) {
+  const [selectedUser, setSelectedUser] = useState<TargetUser | undefined>(
+    undefined
+  );
+
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -23,10 +31,31 @@ function AlertMurder({ onClick }: Props) {
           knappen. När du klickat på knappen har du godkänt mordet, inget
           tvistemål kan då startas
         </AlertDialogDescription>
+
+        {showSelect && (
+          <>
+            <AlertDialogDescription className="text-center">
+              {isMurderer ? `Välj vem du mördade` : `Välj vem som mördade dig`}
+            </AlertDialogDescription>
+            <SelectUser
+              onChangeUser={setSelectedUser}
+              defaultUser={selectedUser}
+            />
+          </>
+        )}
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Avbryt</AlertDialogCancel>
-        <AlertDialogAction onClick={onClick}>Fortsätt</AlertDialogAction>
+        <AlertDialogAction
+          disabled={showSelect ? selectedUser === undefined : false}
+          onClick={() => {
+            if (selectedUser || !showSelect) {
+              onClick(selectedUser);
+            }
+          }}
+        >
+          Fortsätt
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );
