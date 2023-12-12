@@ -131,7 +131,7 @@ function Circle() {
             )}
           </div>
           {circle.status === "alive" && <Separator />}
-          {circle.status === "alive" && (
+          {circle.status === "alive" && !gameState?.isPaused && (
             <div className="flex gap-4 flex-col">
               {circle.targets.map((target) => (
                 <div className="flex flex-row justify-between items-start">
