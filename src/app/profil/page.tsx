@@ -6,17 +6,10 @@ import Litigations from "@/components/Profile/Default/Litigations";
 import MeRenderer from "@/components/Profile/Default/MeRenderer";
 import SignUp from "@/components/Profile/NotSignedUp/SignUp";
 import ToLate from "@/components/Profile/NotSignedUp/ToLate";
-import Temp from "@/components/Temp";
 import Top from "@/components/Top";
-import ProfilMulti from "@/components/ads/ProfilMulti";
-import ProfilNormal from "@/components/ads/ProfilNormal";
-import PostRenderer from "@/components/blogg/PostRenderer";
-import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { GameStateContext } from "@/contexts/GameStateContext";
 import { useApi } from "@/hooks/useApi";
-import { Post } from "@/interfaces/Post";
-import Link from "next/link";
 import React, {
   useContext,
   useEffect,
@@ -78,17 +71,14 @@ function Page() {
   return (
     <div className="w-full">
       <Top text="Profil" />
-      <div className="w-full flex justify-center items-center">
+      <div className="flex justify-center items-center w-full">
         <div
           ref={ref}
-          className="2xl:w-1/3 lg:w-2/3 w-11/12 flex justify-center items-center gap-8 pt-8 flex-col"
+          className="flex flex-col justify-center items-center gap-8 pt-8 w-11/12 lg:w-2/3 2xl:w-1/3"
         >
           <MeRenderer />
-          <ProfilNormal />
           <Circle />
-          <ProfilNormal />
           <Kills />
-          <ProfilMulti />
           <Litigations />
         </div>
       </div>

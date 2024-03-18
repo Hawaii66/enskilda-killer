@@ -1,29 +1,12 @@
 import StatsWrapper from "@/components/Contexts/StatsWrapper";
-import Temp from "@/components/Temp";
 import Top from "@/components/Top";
-import StatsAd from "@/components/ads/StatsAd";
 import Circles from "@/components/statistics/Circles";
 import GroupKills from "@/components/statistics/GroupKills";
 import KillsPerDay from "@/components/statistics/KillsPerDay";
 import MostKills from "@/components/statistics/MostKills";
 import TotalAlive from "@/components/statistics/TotalAlive";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { supabase } from "@/functions/supabase";
-import {
-  addDays,
-  addHours,
-  format,
-  getDay,
-  isSameDay,
-  startOfDay,
-} from "date-fns";
-import Link from "next/link";
+import { addDays, addHours, isSameDay, startOfDay } from "date-fns";
 import React from "react";
 
 async function GetGroupStats() {
@@ -190,13 +173,13 @@ async function page() {
   return (
     <>
       <Top text="Statistik" />
-      <div className="w-full flex justify-center items-center mt-4">
-        <div className="md:w-2/3 lg:grid lg:w-full lg:grid-cols-2 w-11/12 lg:px-8 flex flex-col gap-4">
-          <div className="text-center lg:col-span-2">
-            <h1 className="text-xl underline font-bold text-black">
+      <div className="flex justify-center items-center mt-4 w-full">
+        <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:px-8 w-11/12 md:w-2/3 lg:w-full">
+          <div className="lg:col-span-2 text-center">
+            <h1 className="font-bold text-black text-xl underline">
               Statistik för Killer
             </h1>
-            <p className="text-md font-bold text-gray-600">
+            <p className="font-bold text-gray-600 text-md">
               Här kan du se live statistik för årets Killer
             </p>
           </div>
@@ -204,7 +187,6 @@ async function page() {
             <KillsPerDay kills={killsPerDay} />
             <Circles groups={circles} />
             <MostKills kills={userKills} />
-            <StatsAd />
             <GroupKills kills={groupKills} />
             <TotalAlive total={totalAlive} />
           </StatsWrapper>
