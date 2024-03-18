@@ -140,7 +140,7 @@ async function GetKillsPerDay() {
 
   const map: Map<number, Map<number, number>> = new Map(); // Map<day (UTC), number of kills>
 
-  const today = Date.now();
+  const today = 1703980800000;
 
   var time = startOfDay(addHours(startDay, 1)).getTime();
   while (time < today) {
