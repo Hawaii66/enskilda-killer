@@ -8,9 +8,11 @@ export default authMiddleware({
     "/begrepp",
     "/enskildakaren",
     "/profil",
+    "/tidigare",
     "/admin",
     "/api/backup",
     "/api/game/circles",
+    "/api/backup/get",
   ],
 });
 

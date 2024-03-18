@@ -70,6 +70,9 @@ function Header() {
           >
             Enskildakåren
           </Link>
+          <Link className="  text-lg underline font-serif" href="/tidigare">
+            Tidigare
+          </Link>
         </nav>
       </div>
       <AlertHeader />

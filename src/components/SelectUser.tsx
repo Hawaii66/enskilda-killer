@@ -19,9 +19,10 @@ import { ScrollArea } from "./ui/scroll-area";
 type Props = {
   onChangeUser: (user: TargetUser | undefined) => void;
   defaultUser?: TargetUser;
+  disabled?: boolean;
 };
 
-function SelectUser({ onChangeUser, defaultUser }: Props) {
+function SelectUser({ onChangeUser, defaultUser, disabled }: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(defaultUser?.id.toString() || "");
 
@@ -47,8 +48,9 @@ function SelectUser({ onChangeUser, defaultUser }: Props) {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button
+          disabled={disabled}
           className="w-[200px] justify-between"
           variant={"outline"}
           role="combobox"

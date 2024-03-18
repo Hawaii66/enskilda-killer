@@ -38,22 +38,17 @@ import { User } from "@clerk/nextjs/server";
 import SetTargets from "./SetTargets";
 import Debug from "./Debug";
 import Problems from "./Problems";
+import {
+  filterOnSearchQuery,
+  filterUsers,
+  orderByKeyToString,
+  showOnlyKeyToString,
+} from "@/functions/filter";
+import { Filters } from "@/interfaces/Filters";
 
 type Props = {
   users: PlayerInfo[];
   clerks: string[];
-};
-
-type Filters = {
-  orderBy: "id" | "forename" | "lastname" | "kills" | "group";
-  onlyShow:
-    | { circle: string }
-    | "alive"
-    | "dead"
-    | "all"
-    | "notMember"
-    | "seeMurderer"
-    | { group: string };
 };
 
 function List({ users: defaultUsers, clerks }: Props) {
@@ -397,152 +392,3 @@ function List({ users: defaultUsers, clerks }: Props) {
 }
 
 export default List;
-
-const filterUsers = (
-  users: PlayerInfo[],
-  filters: Filters,
-  targetFilters: Filters
-) => {
-  return users
-    .filter((u) => filterUser(u, filters))
-    .filter((u) => filterTargetUser(u, targetFilters))
-    .sort((a, b) => sortUser(a, b, filters));
-};
-
-const filterTargetUser = (user: PlayerInfo, filters: Filters) => {
-  switch (filters.onlyShow) {
-    case "all":
-      return true;
-    case "alive":
-      return true;
-    case "dead":
-      return true;
-    case "notMember":
-      return true;
-    case "seeMurderer":
-      return true;
-    default:
-      if ("circle" in filters.onlyShow) {
-        return true;
-      }
-      return user.user.target?.group === filters.onlyShow.group;
-  }
-};
-
-const filterUser = (user: PlayerInfo, filters: Filters) => {
-  switch (filters.onlyShow) {
-    case "all":
-      return true;
-    case "alive":
-      return user.user.circle !== undefined;
-    case "dead":
-      return user.user.circle === undefined;
-    case "notMember":
-      return !user.user.isMember;
-    case "seeMurderer":
-      return user.user.showMurderer;
-    default:
-      if ("circle" in filters.onlyShow) {
-        return (
-          user.user.circle &&
-          user.user.circle.id.toString() === filters.onlyShow.circle
-        );
-      }
-
-      return user.user.group === filters.onlyShow.group;
-  }
-};
-
-const sortUser = (a: PlayerInfo, b: PlayerInfo, filters: Filters) => {
-  switch (filters.orderBy) {
-    case "id":
-      return a.user.id - b.user.id;
-    case "group":
-      return a.user.group.localeCompare(b.user.group);
-    case "kills":
-      return b.kills.length - a.kills.length;
-    case "forename":
-      return `${a.user.firstname} ${a.user.lastname}`.localeCompare(
-        `${b.user.firstname} ${b.user.lastname}`
-      );
-    case "lastname":
-      return `${a.user.lastname} ${a.user.firstname}`.localeCompare(
-        `${b.user.lastname} ${b.user.firstname}`
-      );
-    default:
-      const _: never = filters.orderBy;
-      return 0;
-  }
-};
-
-const orderByKeyToString = (key: Filters["orderBy"]) => {
-  switch (key) {
-    case "group":
-      return "Klass";
-    case "id":
-      return "Id";
-    case "kills":
-      return "Mord";
-    case "forename":
-      return "Förnamn";
-    case "lastname":
-      return "Efternamn";
-    default:
-      const _: never = key;
-      return "";
-  }
-};
-
-const showOnlyKeyToString = (key: Filters["onlyShow"], circles: Circle[]) => {
-  switch (key) {
-    case "alive":
-      return "Levande";
-    case "dead":
-      return "Döda";
-    case "all":
-      return "Alla";
-    case "notMember":
-      return "Inte medlem i kåren";
-    case "seeMurderer":
-      return "Kan se mördare";
-    default:
-      if ("circle" in key) {
-        return circles.find((i) => i.id.toString() === key.circle)?.name || "";
-      }
-      return key.group;
-  }
-};
-
-const filterOnSearchQuery = (query: string, player: PlayerInfo) => {
-  const {
-    user: { email, firstname, group, id, lastname, phone, target },
-  } = player;
-
-  const lowercase = query.toLowerCase().replaceAll(" ", "");
-
-  return (
-    [
-      email,
-      group,
-      id,
-      `${firstname} ${lastname}`,
-      phone,
-      `${target?.firstname} ${target?.lastname}`,
-    ].filter((i) => isMatch(query, i)).length > 0
-  );
-};
-
-const isMatch = (query: string, toTest: string | number | undefined) => {
-  if (toTest === undefined) return false;
-  if (query === "") return true;
-
-  return (
-    query
-      .toLowerCase()
-      .split(" ")
-      .filter((i) => {
-        if (i === "") return false;
-        return toTest.toString().toLowerCase().includes(i);
-      }).length > 0
-  );
-};

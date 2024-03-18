@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 type Props = {
   slot: string;
@@ -18,11 +19,13 @@ class Ad extends Component<Props> {
   }
 
   initAd() {
-    console.log("Init");
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
-      console.log(e);
+      toast({
+        title: "Error loading ads",
+        description: "Please disable your ad blocker and try again.",
+      });
     }
   }
 
@@ -30,7 +33,10 @@ class Ad extends Component<Props> {
     return (
       <div
         key={
-          window.location.href.replace(/\//g, "-") +
+          (typeof window === "undefined"
+            ? { location: { href: "" } }
+            : window
+          ).location.href.replace(/\//g, "-") +
           "-" +
           this.props.slot +
           "-" +
