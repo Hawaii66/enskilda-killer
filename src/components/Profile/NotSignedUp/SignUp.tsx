@@ -91,7 +91,7 @@ function SignUp({ onJoin }: Props) {
     return (
       <div className="w-full">
         <Top text="Profil" />
-        <div className="w-full flex flex-col justify-center items-center mt-12 gap-4">
+        <div className="flex flex-col justify-center items-center gap-4 mt-12 w-full">
           <Icons.spinner className="w-24 h-24 animate-spin" />
         </div>
       </div>
@@ -99,9 +99,9 @@ function SignUp({ onJoin }: Props) {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <div className="md:w-2/3 lg:w-1/2 w-11/12 flex flex-col justify-center items-center mt-12 gap-4">
-        <div className="text-center text-xl font-bold text-black mb-8">
+    <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col justify-center items-center gap-4 mt-12 w-11/12 md:w-2/3 lg:w-1/2">
+        <div className="mb-8 font-bold text-black text-center text-xl">
           <h1>
             Hej <span className="text-green-800 underline">{email}</span>!
           </h1>
@@ -109,7 +109,10 @@ function SignUp({ onJoin }: Props) {
             <p>Vi hittade inte din email bland de anmälda personerna</p>
           ) : (
             <>
-              <p>Du måste använda din skol mail @nykopingsenskilda.se</p>
+              <p>
+                Du måste använda din skol mail @nykopingsenskilda.se eller
+                @edu.nykopingsenskilda.se
+              </p>
               <p>Just nu har du mailen: {email}</p>
             </>
           )}
@@ -117,12 +120,12 @@ function SignUp({ onJoin }: Props) {
 
         {isSchoolEmail(email) && (
           <>
-            <p className="text-lg font-bold text-black">
+            <p className="font-bold text-black text-lg">
               Vill du vara med i årets killer?
             </p>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="bg-green-800 hover:bg-green-700 hover:text-black text-white px-12 py-8 text-2xl tracking-wide font-bold">
+                <Button className="bg-green-800 hover:bg-green-700 px-12 py-8 font-bold text-2xl text-white hover:text-black tracking-wide">
                   Gå med i Killer
                 </Button>
               </DialogTrigger>
@@ -134,7 +137,7 @@ function SignUp({ onJoin }: Props) {
                   </DialogDescription>
                 </DialogHeader>
                 <div
-                  className="grid gap-4"
+                  className="gap-4 grid"
                   style={{ gridTemplateColumns: "1fr 2fr" }}
                 >
                   <Label className="flex justify-start items-center">
@@ -176,7 +179,7 @@ function SignUp({ onJoin }: Props) {
                   />
                   <Separator />
                   <Separator />
-                  <p className="col-span-2 text-sm text-gray-400">
+                  <p className="col-span-2 text-gray-400 text-sm">
                     Du kan göra detta senare
                   </p>
                   <Label className="flex justify-start items-center">
@@ -204,7 +207,7 @@ function SignUp({ onJoin }: Props) {
                   </Label>
                   <Input value={email} disabled />
                 </div>
-                <DialogFooter className="w-full justify-center items-center">
+                <DialogFooter className="justify-center items-center w-full">
                   <Button onClick={join}>Gå med</Button>
                 </DialogFooter>
               </DialogContent>
@@ -212,7 +215,7 @@ function SignUp({ onJoin }: Props) {
           </>
         )}
         <Card>
-          <CardContent className="pt-4 gap-2 flex flex-col">
+          <CardContent className="flex flex-col gap-2 pt-4">
             <p>
               Fel email? Logga ut från microsoft först uppe till höger på
               länken:
