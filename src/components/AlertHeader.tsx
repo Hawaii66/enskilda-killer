@@ -10,15 +10,15 @@ function AlertHeader() {
   return (
     <>
       {state?.info.header && (
-        <div className="md:w-2/3 lg:w-1/2 w-11/12 py-4">
+        <div className="py-4 w-11/12 md:w-2/3 lg:w-1/2">
           <Alert
             className={`${
               state.info.type === "info"
-                ? "bg-green-800 text-black"
+                ? "bg-killer-blue text-black"
                 : "bg-red-500 text-black"
             }`}
           >
-            <AlertTitle className="text-lg font-bold">
+            <AlertTitle className="font-bold text-lg">
               {state.info.header}
             </AlertTitle>
             <AlertDescription>{state.info.text}</AlertDescription>

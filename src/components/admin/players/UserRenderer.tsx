@@ -98,7 +98,7 @@ function UserRenderer({
             index % 2 === 0 ? "bg-slate-200" : "bg-slate-100"
           }`}
         >
-          <div className="w-1/6 flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center w-1/6">
             <p>{user.id}</p>
             <TooltipProvider>
               <Tooltip delayDuration={0}>
@@ -119,14 +119,14 @@ function UserRenderer({
               </Tooltip>
             </TooltipProvider>
           </div>
-          <p className="w-2/6 group-hover:font-bold">
+          <p className="group-hover:font-bold w-2/6">
             {user.firstname} {user.lastname} {user.group}
           </p>
           <p className="w-2/6">
             {user.target &&
               `${user.target.firstname} ${user.target.lastname} ${user.target.group}`}
           </p>
-          <div className="w-1/6 flex flex-row justify-end items-center">
+          <div className="flex flex-row justify-end items-center w-1/6">
             <button>
               <Icons.edit className="w-4 h-4" />
             </button>
@@ -134,7 +134,7 @@ function UserRenderer({
         </div>
       </SheetTrigger>
       <SheetContent className="w-[1200px] sm:w-[1200px]!important sm:max-w-none">
-        <ScrollArea className="h-full pr-4">
+        <ScrollArea className="pr-4 h-full">
           <SheetHeader>
             <SheetTitle>
               {user.firstname} {user.lastname}
@@ -144,13 +144,13 @@ function UserRenderer({
             </SheetDescription>
           </SheetHeader>
           <Separator />
-          <div className="my-8 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 my-8">
             <Card>
               <CardHeader>
                 <CardTitle>Information</CardTitle>
               </CardHeader>
               <CardContent
-                className="grid gap-2"
+                className="gap-2 grid"
                 style={{ gridTemplateColumns: "1fr 3fr 1fr 3fr" }}
               >
                 <Label className="flex justify-start items-center">
@@ -239,7 +239,7 @@ function UserRenderer({
                 </div>
                 {user.target && (
                   <div
-                    className="grid gap-2"
+                    className="gap-2 grid"
                     style={{ gridTemplateColumns: "1fr 3fr 1fr 3fr" }}
                   >
                     <Label className="flex justify-start items-center">
@@ -297,7 +297,7 @@ function UserRenderer({
                 </div>
                 {murderer && (
                   <div
-                    className="grid gap-2"
+                    className="gap-2 grid"
                     style={{ gridTemplateColumns: "1fr 3fr 1fr 3fr" }}
                   >
                     <Label className="flex justify-start items-center">
@@ -345,7 +345,7 @@ function UserRenderer({
               </CardHeader>
               <CardContent className="flex flex-col gap-4">
                 {kills.map((kill) => (
-                  <div className="border px-4 py-2 flex flex-row justify-between items-center">
+                  <div className="flex flex-row justify-between items-center px-4 py-2 border">
                     <div>
                       <p>
                         {kill.target.group} {kill.target.firstname}{" "}

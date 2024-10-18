@@ -22,16 +22,19 @@ function Header() {
   }, []);
 
   return (
-    <header className="w-full flex justify-center items-center flex-col">
+    <header className="flex flex-col justify-center items-center w-full">
       <div
         className={`w-full px-4  lg:px-12 flex ${
           expand ? "gap-4" : "gap-0"
         } lg:gap-0 flex-col lg:flex-row justify-between items-start lg:items-center`}
       >
-        <div className="flex w-full justify-between items-center flex-row">
-          <div className="flex justify-start items-center flex-row">
-            <img src="/Logo.jpg" className="h-20" />
-            <h1 className="px-8 flex-grow text-2xl  lg:text-5xl tracking-wide font-bold ">
+        <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-row justify-start items-center">
+            <img
+              src="/Logo.jpg"
+              className="my-2 rounded-md h-16 object-contain"
+            />
+            <h1 className="flex-grow px-8 font-bold text-2xl lg:text-5xl tracking-wide">
               Killer {new Date(Date.now()).getFullYear()}
             </h1>
           </div>
@@ -49,25 +52,22 @@ function Header() {
             expand ? "overflow-visible" : "h-0 overflow-hidden"
           }`}
         >
-          <Link className="text-lg underline font-serif" href="/">
+          <Link className="font-serif text-lg underline" href="/">
             Startsida
           </Link>
-          <Link className="text-lg underline font-serif" href="/statistik">
+          <Link className="font-serif text-lg underline" href="/statistik">
             Statistik
           </Link>
-          <Link className="  text-lg underline font-serif" href="/regler">
+          <Link className="font-serif text-lg underline" href="/regler">
             Regler
           </Link>
-          <Link className="  text-lg underline font-serif" href="/begrepp">
+          <Link className="font-serif text-lg underline" href="/begrepp">
             Begrepp
           </Link>
-          <Link className="   text-lg underline font-serif" href="/profil">
+          <Link className="font-serif text-lg underline" href="/profil">
             Profil
           </Link>
-          <Link
-            className="  text-lg underline font-serif"
-            href="/enskildakaren"
-          >
+          <Link className="font-serif text-lg underline" href="/enskildakaren">
             Enskildakåren
           </Link>
         </nav>

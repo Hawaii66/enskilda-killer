@@ -11,7 +11,7 @@ function RenderRule({ rule, isEven, index }: Props) {
   return (
     <div
       className={`w-full flex justify-center items-center ${
-        isEven ? "bg-white" : "bg-green-900"
+        isEven ? "bg-white" : "bg-killer-blue"
       }`}
     >
       <div

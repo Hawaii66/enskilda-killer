@@ -77,7 +77,7 @@ function Layout({ children }: Props) {
       <SignedIn>
         {isAdmin ? (
           <div className="px-8">
-            <h1 className="text-green-800 font-bold uppercase underline">
+            <h1 className="font-bold text-killer-blue underline uppercase">
               Admin
             </h1>
             <nav>
