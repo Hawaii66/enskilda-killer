@@ -14,7 +14,7 @@ function AlertHeader() {
           <Alert
             className={`${
               state.info.type === "info"
-                ? "bg-killer-blue text-black"
+                ? "bg-killer-blue text-white"
                 : "bg-red-500 text-black"
             }`}
           >

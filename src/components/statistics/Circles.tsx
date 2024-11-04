@@ -75,7 +75,7 @@ function Circles({ groups }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="hidden lg:block">
+        <div className="lg:block hidden">
           <Bar
             options={GetOptions({ onlyIntegers: true, stacked: true })}
             data={{
