@@ -6,12 +6,20 @@ import KillsPerDay from "@/components/statistics/KillsPerDay";
 import MostKills from "@/components/statistics/MostKills";
 import TotalAlive from "@/components/statistics/TotalAlive";
 import { supabase } from "@/functions/supabase";
-import { addDays, addHours, isSameDay, startOfDay } from "date-fns";
+import { Database } from "@/interfaces/database";
+import { SupabaseClient } from "@supabase/supabase-js";
+import {
+  addDays,
+  addHours,
+  eachDayOfInterval,
+  isSameDay,
+  startOfDay,
+} from "date-fns";
 import React from "react";
 
-async function GetGroupStats() {
-  const result = await supabase().from("users").select("group, id");
-  const circleUsers = await supabase()
+async function GetGroupStats(supabase: SupabaseClient<Database>) {
+  const result = await supabase.from("users").select("group, id");
+  const circleUsers = await supabase
     .from("usersincircle")
     .select("user,circle");
 
@@ -54,8 +62,8 @@ async function GetGroupStats() {
   return map;
 }
 
-async function GetMostKills() {
-  const kills = await supabase()
+async function GetMostKills(supabase: SupabaseClient<Database>) {
+  const kills = await supabase
     .from("countkillscircle")
     .select("*")
     .order("count", { ascending: false });
@@ -83,8 +91,8 @@ async function GetMostKills() {
   return map;
 }
 
-async function GetGroupKills() {
-  const kills = await supabase().from("groupkillscircle").select("*");
+async function GetGroupKills(supabase: SupabaseClient<Database>) {
+  const kills = await supabase.from("groupkillscircle").select("*");
 
   const map: Map<string, Map<number, number>> = new Map();
 
@@ -99,11 +107,11 @@ async function GetGroupKills() {
   return map;
 }
 
-async function GetAliveTotal() {
+async function GetAliveTotal(supabase: SupabaseClient<Database>) {
   const totalUsers =
-    (await supabase().from("users").select("id")).data?.length || 0;
+    (await supabase.from("users").select("id")).data?.length || 0;
   const totalAlive =
-    (await supabase().from("usersincircle").select("circle")).data || [];
+    (await supabase.from("usersincircle").select("circle")).data || [];
 
   const map: Map<number, number> = new Map();
   totalAlive.forEach((user) => {
@@ -117,11 +125,11 @@ async function GetAliveTotal() {
   };
 }
 
-async function GetKillsPerDay() {
+async function GetKillsPerDay(supabase: SupabaseClient<Database>) {
   const startDay = parseInt(
     JSON.parse(
       (
-        await supabase()
+        await supabase
           .from("constants")
           .select("data")
           .eq("query", "GameState")
@@ -130,22 +138,29 @@ async function GetKillsPerDay() {
     ).startdate
   );
 
-  const data = await supabase().from("killsperdaycircle").select("*");
+  console.log(new Date(startDay));
 
-  const killsPerDay = data.data?.map((i) => ({
-    time: addHours(startOfDay(new Date(i.time || "")), 1).getTime(),
-    count: i.count,
-    circle: i.circle,
-  }));
+  const data = await supabase.from("killsperdaycircle").select("*");
 
-  const map: Map<number, Map<number, number>> = new Map(); // Map<day (UTC), number of kills>
+  const killsPerDay =
+    data.data?.map((i) => ({
+      time: addHours(startOfDay(new Date(i.time || "")), 1).getTime(),
+      count: i.count,
+      circle: i.circle,
+    })) ?? [];
 
-  const today = 1703980800000;
+  const map: Map<number, Map<number, number>> = new Map();
 
-  var time = startOfDay(addHours(startDay, 1)).getTime();
-  while (time < today) {
+  const start = startOfDay(new Date(startDay));
+  const end = killsPerDay.sort((a, b) => b.time - a.time)[0];
+  const eachDay = eachDayOfInterval({
+    start: start,
+    end: new Date(end.time),
+  });
+
+  eachDay.forEach((day) => {
     const killsOneDay =
-      killsPerDay?.filter((i) => isSameDay(time, i.time)) || [];
+      killsPerDay?.filter((i) => isSameDay(day, i.time)) || [];
 
     const dayMap = new Map<number, number>();
     killsOneDay.forEach((kill) => {
@@ -153,10 +168,8 @@ async function GetKillsPerDay() {
       dayMap.set(kill.circle, kill.count || 0);
     });
 
-    map.set(time, dayMap);
-
-    time = addDays(time, 1).getTime();
-  }
+    map.set(day.getTime(), dayMap);
+  });
 
   return map;
 }
@@ -164,11 +177,14 @@ async function GetKillsPerDay() {
 export const revalidate = 60 * 3;
 
 async function page() {
-  const circles = await GetGroupStats();
-  const userKills = await GetMostKills();
-  const groupKills = await GetGroupKills();
-  const totalAlive = await GetAliveTotal();
-  const killsPerDay = await GetKillsPerDay();
+  const _supabase = supabase();
+  const circles = await GetGroupStats(_supabase);
+  const userKills = await GetMostKills(_supabase);
+  const groupKills = await GetGroupKills(_supabase);
+  const totalAlive = await GetAliveTotal(_supabase);
+  const killsPerDay = await GetKillsPerDay(_supabase);
+
+  console.log(killsPerDay);
 
   return (
     <>
