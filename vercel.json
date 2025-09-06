@@ -1,8 +1,8 @@
 {
-  "crons": [
-    {
-      "path": "/api/backup?manual=false",
-      "schedule": "0 * * * *"
-    }
-  ]
+    "crons": [
+        {
+            "path": "/api/backup?manual=false",
+            "schedule": "0 0 * * *"
+        }
+    ]
 }
