@@ -12,8 +12,8 @@ async function Page() {
   let page = 0;
   while (true) {
     let newUsers = await clerkClient.users.getUserList({
-      limit: 200,
-      offset: page * 200,
+      limit: 500,
+      offset: page * 500,
     });
 
     page += 1;
