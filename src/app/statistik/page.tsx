@@ -11,6 +11,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import {
   addDays,
   addHours,
+  addMonths,
   eachDayOfInterval,
   isSameDay,
   startOfDay,
@@ -152,10 +153,12 @@ async function GetKillsPerDay(supabase: SupabaseClient<Database>) {
   const map: Map<number, Map<number, number>> = new Map();
 
   const start = startOfDay(new Date(startDay));
-  const end = killsPerDay.sort((a, b) => b.time - a.time)[0];
+  const sortedLast = killsPerDay.sort((a, b) => b.time - a.time);
+  const end =
+    sortedLast.length > 0 ? new Date(sortedLast[0].time) : addMonths(start, 1);
   const eachDay = eachDayOfInterval({
     start: start,
-    end: new Date(end.time),
+    end,
   });
 
   eachDay.forEach((day) => {
