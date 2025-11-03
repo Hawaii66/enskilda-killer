@@ -28,13 +28,14 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { AllCirclesContext } from "@/contexts/AllCirclesContext";
 import { useApi } from "@/hooks/useApi";
 import { useBasicToast } from "@/hooks/useBasicToast";
 import { GameState } from "@/interfaces/Constants";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 type Props = {
   gameState: GameState;
@@ -45,6 +46,8 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
   const [state, setState] = useState(defaultGameState);
   const [showAlert, setShowAlert] = useState(!!defaultGameState.info);
   const [joinCircle, setJoinCircle] = useState<number>();
+
+    const circles = useContext(AllCirclesContext);
 
   const apiFetch = useApi();
   const { toast, toastSave } = useBasicToast();
@@ -94,6 +97,7 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
           <SelectCircle
             includeEmpty
             onChangeCircle={(c) => setJoinCircle(c?.id)}
+            defaultCircle={circles.find((i) => i.id === joinCircle)}
           />
           <Label>Vilken cirkel ska nya spelare placeras i</Label>
           <Label>Flytta mördare</Label>
@@ -103,6 +107,7 @@ function ControlLevers({ gameState: defaultGameState, refresh }: Props) {
             onChangeCircle={(c) =>
               setState({ ...state, murderMove: c === undefined ? -1 : c.id })
             }
+            defaultCircle={state.murderMove === -1 ? undefined : circles.find((i) => i.id === state.murderMove)}
           />
           <Label>Om mördare mördar, vart ska mördaren flyttas</Label>
           <Label>Killer Startade</Label>
